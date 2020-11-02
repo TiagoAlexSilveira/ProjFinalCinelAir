@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProjFinalCinelAir.CommonCore.Migrations
 {
-    public partial class AddedTables : Migration
+    public partial class added_tables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,15 +46,14 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Miles_Number = table.Column<decimal>(nullable: false),
                     Validity = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Mile_Bonus", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Mile_Bonus_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Mile_Bonus_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -68,15 +67,14 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Miles_Number = table.Column<decimal>(nullable: false),
                     Validity = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Mile_Status", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Mile_Status_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Mile_Status_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -119,13 +117,10 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     Travel_Date = table.Column<DateTime>(nullable: false),
                     DepartureCity = table.Column<string>(nullable: true),
                     ArrivalCity = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
                     RateId = table.Column<int>(nullable: false),
-                    Miles_Status_Id = table.Column<int>(nullable: false),
-                    Miles_StatusId = table.Column<int>(nullable: true),
-                    Miles_Bonus_Id = table.Column<int>(nullable: false),
-                    Miles_BonusId = table.Column<int>(nullable: true)
+                    Miles_StatusId = table.Column<int>(nullable: false),
+                    Miles_BonusId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -149,8 +144,8 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Travel_Ticket_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Travel_Ticket_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -184,14 +179,14 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Mile_Bonus_UserId1",
+                name: "IX_Mile_Bonus_UserId",
                 table: "Mile_Bonus",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Mile_Status_UserId1",
+                name: "IX_Mile_Status_UserId",
                 table: "Mile_Status",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Travel_Ticket_Miles_BonusId",
@@ -209,9 +204,9 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                 column: "RateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Travel_Ticket_UserId1",
+                name: "IX_Travel_Ticket_UserId",
                 table: "Travel_Ticket",
-                column: "UserId1");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

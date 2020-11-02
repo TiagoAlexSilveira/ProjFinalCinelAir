@@ -18,19 +18,22 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         public string ArrivalCity { get; set; }
 
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public User User { get; set; }
+
 
         public int RateId { get; set; }
 
         public Rate Rate { get; set; }
 
-        public int Miles_Status_Id { get; set; }
+
+        public int Miles_StatusId { get; set; }
 
         public Mile_Status Miles_Status { get; set; }
 
-        public int Miles_Bonus_Id { get; set; }
+
+        public int Miles_BonusId { get; set; }
 
         public Mile_Bonus Miles_Bonus { get; set; }
 

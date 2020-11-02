@@ -10,8 +10,8 @@ using ProjFinalCinelAir.CommonCore.Data;
 namespace ProjFinalCinelAir.CommonCore.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201102123219_AddedTables")]
-    partial class AddedTables
+    [Migration("20201102171730_added_tables")]
+    partial class added_tables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -188,10 +188,7 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.Property<decimal>("Miles_Number")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Validity")
@@ -199,7 +196,7 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Mile_Bonus");
                 });
@@ -214,10 +211,7 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.Property<decimal>("Miles_Number")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Validity")
@@ -225,7 +219,7 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Mile_Status");
                 });
@@ -276,16 +270,10 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.Property<string>("DepartureCity")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Miles_BonusId")
+                    b.Property<int>("Miles_BonusId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Miles_Bonus_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Miles_StatusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Miles_Status_Id")
+                    b.Property<int>("Miles_StatusId")
                         .HasColumnType("int");
 
                     b.Property<int>("RateId")
@@ -297,10 +285,7 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.Property<DateTime>("Travel_Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -311,7 +296,7 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
 
                     b.HasIndex("RateId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Travel_Ticket");
                 });
@@ -475,25 +460,29 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                 {
                     b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Mile_Status", b =>
                 {
                     b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Travel_Ticket", b =>
                 {
                     b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Mile_Bonus", "Miles_Bonus")
                         .WithMany()
-                        .HasForeignKey("Miles_BonusId");
+                        .HasForeignKey("Miles_BonusId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Mile_Status", "Miles_Status")
                         .WithMany()
-                        .HasForeignKey("Miles_StatusId");
+                        .HasForeignKey("Miles_StatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Rate", "Rate")
                         .WithMany()
@@ -503,7 +492,7 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
 
                     b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

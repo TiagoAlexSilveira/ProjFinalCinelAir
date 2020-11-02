@@ -148,7 +148,7 @@ namespace ProjFinalCinelAirClient.Data
         }
 
 
-        private void Add_Travel_Ticket(int ticket_id, DateTime travel_date, string departure_city, string arrival_city, int userId, int rateId, int miles_status_id, int miles_bonus_id )
+        private void Add_Travel_Ticket(int ticket_id, DateTime travel_date, string departure_city, string arrival_city, string userId, int rateId, int miles_status_id, int miles_bonus_id )
         {
             _context.Travel_Ticket.Add(new Travel_Ticket
             {
@@ -158,12 +158,12 @@ namespace ProjFinalCinelAirClient.Data
                 ArrivalCity = arrival_city,
                 UserId = userId,
                 RateId = rateId,
-                Miles_Bonus_Id = miles_bonus_id,
-                Miles_Status_Id = miles_status_id
+                Miles_BonusId = miles_bonus_id,
+                Miles_StatusId = miles_status_id
             });
         }
 
-        private void Add_Mile_Status(decimal miles, DateTime validity, int userId)
+        private void Add_Mile_Status(decimal miles, DateTime validity, string userId)
         {
             _context.Mile_Status.Add(new Mile_Status
             {
@@ -174,7 +174,7 @@ namespace ProjFinalCinelAirClient.Data
         }
 
 
-        private void Add_Mile_Bonus(decimal miles, DateTime validity, int userId)
+        private void Add_Mile_Bonus(decimal miles, DateTime validity, string userId)
         {
             _context.Mile_Bonus.Add(new Mile_Bonus
             {
