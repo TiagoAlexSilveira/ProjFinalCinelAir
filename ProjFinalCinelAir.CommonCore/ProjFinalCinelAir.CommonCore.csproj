@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20201102123219_AddedTables.Designer.cs" />
     <Compile Remove="Migrations\20201102170904_class_fix.cs" />
     <Compile Remove="Migrations\20201102170904_class_fix.Designer.cs" />
+    <Compile Remove="Migrations\20201103110215_addUserToHistoricStatus.cs" />
+    <Compile Remove="Migrations\20201103110215_addUserToHistoricStatus.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>   

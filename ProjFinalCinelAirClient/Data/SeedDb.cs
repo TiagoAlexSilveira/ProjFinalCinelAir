@@ -89,7 +89,7 @@ namespace ProjFinalCinelAirClient.Data
             var token2 = await _userHelper.GenerateEmailConfirmationTokenAsync(user2);
             await _userHelper.ConfirmEmailAsync(user2, token2);
 
-            if (!IsInRole)
+            if (!IsInRole2)
             {
                 await _userHelper.AddUserToRoleAsync(user2, "Client");
             }
