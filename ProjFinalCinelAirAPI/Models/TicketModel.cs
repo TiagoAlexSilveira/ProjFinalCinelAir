@@ -11,7 +11,7 @@ namespace ProjFinalCinelAirAPI.Models
 
         public int ticketId { get; set; }
 
-        public int Client_TaxNumber { get; set; }
+        public int ClientNumber { get; set; }
 
         public DateTime Date { get; set; }
 

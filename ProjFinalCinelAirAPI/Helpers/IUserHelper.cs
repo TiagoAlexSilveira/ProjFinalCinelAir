@@ -11,5 +11,10 @@ namespace ProjFinalCinelAirAPI.Helpers
 
         // Obter o user com o role "Client" Associado     
         Task<bool> isClientAsync(User user, string roleName);
+
+        // Obter o status do cliente
+        Task<string> clientStatusAsync(string userId);
     }
+
+
 }

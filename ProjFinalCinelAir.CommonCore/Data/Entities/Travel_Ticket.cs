@@ -28,12 +28,12 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         public Rate Rate { get; set; }
 
 
-        public int Miles_StatusId { get; set; }
+        public int? Miles_StatusId { get; set; }
 
         public Mile_Status Miles_Status { get; set; }
 
 
-        public int Miles_BonusId { get; set; }
+        public int? Miles_BonusId { get; set; }
 
         public Mile_Bonus Miles_Bonus { get; set; }
 

@@ -45,7 +45,15 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         public string Identification { get; set; }
 
 
-        public DateTime JoinDate { get; set; }
+        public DateTime? JoinDate { get; set; }
+
+
+        [Display(Name = "Miles Status")]
+        public int Miles_Status { get; set; }
+
+
+        [Display(Name = "Miles Bonus")]
+        public int Miles_Bonus { get; set; }
 
 
         [Display(Name = "Full Name")]

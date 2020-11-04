@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace ProjFinalCinelAirAPI.Services
 {
-    public class ApiService <T> where T: class
+    public class ApiService : IApiService
     {
- 
-        public async Task<Response> GetData(string urlBase, string controller)
+        public async Task<Response> GetDataAsync<T>(string urlBase, string controller)
         {
             // Tudo que envolve comunicação com API´s deverá estar asssegurado com um try... catch
 

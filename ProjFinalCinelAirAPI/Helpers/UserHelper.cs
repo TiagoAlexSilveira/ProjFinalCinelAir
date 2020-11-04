@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
 using System.Linq;
@@ -19,9 +20,19 @@ namespace ProjFinalCinelAirAPI.Helpers
             _context = context;
         }
 
-        public User GetUser(int nif)
+        public async Task<string> clientStatusAsync(string userId)
         {
-            User user = _context.Users.FirstOrDefault(x => x.TaxNumber == nif);
+            var clientStatus = await _context.Historic_Status
+                           .Include(d => d.Status)
+                           .Where(x => x.UserId == userId)
+                           .FirstOrDefaultAsync();
+
+            return clientStatus.Status.Description;
+        }
+
+        public User GetUser(int clientNumber)
+        {
+            User user = _context.Users.FirstOrDefault(x => x.Client_Number == clientNumber);
             return user;
         }
 
@@ -31,5 +42,7 @@ namespace ProjFinalCinelAirAPI.Helpers
             return await _userManager.IsInRoleAsync(user, roleName);
 
         }
+
+       
     }
 }

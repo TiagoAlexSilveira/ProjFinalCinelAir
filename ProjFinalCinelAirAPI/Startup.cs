@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
 using ProjFinalCinelAirAPI.Helpers;
+using ProjFinalCinelAirAPI.Services;
 
 namespace ProjFinalCinelAirAPI
 {
@@ -50,15 +51,7 @@ namespace ProjFinalCinelAirAPI
 
 
             services.AddScoped<IUserHelper, UserHelper>();
- 
-
-
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            services.AddScoped<IApiService, ApiService>();
 
             services.AddControllers();
         }
