@@ -8,8 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
-using ProjFinalCinelAir.CommonCore.Data.Repositories;
 using ProjFinalCinelAirClient.Data;
+using ProjFinalCinelAirClient.Data.Repositories;
 using ProjFinalCinelAirClient.Helpers;
 
 namespace ProjFinalCinelAirClient

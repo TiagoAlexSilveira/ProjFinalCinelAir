@@ -80,10 +80,19 @@ namespace ProjFinalCinelAirClient.Helpers
             return await _userManager.IsInRoleAsync(user, "Admin");
         }
 
-        public async Task<SignInResult> LoginAsync(LoginViewModel model)
+        public async Task<SignInResult> LoginAsyncWithEmail(LoginViewModel model)
         {
             return await _signInManager.PasswordSignInAsync(
                 model.Username,
+                model.Password,
+                model.RememberMe,
+                false);
+        }
+
+        public async Task<SignInResult> LoginAsyncWithClientNumber(LoginViewModel model)
+        {
+            return await _signInManager.PasswordSignInAsync(
+                model.Client_Number,
                 model.Password,
                 model.RememberMe,
                 false);

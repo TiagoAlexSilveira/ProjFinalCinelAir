@@ -18,6 +18,10 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         public string LastName { get; set; }
 
 
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 

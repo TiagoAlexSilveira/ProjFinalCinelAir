@@ -9,6 +9,9 @@ namespace ProjFinalCinelAirClient.Models
     public class LoginViewModel
     {
 
+        public string Client_Number { get; set; }
+
+
         [Required]
         [EmailAddress]
         public string Username { get; set; }

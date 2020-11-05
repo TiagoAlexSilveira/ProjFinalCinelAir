@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProjFinalCinelAir.CommonCore.Data.Repositories
+namespace ProjFinalCinelAirClient.Data.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
     {

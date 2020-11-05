@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProjFinalCinelAir.CommonCore.Data.Repositories
+namespace ProjFinalCinelAirClient.Data.Repositories
 {
     public interface IGenericRepository<T> where T : class
     {

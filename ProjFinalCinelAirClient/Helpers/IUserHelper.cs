@@ -13,7 +13,9 @@ namespace ProjFinalCinelAirClient.Helpers
         Task<User> GetUserByEmailAsync(string email); //vai procurar o email e retorna-lo
 
 
-        Task<SignInResult> LoginAsync(LoginViewModel model);
+        Task<SignInResult> LoginAsyncWithEmail(LoginViewModel model); 
+
+        Task<SignInResult> LoginAsyncWithClientNumber(LoginViewModel model);
 
         Task LogoutAsync();
 
