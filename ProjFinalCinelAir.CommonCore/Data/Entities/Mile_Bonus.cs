@@ -8,13 +8,16 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
     {
         public int Id { get; set; }
 
-        public decimal Miles_Number { get; set; }
+        public int Miles_Number { get; set; }
 
         public DateTime Validity { get; set; }
 
-        public string UserId { get; set; }
+        public int available_Miles_Bonus { get; set; }
 
-        public User User { get; set; }
+        public int ClientId { get; set; }
+
+        public Client Client { get; set; }
+
 
     }
 }

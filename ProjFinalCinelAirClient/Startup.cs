@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
+using ProjFinalCinelAir.CommonCore.Data.Repositories;
 using ProjFinalCinelAirClient.Data;
 using ProjFinalCinelAirClient.Helpers;
 
@@ -64,6 +65,7 @@ namespace ProjFinalCinelAirClient
 
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
+            services.AddScoped<IClientRepository, ClientRepository>();
 
 
             services.Configure<CookiePolicyOptions>(options =>

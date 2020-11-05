@@ -69,7 +69,7 @@ namespace ProjFinalCinelAirClient.Controllers
         }
 
 
-        public IActionResult Register()
+       /* public IActionResult Register()
         {
             var model = new RegisterNewUserViewModel
             {
@@ -77,10 +77,10 @@ namespace ProjFinalCinelAirClient.Controllers
             };
 
             return this.View(model);
-        }
+        }*/
 
 
-        [HttpPost]
+       /* [HttpPost]
         public async Task<IActionResult> Register(RegisterNewUserViewModel model)
         {
             if (ModelState.IsValid)
@@ -89,16 +89,10 @@ namespace ProjFinalCinelAirClient.Controllers
                 if (user == null)
                 {
 
-
-
                     user = new User
                     {
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        Email = model.Username,
-                        UserName = model.Username,
-                        StreetAddress = model.Address,
-                        PhoneNumber = model.PhoneNumber,
+                        Email = model.Email,
+                        UserName = model.Username
                     };
 
 
@@ -142,7 +136,7 @@ namespace ProjFinalCinelAirClient.Controllers
 
             }
             return View(model);
-        }
+        }*/
 
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
@@ -167,7 +161,7 @@ namespace ProjFinalCinelAirClient.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ChangeUser()
+        /*public async Task<IActionResult> ChangeUser()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
             var model = new ChangeUserViewModel();
@@ -181,19 +175,18 @@ namespace ProjFinalCinelAirClient.Controllers
             }
 
             return this.View(model);
-        }
+        }*/
 
 
 
-        [HttpPost]
+        /*[HttpPost]
         public async Task<IActionResult> ChangeUser(ChangeUserViewModel model)
         {
             if (this.ModelState.IsValid)
             {
                 var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 if (user != null)
-                {
-
+                {            
                     user.FirstName = model.FirstName;
                     user.LastName = model.LastName;
                     user.StreetAddress = model.Address;
@@ -216,7 +209,7 @@ namespace ProjFinalCinelAirClient.Controllers
             }
 
             return this.View(model);
-        }
+        }*/
 
 
 

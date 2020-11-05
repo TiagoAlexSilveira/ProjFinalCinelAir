@@ -10,7 +10,7 @@ using ProjFinalCinelAir.CommonCore.Data;
 namespace ProjFinalCinelAir.CommonCore.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201102171730_added_tables")]
+    [Migration("20201105123444_added_tables")]
     partial class added_tables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,6 +152,62 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Client", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Client_Number")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateofBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Identification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("JoinDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Miles_Bonus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Miles_Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TaxNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Client");
+                });
+
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Historic_Status", b =>
                 {
                     b.Property<int>("Id")
@@ -159,7 +215,10 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("End_Date")
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("End_Date")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Start_Date")
@@ -173,6 +232,8 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClientId");
+
                     b.HasIndex("StatusId");
 
                     b.ToTable("Historic_Status");
@@ -185,18 +246,21 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("Miles_Number")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Miles_Number")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Validity")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("available_Miles_Bonus")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ClientId");
 
                     b.ToTable("Mile_Bonus");
                 });
@@ -208,18 +272,21 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("Miles_Number")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Miles_Number")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Validity")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("available_Miles_Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ClientId");
 
                     b.ToTable("Mile_Status");
                 });
@@ -234,8 +301,8 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Percentage")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Percentage")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -267,13 +334,16 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.Property<string>("ArrivalCity")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<string>("DepartureCity")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Miles_BonusId")
+                    b.Property<int?>("Miles_BonusId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Miles_StatusId")
+                    b.Property<int?>("Miles_StatusId")
                         .HasColumnType("int");
 
                     b.Property<int>("RateId")
@@ -285,18 +355,15 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.Property<DateTime>("Travel_Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("Miles_BonusId");
 
                     b.HasIndex("Miles_StatusId");
 
                     b.HasIndex("RateId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Travel_Ticket");
                 });
@@ -309,15 +376,9 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("Client_Number")
-                        .HasColumnType("int");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateofBirth")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
@@ -325,21 +386,6 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Identification")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("JoinDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -364,17 +410,8 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StreetAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TaxNumber")
-                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -447,8 +484,21 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Client", b =>
+                {
+                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Historic_Status", b =>
                 {
+                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
@@ -458,41 +508,43 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
 
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Mile_Bonus", b =>
                 {
-                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.User", "User")
+                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Mile_Status", b =>
                 {
-                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.User", "User")
+                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Travel_Ticket", b =>
                 {
-                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Mile_Bonus", "Miles_Bonus")
+                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("Miles_BonusId")
+                        .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Mile_Bonus", "Miles_Bonus")
+                        .WithMany()
+                        .HasForeignKey("Miles_BonusId");
+
                     b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Mile_Status", "Miles_Status")
                         .WithMany()
-                        .HasForeignKey("Miles_StatusId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("Miles_StatusId");
 
                     b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Rate", "Rate")
                         .WithMany()
                         .HasForeignKey("RateId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

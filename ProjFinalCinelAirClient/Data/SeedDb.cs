@@ -32,24 +32,33 @@ namespace ProjFinalCinelAirClient.Data
             if (user == null)
             {
                 user = new User
+                {                    
+                    Email = "tsilveira01@gmail.com",
+                    UserName = "100000001",
+                };
+
+                var client = new Client
                 {
                     FirstName = "Tiago",
                     LastName = "Silveira",
-                    Email = "tsilveira01@gmail.com",
-                    UserName = "tsilveira01@gmail.com",
                     PhoneNumber = "213456789",
                     Client_Number = 100000002,
                     TaxNumber = 354647362,
                     Identification = "63547589",
                     DateofBirth = Convert.ToDateTime("1993-04-29"),
+                    JoinDate = Convert.ToDateTime("2020-01-05"),
+                    UserId = user.Id,
                     StreetAddress = "Rua das Ruas",
                 };
+
 
                 var result = await _userHelper.AddUserAsync(user, "123456");  //cria um user com aqueles dados e aquela password
                 if (result != IdentityResult.Success)
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
+
+                _context.Client.Add(client);
             }
 
             var IsInRole = await _userHelper.IsUserInRoleAsync(user, "Client");
@@ -61,40 +70,50 @@ namespace ProjFinalCinelAirClient.Data
                 await _userHelper.AddUserToRoleAsync(user, "Client");
             }
 
+
+            //////////////////////////////////////////////
+
             var user2 = await _userHelper.GetUserByEmailAsync("dcruzsimoes@gmail.com");
             if (user2 == null)
             {
                 user2 = new User
                 {
+                    Email = "dcruzsimoes@gmail.com",
+                    UserName = "100000002",
+                };
+
+                var client2 = new Client
+                {
                     FirstName = "Dulce",
                     LastName = "Simões",
+                    PhoneNumber = "213456789",
                     Client_Number = 100000001,
                     TaxNumber = 226250989,
                     Identification = "11895671",
                     DateofBirth = Convert.ToDateTime("1981-01-11"),
+                    JoinDate = Convert.ToDateTime("2019-10-05"),
+                    UserId = user2.Id,
                     StreetAddress = "Travessa das Flores",
-                    Email = "dcruzsimoes@gmail.com",
-                    UserName = "dcruzsimoes@gmail.com",
-                    PhoneNumber = "213456789"
                 };
 
-                var result = await _userHelper.AddUserAsync(user2, "123456");  //cria um user com aqueles dados e aquela password
-                if (result != IdentityResult.Success)
+
+                var result2 = await _userHelper.AddUserAsync(user2, "123456");  //cria um user com aqueles dados e aquela password
+                if (result2 != IdentityResult.Success)
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
+
+                _context.Client.Add(client2);
             }
 
             var IsInRole2 = await _userHelper.IsUserInRoleAsync(user2, "Client");
             var token2 = await _userHelper.GenerateEmailConfirmationTokenAsync(user2);
             await _userHelper.ConfirmEmailAsync(user2, token2);
 
-            if (!IsInRole)
+            if (!IsInRole2)
             {
                 await _userHelper.AddUserToRoleAsync(user2, "Client");
             }
-
-
 
 
 
@@ -134,6 +153,13 @@ namespace ProjFinalCinelAirClient.Data
                 await _context.SaveChangesAsync();
             }
 
+            if (!_context.Historic_Status.Any())
+            {
+                this.Add_Historic_Status(Convert.ToDateTime("2020-01-05"), null, true, 1, 1);
+                this.Add_Historic_Status(Convert.ToDateTime("2019-10-05"), null, true, 1, 2);
+
+                await _context.SaveChangesAsync();
+            }
 
         }
 
@@ -148,7 +174,7 @@ namespace ProjFinalCinelAirClient.Data
         }
 
 
-        private void Add_Travel_Ticket(int ticket_id, DateTime travel_date, string departure_city, string arrival_city, string userId, int rateId, int miles_status_id, int miles_bonus_id )
+        private void Add_Travel_Ticket(int ticket_id, DateTime travel_date, string departure_city, string arrival_city, int clientId, int rateId, int miles_status_id, int miles_bonus_id )
         {
             _context.Travel_Ticket.Add(new Travel_Ticket
             {
@@ -156,36 +182,36 @@ namespace ProjFinalCinelAirClient.Data
                 Travel_Date = travel_date,
                 DepartureCity = departure_city,
                 ArrivalCity = arrival_city,
-                UserId = userId,
+                ClientId = clientId,
                 RateId = rateId,
                 Miles_BonusId = miles_bonus_id,
                 Miles_StatusId = miles_status_id
             });
         }
 
-        private void Add_Mile_Status(decimal miles, DateTime validity, string userId)
+        private void Add_Mile_Status(int miles, DateTime validity, int clientId)
         {
             _context.Mile_Status.Add(new Mile_Status
             {
                 Miles_Number = miles,
                 Validity = validity,
-                UserId = userId
+                ClientId = clientId
             });
         }
 
 
-        private void Add_Mile_Bonus(decimal miles, DateTime validity, string userId)
+        private void Add_Mile_Bonus(int miles, DateTime validity, int clientId)
         {
             _context.Mile_Bonus.Add(new Mile_Bonus
             {
                 Miles_Number = miles,
                 Validity = validity,
-                UserId = userId
+                ClientId = clientId
             });
         }
 
 
-        private void Add_Rate(string description, decimal percentage)
+        private void Add_Rate(string description, int percentage)
         {
             _context.Rate.Add(new Rate
             {
@@ -195,14 +221,15 @@ namespace ProjFinalCinelAirClient.Data
         }
 
 
-        private void Add_Historic_Status(DateTime start, DateTime end, bool isValidated, int statusId)
+        private void Add_Historic_Status(DateTime start, DateTime? end, bool isValidated, int statusId, int clientId)
         {
             _context.Historic_Status.Add(new Historic_Status
             {
                 Start_Date = start,
                 End_Date = end, 
                 isValidated = isValidated,
-                StatusId = statusId
+                StatusId = statusId,
+                ClientId = clientId
             });
         }
 

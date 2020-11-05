@@ -7,6 +7,9 @@ namespace ProjFinalCinelAir.CommonCore.Data
 {
     public class DataContext : IdentityDbContext<User>
     {
+
+        public DbSet<Client> Client { get; set; }
+
         public DbSet<Travel_Ticket> Travel_Ticket { get; set; }
 
         public DbSet<Mile_Bonus> Mile_Bonus { get; set; }

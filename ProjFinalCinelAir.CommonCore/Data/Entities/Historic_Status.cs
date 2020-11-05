@@ -11,7 +11,7 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
 
         public DateTime Start_Date { get; set; }
 
-        public DateTime End_Date { get; set; }
+        public DateTime? End_Date { get; set; }
 
 
         public bool isValidated { get; set; }
@@ -20,6 +20,10 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         public int StatusId { get; set; }
 
         public Status Status { get; set; }
+
+        public int ClientId { get; set; }
+
+        public Client Client { get; set; }
 
 
 
