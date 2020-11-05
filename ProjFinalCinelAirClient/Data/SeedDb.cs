@@ -55,7 +55,7 @@ namespace ProjFinalCinelAirClient.Data
                 var result = await _userHelper.AddUserAsync(user, "123456");  //cria um user com aqueles dados e aquela password
                 if (result != IdentityResult.Success)
                 {
-                    throw new InvalidOperationException("Could not create the user in seeder");
+                    throw new InvalidOperationException("Could not create the user in seeder!");
                 }
 
                 _context.Client.Add(client);
