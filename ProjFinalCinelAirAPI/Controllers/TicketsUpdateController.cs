@@ -37,7 +37,7 @@ namespace ProjFinalCinelAirAPI.Controllers
         [HttpGet]
         public string Get()
         {
-            return "Base de dados a ser actualizada";
+            return "Base de dados a ser actualizada. Ver a Bosta dos Branches!!";
         }
 
 
