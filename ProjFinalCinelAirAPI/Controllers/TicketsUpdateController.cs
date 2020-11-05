@@ -17,31 +17,31 @@ namespace ProjFinalCinelAirAPI.Controllers
     [Route("api/[controller]")]
     public class TicketsUpdateController : ControllerBase
     {
-        #region
+        #region atributos
         private readonly ILogger<TicketsUpdateController> _logger;
         private readonly DataContext _context;
-        private readonly IUserHelper _userHelper;
+        private readonly IClientHelper _clientHelper;
         private readonly IApiService _apiService;
         #endregion
 
 
 
-        public TicketsUpdateController(ILogger<TicketsUpdateController> logger, DataContext context, IUserHelper userHelper, IApiService apiService)
+        public TicketsUpdateController(ILogger<TicketsUpdateController> logger, DataContext context, IClientHelper clientHelper, IApiService apiService)
         {
             _logger = logger;
             _context = context;
-            _userHelper = userHelper;
+            _clientHelper = clientHelper;
             _apiService = apiService;
         }
 
         [HttpGet]
         public string Get()
         {
-            return "Base de dados a ser actualizada. Ver a Bosta dos Branches!!";
+            return "Base de dados a ser actualizada.";
         }
 
 
-        /*[HttpPost]
+        [HttpPost]
         public async Task Post() // Novos Registos na Base de dados
         {
             // 1º Data a solicitar à API Node(dia anterior) - Estamos a correr esta API no dia Seguinte das 1H às 4H
@@ -84,7 +84,7 @@ namespace ProjFinalCinelAirAPI.Controllers
             foreach (var ticket in TicketList) // Percorrer a lista de bilhetes
             {
 
-                User client = _userHelper.GetUser(ticket.ClientNumber);
+                Client client = _clientHelper.GetClient(ticket.ClientNumber);
                 
                 UpadateMilesStatus(client); // Actualizar as milhas_Status
                
@@ -99,7 +99,7 @@ namespace ProjFinalCinelAirAPI.Controllers
             foreach (var ticket in TicketsList)
             {
 
-                User client = _userHelper.GetUser(ticket.ClientNumber); // Vai à tabela obter o user que tem o numero de cliente do bilhete         
+                Client client = _clientHelper.GetClient(ticket.ClientNumber); // Vai à tabela obter o user que tem o numero de cliente do bilhete         
 
                 if (client != null) // Cliente existe
                 {
@@ -193,9 +193,9 @@ namespace ProjFinalCinelAirAPI.Controllers
 
         }
 
-        private async Task NewEntries(User user, string rateName, TicketModel ticket, DistanceModel milesTrip)
+        private async Task NewEntries(Client client, string rateName, TicketModel ticket, DistanceModel milesTrip)
         {
-            int miles = await CalculateMiles(user, rateName, milesTrip);
+            int miles = await CalculateMiles(client, rateName, milesTrip);
 
             // Cálculo das milhas --> Necessário para a inserção do bilhete
             Rate rate = _context.Rate
@@ -211,7 +211,7 @@ namespace ProjFinalCinelAirAPI.Controllers
                 {
                     Miles_Number = miles,
                     available_Miles_Status = miles,
-                    UserId = user.Id,
+                    ClientId = client.Id,
                     Validity = date
                 });
             }
@@ -222,7 +222,7 @@ namespace ProjFinalCinelAirAPI.Controllers
                 {
                     Miles_Number = miles,
                     available_Miles_Bonus = miles,
-                    UserId = user.Id,
+                    ClientId = client.Id,
                     Validity = date
                 });
             }
@@ -243,7 +243,7 @@ namespace ProjFinalCinelAirAPI.Controllers
                     Travel_Date = ticket.Date,
                     DepartureCity = ticket.From,
                     ArrivalCity = ticket.To,
-                    UserId = user.Id,
+                    ClientId = client.Id,
                     RateId = rate.Id,
                     Miles_StatusId = lastEntrie.Id,
                 });
@@ -261,7 +261,7 @@ namespace ProjFinalCinelAirAPI.Controllers
                     Travel_Date = ticket.Date,
                     DepartureCity = ticket.From,
                     ArrivalCity = ticket.To,
-                    UserId = user.Id,
+                    ClientId = client.Id,
                     RateId = rate.Id,
                     Miles_BonusId = lastEntrie.Id,
                 });
@@ -272,11 +272,11 @@ namespace ProjFinalCinelAirAPI.Controllers
 
         
 
-        private async Task<int> CalculateMiles(User user, string rateName, DistanceModel milesTrip) 
+        private async Task<int> CalculateMiles(Client client, string rateName, DistanceModel milesTrip) 
         {
 
             // Saber qual o status do cliente
-            string status = await _userHelper.clientStatusAsync(user.Id);
+            string status = await _clientHelper.clientStatusAsync(client.Id);
 
             // Cálculo das milhas 
             Rate rate = _context.Rate
@@ -302,7 +302,7 @@ namespace ProjFinalCinelAirAPI.Controllers
 
         }
 
-        private void UpadateMilesStatus(User user) 
+        private void UpadateMilesStatus(Client client) 
         {
             // Ir à tabela de milhas status e contabilizar as milhas disponiveis
 
@@ -317,7 +317,7 @@ namespace ProjFinalCinelAirAPI.Controllers
             }
 
             // Realizar a actualização das milhas no cliente
-            var clientQuery = (from client in _context.Users where client.Id == user.Id select client).ToList(); // Obtenho o cliente
+            var clientQuery = (from inputClient in _context.Client where inputClient.Id == client.Id select inputClient).ToList(); // Obtenho o cliente
 
             clientQuery.ForEach(x => x.Miles_Status = miles_status); // Actualizar o campo das milhas status
 
@@ -326,7 +326,7 @@ namespace ProjFinalCinelAirAPI.Controllers
 
         }
 
-        private void UpdateMilesBonus(User user)
+        private void UpdateMilesBonus(Client client)
         {
 
             // Ir à tabela de milhas status e contabilizar as milhas disponiveis
@@ -342,20 +342,21 @@ namespace ProjFinalCinelAirAPI.Controllers
             }
 
             // Realizar a actualização das milhas no cliente
-            var clientQuery = (from client in _context.Users where client.Id == user.Id select client).ToList(); // Obtenho o cliente
+            var clientQuery = (from inputClient in _context.Client where inputClient.Id == client.Id select inputClient).ToList(); // Obtenho o cliente
 
             clientQuery.ForEach(x => x.Miles_Status = miles_status); // Actualizar o campo das milhas status
 
             _context.SaveChanges();
         }
 
-        private void UpdateStatus(User user) 
+        private void UpdateStatus(Client client)
         {
-
+            
             // Verificar o status do cliente e ver se as milhas são suficientes para alterar o status
             // Realizar a actualização das milhas no cliente
-            DateTime date = new DateTime(DateTime.Now.Year -1, DateTime.Now.Month, DateTime.Now.Day); // Milhas obtidas no último ano
-            var ticketQuery = (from ticket in _context.Travel_Ticket where ticket.UserId == user.Id && ticket.Travel_Date >= date select ticket).ToList(); // Obtenho o cliente
+           
+            DateTime date = new DateTime(DateTime.Now.Year -1, client.JoinDate.Value.Month, client.JoinDate.Value.Day); // Milhas obtidas no último ano (mas a data de activação)
+            var ticketQuery = (from ticket in _context.Travel_Ticket where ticket.ClientId == client.Id && ticket.Travel_Date >= date select ticket).ToList(); // Obtenho os voos realizados no último ano
 
             int miles_status_sum = 0;
             int voos = 0;
@@ -370,14 +371,14 @@ namespace ProjFinalCinelAirAPI.Controllers
                 voos += 1;
             }
 
-            var status = (from userStatus in _context.Historic_Status where userStatus.UserId == user.Id && userStatus.End_Date == null select userStatus).FirstOrDefault(); // Obtenho o cliente
+            var status = (from clientStatus in _context.Historic_Status where clientStatus.ClientId == client.Id && clientStatus.End_Date == null select clientStatus).FirstOrDefault(); // Obtenho o cliente
 
-            // 1- Basic; 2 - Silver; 3 - Gold
+            // 1- Basic; 2 - Silver; 3 - Gold =======> Legenda dos Status
 
             if ((miles_status_sum >= 30000 || voos>= 25) && status.StatusId == 1 ) // Critérios para cliente mudar de status para Silver (apenas no caso de ser básico) 
             {
                 // Realizar a actualização do status do cliente no histórico
-                var clientQuery = (from historicStatus in _context.Historic_Status where historicStatus.UserId == user.Id && historicStatus.End_Date == null select historicStatus).FirstOrDefault(); 
+                var clientQuery = (from historicStatus in _context.Historic_Status where historicStatus.ClientId == client.Id && historicStatus.End_Date == null select historicStatus).FirstOrDefault(); 
 
 
                 clientQuery.End_Date = DateTime.Now; // Actualizar o campo das milhas status
@@ -388,7 +389,7 @@ namespace ProjFinalCinelAirAPI.Controllers
                     Start_Date = DateTime.Now,
                     isValidated = false,
                     StatusId = 2,
-                    UserId = user.Id
+                    ClientId = client.Id
                 });
 
                 _context.SaveChanges();
@@ -399,7 +400,7 @@ namespace ProjFinalCinelAirAPI.Controllers
             else if ((miles_status_sum >= 70000 || voos >= 50) && (status.StatusId == 1 || status.StatusId == 2)) // Critérios para cliente mudar de status para Gold(no caso de ser básico ou Silver) 
             {
                 // Realizar a actualização do status do cliente no histórico
-                var clientQuery = (from historicStatus in _context.Historic_Status where historicStatus.UserId == user.Id && historicStatus.End_Date == null select historicStatus).FirstOrDefault();
+                var clientQuery = (from historicStatus in _context.Historic_Status where historicStatus.ClientId == client.Id && historicStatus.End_Date == null select historicStatus).FirstOrDefault();
 
 
                 clientQuery.End_Date = DateTime.Now; // Actualizar o campo das milhas status
@@ -410,12 +411,12 @@ namespace ProjFinalCinelAirAPI.Controllers
                     Start_Date = DateTime.Now,
                     isValidated = false,
                     StatusId = 3,
-                    UserId = user.Id
+                    ClientId = client.Id
                 });
 
                 _context.SaveChanges();
 
             }
-        }*/
+        }
     }
 }
