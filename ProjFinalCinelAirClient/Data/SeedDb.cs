@@ -189,7 +189,7 @@ namespace ProjFinalCinelAirClient.Data
             });
         }
 
-        private void Add_Mile_Status(decimal miles, DateTime validity, string userId)
+        private void Add_Mile_Status(int miles, DateTime validity, string userId)
         {
             _context.Mile_Status.Add(new Mile_Status
             {
@@ -200,7 +200,7 @@ namespace ProjFinalCinelAirClient.Data
         }
 
 
-        private void Add_Mile_Bonus(decimal miles, DateTime validity, string userId)
+        private void Add_Mile_Bonus(int miles, DateTime validity, string userId)
         {
             _context.Mile_Bonus.Add(new Mile_Bonus
             {

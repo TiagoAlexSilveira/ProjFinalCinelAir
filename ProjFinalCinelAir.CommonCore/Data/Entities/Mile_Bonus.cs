@@ -18,6 +18,7 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
 
         public Client Client { get; set; }
 
+        public User User { get; set; }
 
     }
 }
