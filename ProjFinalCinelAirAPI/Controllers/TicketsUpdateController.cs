@@ -41,7 +41,7 @@ namespace ProjFinalCinelAirAPI.Controllers
         }
 
 
-        [HttpPost]
+        /*[HttpPost]
         public async Task Post() // Novos Registos na Base de dados
         {
             // 1º Data a solicitar à API Node(dia anterior) - Estamos a correr esta API no dia Seguinte das 1H às 4H
@@ -416,6 +416,6 @@ namespace ProjFinalCinelAirAPI.Controllers
                 _context.SaveChanges();
 
             }
-        }
+        }*/
     }
 }

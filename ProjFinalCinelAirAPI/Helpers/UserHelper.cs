@@ -9,7 +9,7 @@ namespace ProjFinalCinelAirAPI.Helpers
 {
     public class UserHelper : IUserHelper
     {
-        private readonly UserManager<User> _userManager;
+        /*private readonly UserManager<User> _userManager;
         private readonly DataContext _context;
 
 
@@ -41,7 +41,7 @@ namespace ProjFinalCinelAirAPI.Helpers
         {
             return await _userManager.IsInRoleAsync(user, roleName);
 
-        }
+        }*/
 
        
     }

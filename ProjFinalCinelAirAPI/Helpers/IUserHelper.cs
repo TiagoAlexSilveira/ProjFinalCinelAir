@@ -6,14 +6,14 @@ namespace ProjFinalCinelAirAPI.Helpers
 {
     public interface IUserHelper
     {
-        // Obter o user através do seu nif (é o que vem nos bilhetes de avião)
+        /*// Obter o user através do seu nif (é o que vem nos bilhetes de avião)
         User GetUser(int nif);
 
         // Obter o user com o role "Client" Associado     
         Task<bool> isClientAsync(User user, string roleName);
 
         // Obter o status do cliente
-        Task<string> clientStatusAsync(string userId);
+        Task<string> clientStatusAsync(string userId);*/
     }
 
 
