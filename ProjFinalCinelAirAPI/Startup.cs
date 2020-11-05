@@ -50,7 +50,7 @@ namespace ProjFinalCinelAirAPI
 
 
 
-            services.AddScoped<IUserHelper, UserHelper>();
+            services.AddScoped<IClientHelper, ClientHelper>();
             services.AddScoped<IApiService, ApiService>();
 
             services.AddControllers();
