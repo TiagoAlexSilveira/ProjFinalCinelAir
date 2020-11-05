@@ -21,10 +21,6 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
 
         public Status Status { get; set; }
 
-        public int ClientId { get; set; }
-
-        public Client Client { get; set; }
-
 
 
 

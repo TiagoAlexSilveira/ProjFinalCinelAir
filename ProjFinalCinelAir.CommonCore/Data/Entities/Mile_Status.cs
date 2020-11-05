@@ -12,9 +12,7 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
 
         public DateTime Validity { get; set; }
 
-        public int available_Miles_Status { get; set; }
-
-        public int ClientId { get; set; }
+        public string UserId { get; set; }
 
         public Client Client { get; set; }
 
