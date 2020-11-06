@@ -10,8 +10,8 @@ using ProjFinalCinelAir.CommonCore.Data;
 namespace ProjFinalCinelAir.CommonCore.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201105160043_emailOnUser")]
-    partial class emailOnUser
+    [Migration("20201106014025_added_transactionAndNotification")]
+    partial class added_transactionAndNotification
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -294,6 +294,32 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.ToTable("Mile_Status");
                 });
 
+            modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("Notification");
+                });
+
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Rate", b =>
                 {
                     b.Property<int>("Id")
@@ -325,6 +351,38 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Status");
+                });
+
+            modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Transaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Balance")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Miles")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Movement_Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("Transaction");
                 });
 
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Travel_Ticket", b =>
@@ -519,6 +577,24 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                 });
 
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Mile_Status", b =>
+                {
+                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Notification", b =>
+                {
+                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Transaction", b =>
                 {
                     b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Client", "Client")
                         .WithMany()

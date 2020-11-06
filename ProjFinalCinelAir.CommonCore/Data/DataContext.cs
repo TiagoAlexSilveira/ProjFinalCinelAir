@@ -22,6 +22,10 @@ namespace ProjFinalCinelAir.CommonCore.Data
 
         public DbSet<Historic_Status> Historic_Status { get; set; }
 
+        public DbSet<Transaction> Transaction  { get; set; }
+
+        public DbSet<Notification> Notification { get; set; }
+
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
