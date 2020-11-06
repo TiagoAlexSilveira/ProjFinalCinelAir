@@ -19,6 +19,8 @@
     <Compile Remove="Migrations\20201105160043_emailOnUser.Designer.cs" />
     <Compile Remove="Migrations\20201106013324_added_transactions.cs" />
     <Compile Remove="Migrations\20201106013324_added_transactions.Designer.cs" />
+    <Compile Remove="Migrations\20201106024923_UpdateTransactionTable.cs" />
+    <Compile Remove="Migrations\20201106024923_UpdateTransactionTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>   

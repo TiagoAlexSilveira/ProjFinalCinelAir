@@ -21,9 +21,11 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
 
         public string Description { get; set; }
 
-        public int Miles { get; set; }
+        public int Balance_Miles_Status { get; set; }
 
-        public int Balance { get; set; } //Total depois da transação
+        public int Balance_Miles_Bonus { get; set; }
+
+        public int Miles { get; set; } //Total depois da transação
 
 
     }

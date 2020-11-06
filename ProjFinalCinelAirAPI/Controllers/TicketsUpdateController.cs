@@ -52,7 +52,7 @@ namespace ProjFinalCinelAirAPI.Controllers
             string URL = "https://airlineapinode.azurewebsites.net/";
             string Controller = $"ticket/{dateString}";
 
-            var response = await _apiService.GetDataAsync<List<TicketModel>>(URL, Controller); // Aceder à ApiNode
+            var response = await _apiService.GetDataAsync<List<TicketModel>>(URL, "ticket/2020-10-29"); // Aceder à ApiNode
 
 
             List<TicketModel> TicketList = (List<TicketModel>)response.Result;
@@ -74,7 +74,7 @@ namespace ProjFinalCinelAirAPI.Controllers
             string URL = "https://airlineapinode.azurewebsites.net/";
             string Controller = $"ticket/{dateString}";
 
-            var response = await _apiService.GetDataAsync<List<TicketModel>>(URL, Controller); // Aceder à ApiNode
+            var response = await _apiService.GetDataAsync<List<TicketModel>>(URL, "ticket/2020-10-29"); // Aceder à ApiNode
 
 
             List<TicketModel> TicketList = (List<TicketModel>)response.Result;
@@ -91,6 +91,7 @@ namespace ProjFinalCinelAirAPI.Controllers
                 UpdateMilesBonus(client);   // Actualizar as milhas_Bonus         
 
                 UpdateStatus(client); // Actualizar o Status do cliente
+
             }
         }
 
@@ -204,9 +205,22 @@ namespace ProjFinalCinelAirAPI.Controllers
             DateTime date = new DateTime(DateTime.Now.Year + 3, DateTime.Now.Month, DateTime.Now.Day); // Milhas Válidas por 3 anos
 
 
-            // ================= Realizar as entradas nas tabelas Miles_Status e Miles_Bonus
+            DateTime dateTransaction = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            
+            // ================= Realizar as entradas nas tabelas Miles_Status e Miles_Bonus e Tabela de Transações
             if (ticket.StarAlliance) // Se a viagem foi realizada pela StarAlliance --> as milhas vão para milhas Status
             {
+                _context.Transaction.Add(new Transaction
+                {
+                    ClientId = client.Id,
+                    Movement_Type = MovementType.Flight.ToString(),
+                    Date = dateTransaction,
+                    Description = $"Flight from {ticket.From} to {ticket.To}",
+                    Miles = miles,
+                    Balance_Miles_Status = client.Miles_Status + miles,
+                    Balance_Miles_Bonus = client.Miles_Bonus
+                });
+
                 _context.Mile_Status.Add(new Mile_Status
                 {
                     Miles_Number = miles,
@@ -214,10 +228,23 @@ namespace ProjFinalCinelAirAPI.Controllers
                     ClientId = client.Id,
                     Validity = date
                 });
+
+              
             }
 
             else // A viagem foi realizada por companhias aéreas parceiras da CinelAir --> as milhas vão para milhas Bonus
             {
+                _context.Transaction.Add(new Transaction
+                {
+                    ClientId = client.Id,
+                    Movement_Type = MovementType.Flight.ToString(),
+                    Date = dateTransaction,
+                    Description = $"Flight from {ticket.From} to {ticket.To}",
+                    Miles = miles,
+                    Balance_Miles_Status = client.Miles_Status,
+                    Balance_Miles_Bonus = client.Miles_Bonus + miles
+                });
+
                 _context.Mile_Bonus.Add(new Mile_Bonus
                 {
                     Miles_Number = miles,
@@ -268,6 +295,8 @@ namespace ProjFinalCinelAirAPI.Controllers
             }          
             _context.SaveChanges(); // Guardar a entrada do bilhete na tabela de Travel_Ticket
 
+
+           
         }
 
         
@@ -418,5 +447,7 @@ namespace ProjFinalCinelAirAPI.Controllers
 
             }
         }
+
+      
     }
 }
