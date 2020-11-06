@@ -31,7 +31,7 @@ namespace ProjFinalCinelAir.CommonCore.Data
 
         public DbSet<City> City { get; set; }
 
-        public DbSet<Employee> Employee { get; set; }
+
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {

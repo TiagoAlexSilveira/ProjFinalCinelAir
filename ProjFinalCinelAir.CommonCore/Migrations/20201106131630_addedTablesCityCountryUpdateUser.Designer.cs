@@ -10,8 +10,8 @@ using ProjFinalCinelAir.CommonCore.Data;
 namespace ProjFinalCinelAir.CommonCore.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201106125441_addedTablesCityCountryAndEmployee")]
-    partial class addedTablesCityCountryAndEmployee
+    [Migration("20201106131630_addedTablesCityCountryUpdateUser")]
+    partial class addedTablesCityCountryUpdateUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -250,61 +250,6 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.ToTable("Country");
                 });
 
-            modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Employee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateofBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Identification")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("JoinDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StreetAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TaxNumber")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Employee");
-                });
-
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Historic_Status", b =>
                 {
                     b.Property<int>("Id")
@@ -534,9 +479,15 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateofBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
@@ -544,6 +495,21 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Identification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("JoinDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -568,8 +534,17 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TaxNumber")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -579,6 +554,8 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -656,19 +633,6 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Employee", b =>
-                {
-                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Historic_Status", b =>
                 {
                     b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Client", "Client")
@@ -739,6 +703,15 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Rate", "Rate")
                         .WithMany()
                         .HasForeignKey("RateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.User", b =>
+                {
+                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

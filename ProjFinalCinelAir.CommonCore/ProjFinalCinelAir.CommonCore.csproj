@@ -21,6 +21,8 @@
     <Compile Remove="Migrations\20201106013324_added_transactions.Designer.cs" />
     <Compile Remove="Migrations\20201106024923_UpdateTransactionTable.cs" />
     <Compile Remove="Migrations\20201106024923_UpdateTransactionTable.Designer.cs" />
+    <Compile Remove="Migrations\20201106125441_addedTablesCityCountryAndEmployee.cs" />
+    <Compile Remove="Migrations\20201106125441_addedTablesCityCountryAndEmployee.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>   
