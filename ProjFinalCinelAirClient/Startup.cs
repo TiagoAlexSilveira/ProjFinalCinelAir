@@ -66,6 +66,15 @@ namespace ProjFinalCinelAirClient
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IStatusRepository, StatusRepository>();
+            services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddScoped<IRateRepository, RateRepository>();
+            services.AddScoped<IHistoric_StatusRepository, Historic_StatusRepository>();
+            services.AddScoped<ITravel_TicketRepository, Travel_TicketRepository>();
+            services.AddScoped<IMile_StatusRepository, Mile_StatusRepository>();
+            services.AddScoped<IMile_BonusRepository, Mile_BonusRepository>();
+            
 
 
             services.Configure<CookiePolicyOptions>(options =>
