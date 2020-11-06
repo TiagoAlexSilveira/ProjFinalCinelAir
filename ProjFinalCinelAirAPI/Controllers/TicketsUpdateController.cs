@@ -52,7 +52,7 @@ namespace ProjFinalCinelAirAPI.Controllers
             string URL = "https://airlineapinode.azurewebsites.net/";
             string Controller = $"ticket/{dateString}";
 
-            var response = await _apiService.GetDataAsync<List<TicketModel>>(URL, "ticket/2020-10-29"); // Aceder à ApiNode
+            var response = await _apiService.GetDataAsync<List<TicketModel>>(URL, Controller); // Aceder à ApiNode
 
 
             List<TicketModel> TicketList = (List<TicketModel>)response.Result;
@@ -74,7 +74,7 @@ namespace ProjFinalCinelAirAPI.Controllers
             string URL = "https://airlineapinode.azurewebsites.net/";
             string Controller = $"ticket/{dateString}";
 
-            var response = await _apiService.GetDataAsync<List<TicketModel>>(URL, "ticket/2020-10-29"); // Aceder à ApiNode
+            var response = await _apiService.GetDataAsync<List<TicketModel>>(URL, Controller); // Aceder à ApiNode
 
 
             List<TicketModel> TicketList = (List<TicketModel>)response.Result;
@@ -239,7 +239,7 @@ namespace ProjFinalCinelAirAPI.Controllers
                 // Inserir o bilhete na tabela dos Travel_Ticket
                 _context.Travel_Ticket.Add(new Travel_Ticket
                 {
-                    TicketId = ticket.Id,
+                    TicketId = Convert.ToInt32(ticket.ticketId),
                     Travel_Date = ticket.Date,
                     DepartureCity = ticket.From,
                     ArrivalCity = ticket.To,
@@ -257,7 +257,7 @@ namespace ProjFinalCinelAirAPI.Controllers
                 // Inserir o bilhete na tabela dos Travel_Ticket
                 _context.Travel_Ticket.Add(new Travel_Ticket
                 {
-                    TicketId = ticket.Id,
+                    TicketId = Convert.ToInt32(ticket.ticketId),
                     Travel_Date = ticket.Date,
                     DepartureCity = ticket.From,
                     ArrivalCity = ticket.To,
@@ -306,7 +306,7 @@ namespace ProjFinalCinelAirAPI.Controllers
         {
             // Ir à tabela de milhas status e contabilizar as milhas disponiveis
 
-           var list = _context.Mile_Status.Where(x=> x.Validity >= DateTime.Now && x.available_Miles_Status>0).ToList();
+           var list = _context.Mile_Status.Where(x=> x.Validity >= DateTime.Now && x.available_Miles_Status>0 && x.ClientId == client.Id).ToList();
 
             int miles_status = 0;
 
@@ -326,25 +326,25 @@ namespace ProjFinalCinelAirAPI.Controllers
 
         }
 
-        private void UpdateMilesBonus(Client client)
+        private void UpdateMilesBonus(Client client) // Actualizar o campo que está como propriedade no cliente
         {
 
             // Ir à tabela de milhas status e contabilizar as milhas disponiveis
 
-            var list = _context.Mile_Bonus.Where(x => x.Validity >= DateTime.Now && x.available_Miles_Bonus > 0).ToList();
+            var list = _context.Mile_Bonus.Where(x => x.Validity >= DateTime.Now && x.available_Miles_Bonus > 0 && x.ClientId == client.Id).ToList();
 
-            int miles_status = 0;
+            int miles_bonus = 0;
 
             foreach (var item in list)
             {
-                miles_status += item.available_Miles_Bonus;
+                miles_bonus += item.available_Miles_Bonus;
 
             }
 
             // Realizar a actualização das milhas no cliente
             var clientQuery = (from inputClient in _context.Client where inputClient.Id == client.Id select inputClient).ToList(); // Obtenho o cliente
 
-            clientQuery.ForEach(x => x.Miles_Status = miles_status); // Actualizar o campo das milhas status
+            clientQuery.ForEach(x => x.Miles_Bonus = miles_bonus); // Actualizar o campo das milhas status
 
             _context.SaveChanges();
         }

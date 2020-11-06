@@ -9,7 +9,7 @@ namespace ProjFinalCinelAirAPI.Models
     {
         public int Id { get; set; }
 
-        public int ticketId { get; set; }
+        public string ticketId { get; set; }
 
         public int ClientNumber { get; set; }
 
