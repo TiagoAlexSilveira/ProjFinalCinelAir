@@ -8,6 +8,7 @@ namespace ProjFinalCinelAir.CommonCore.Data
     public class DataContext : IdentityDbContext<User>
     {
 
+
         public DbSet<Client> Client { get; set; }
 
         public DbSet<Travel_Ticket> Travel_Ticket { get; set; }
@@ -26,6 +27,11 @@ namespace ProjFinalCinelAir.CommonCore.Data
 
         public DbSet<Notification> Notification { get; set; }
 
+        public DbSet<Country> Country { get; set; }
+
+        public DbSet<City> City { get; set; }
+
+        public DbSet<Employee> Employee { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {

@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
-using ProjFinalCinelAirClient.Helpers;
+using ProjFinalCinelAirAdmin.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProjFinalCinelAirClient.Data
+namespace ProjFinalCinelAirAdmin.Data
 {
     public class SeedDb
     {
@@ -32,7 +32,6 @@ namespace ProjFinalCinelAirClient.Data
             await _userHelper.CheckRoleAsync("SuperUser");
             await _userHelper.CheckRoleAsync("RegularUser");
             #endregion
-
 
 
             #region Criar Cidades e País
@@ -60,7 +59,7 @@ namespace ProjFinalCinelAirClient.Data
             if (user == null)
             {
                 user = new User
-                {
+                {                    
                     Email = "tsilveira01@gmail.com",
                     UserName = "tsilveira01@gmail.com",
                 };
@@ -202,7 +201,7 @@ namespace ProjFinalCinelAirClient.Data
         }
 
 
-        private void Add_Travel_Ticket(int ticket_id, DateTime travel_date, string departure_city, string arrival_city, int clientId, int rateId, int miles_status_id, int miles_bonus_id)
+        private void Add_Travel_Ticket(int ticket_id, DateTime travel_date, string departure_city, string arrival_city, int clientId, int rateId, int miles_status_id, int miles_bonus_id )
         {
             _context.Travel_Ticket.Add(new Travel_Ticket
             {
@@ -254,7 +253,7 @@ namespace ProjFinalCinelAirClient.Data
             _context.Historic_Status.Add(new Historic_Status
             {
                 Start_Date = start,
-                End_Date = end,
+                End_Date = end, 
                 isValidated = isValidated,
                 StatusId = statusId,
                 ClientId = clientId
