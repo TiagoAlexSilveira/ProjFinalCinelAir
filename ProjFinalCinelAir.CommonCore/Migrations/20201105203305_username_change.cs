@@ -2,7 +2,7 @@
 
 namespace ProjFinalCinelAir.CommonCore.Migrations
 {
-    public partial class emailOnUser : Migration
+    public partial class username_change : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

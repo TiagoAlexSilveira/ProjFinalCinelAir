@@ -34,7 +34,7 @@ namespace ProjFinalCinelAirClient.Data
                 user = new User
                 {                    
                     Email = "tsilveira01@gmail.com",
-                    UserName = "100000001",
+                    UserName = "tsilveira01@gmail.com",
                 };
 
                 var client = new Client
@@ -79,7 +79,7 @@ namespace ProjFinalCinelAirClient.Data
                 user2 = new User
                 {
                     Email = "dcruzsimoes@gmail.com",
-                    UserName = "100000002",
+                    UserName = "dcruzsimoes@gmail.com",
                 };
 
                 var client2 = new Client
