@@ -15,7 +15,7 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         public bool isValidated { get; set; }
 
 
-        //public bool wasNominated {get; set;} //preciso desta propriedade porque os que são nomeados gold não podem nomear mais ninguém
+        public bool wasNominated { get; set; } //preciso desta propriedade porque os que são nomeados gold não podem nomear mais ninguém
 
         public int StatusId { get; set; }
 

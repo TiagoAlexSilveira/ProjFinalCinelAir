@@ -8,8 +8,9 @@ namespace ProjFinalCinelAirClient.Data.Repositories
 {
     public interface IHistoric_StatusRepository : IGenericRepository<Historic_Status>
     {
+        Historic_Status GetClientHistoric_StatusByEmail(string email);
+
         Historic_Status GetClientHistoric_StatusById(int id);
 
-        Historic_Status GetClientStatusByEmail(string email);
     }
 }

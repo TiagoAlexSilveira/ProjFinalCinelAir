@@ -29,10 +29,11 @@ namespace ProjFinalCinelAirClient.Data.Repositories
 
         public Historic_Status GetClientHistoric_StatusById(int id)
         {
-            var status = _context.Historic_Status.FirstOrDefault(e => e.ClientId == client.Id);
+            var status = _context.Historic_Status.FirstOrDefault(e => e.ClientId == id);
 
             return status;
         }
 
+ 
     }
 }
