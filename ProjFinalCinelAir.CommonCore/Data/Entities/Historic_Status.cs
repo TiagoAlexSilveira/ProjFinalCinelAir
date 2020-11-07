@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ProjFinalCinelAir.CommonCore.Data.Entities
 {
@@ -16,7 +14,9 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
 
         public bool isValidated { get; set; }
 
-        
+
+        //public bool wasNominated {get; set;} //preciso desta propriedade porque os que são nomeados gold não podem nomear mais ninguém
+
         public int StatusId { get; set; }
 
         public Status Status { get; set; }

@@ -59,10 +59,9 @@ namespace ProjFinalCinelAirAdmin.Data
             if (user == null)
             {
                 user = new User
-                {                    
+                {
                     Email = "tsilveira01@gmail.com",
                     UserName = "tsilveira01@gmail.com",
-                    CityId = 1
                 };
 
                 var client = new Client
@@ -77,6 +76,7 @@ namespace ProjFinalCinelAirAdmin.Data
                     JoinDate = Convert.ToDateTime("2020-01-05"),
                     UserId = user.Id,
                     StreetAddress = "Rua das Ruas",
+                    
                 };
 
 

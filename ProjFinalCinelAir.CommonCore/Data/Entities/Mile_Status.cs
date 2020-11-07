@@ -8,11 +8,11 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
     {
         public int Id { get; set; }
 
-        public int Miles_Number { get; set; }
+        public int Miles_Number { get; set; }  //recebe depois de um voo
 
         public DateTime Validity { get; set; }
 
-        public int available_Miles_Status { get; set; }
+        public int available_Miles_Status { get; set; }   //milhas válidas depois de feitas o voo ou movimentos(tipo compra antes de voo)
 
         public int ClientId { get; set; }
 

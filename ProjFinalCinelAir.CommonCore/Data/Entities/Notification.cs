@@ -18,7 +18,5 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
 
         public DateTime Date { get; set; }
 
-
-
     }
 }
