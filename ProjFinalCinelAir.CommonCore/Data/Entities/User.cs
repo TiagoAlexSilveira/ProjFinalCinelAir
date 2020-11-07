@@ -35,7 +35,7 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
-        public DateTime DateofBirth { get; set; }
+        public DateTime? DateofBirth { get; set; }
 
 
         [Display(Name = "Tax Number")]
