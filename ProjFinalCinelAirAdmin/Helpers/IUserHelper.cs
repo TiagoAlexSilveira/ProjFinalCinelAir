@@ -15,7 +15,7 @@ namespace ProjFinalCinelAirAdmin.Helpers
 
         Task<SignInResult> LoginAsyncWithEmail(LoginViewModel model); 
 
-        //Task<SignInResult> LoginAsyncWithClientNumber(LoginViewModel model);
+        Task<SignInResult> LoginAsyncWithClientNumber(LoginViewModel model);
 
         Task LogoutAsync();
 

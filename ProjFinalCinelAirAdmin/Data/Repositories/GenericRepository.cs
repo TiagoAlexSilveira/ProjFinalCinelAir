@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,13 +10,15 @@ namespace ProjFinalCinelAirAdmin.Data.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
     {
-        //tem de levar context 
         private readonly DataContext _context;
+
+
 
         public GenericRepository(DataContext context)
         {
             _context = context;
         }
+
 
 
         public async Task CreateAsync(T entity)
@@ -23,12 +27,10 @@ namespace ProjFinalCinelAirAdmin.Data.Repositories
             await SaveAllAsync();
         }
 
-
         private async Task<bool> SaveAllAsync()
         {
-            return await _context.SaveChangesAsync() > 0;
+            return await _context.SaveChangesAsync() > 0; // Retorna true se tiver realizado alguma mudança
         }
-
 
         public async Task DeleteAsync(T entity)
         {
@@ -37,28 +39,30 @@ namespace ProjFinalCinelAirAdmin.Data.Repositories
         }
 
 
-        public async Task<bool> ExistAsync(int id)
+        public Task<bool> ExistsAsync(int id)
         {
-            return await _context.Set<T>().AnyAsync(e => e.Id == id);
+            return _context.Set<T>().AnyAsync(e => e.Id == id);
         }
 
 
         public IQueryable<T> GetAll()
-        {                                            //não quero ficar com os registos em memória
-            return _context.Set<T>().AsNoTracking(); //se não meter AsNoTracking() ele guarda-me todos os registos em memória
+        {
+            //Usar o método set para realizar as queries
+            return _context.Set<T>().AsNoTracking(); // Coloco os AsNoTracking para não guardar os registos em memória
         }
 
 
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _context.Set<T>().AsNoTracking<T>().FirstOrDefaultAsync(e => e.Id == id); //reconhece o id pela outra interface que implementámos
+            return await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
         }
 
 
-        public async Task UpdateAsync(T entity)
+        public async Task UpDateAsync(T entity)
         {
             _context.Set<T>().Update(entity);
             await SaveAllAsync();
+
         }
     }
 }

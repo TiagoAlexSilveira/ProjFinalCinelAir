@@ -63,6 +63,7 @@ namespace ProjFinalCinelAirClient.Data
                 {
                     Email = "tsilveira01@gmail.com",
                     UserName = "tsilveira01@gmail.com",
+                    CityId = 1
                 };
 
                 var client = new Client
@@ -108,6 +109,7 @@ namespace ProjFinalCinelAirClient.Data
                 {
                     Email = "dcruzsimoes@gmail.com",
                     UserName = "dcruzsimoes@gmail.com",
+                    CityId = 1
                 };
 
                 var client2 = new Client
@@ -144,6 +146,40 @@ namespace ProjFinalCinelAirClient.Data
             }
 
 
+
+            #region Criar Admin
+
+            var admin = await _userHelper.GetUserByEmailAsync("admincinelair@yopmail.com");
+            if (admin == null)
+            {
+                admin = new User
+                {
+                    Email = "admincinelair@yopmail.com",
+                    UserName = "admincinelair@yopmail.com",
+                    CityId = 1,
+                    FirstName = "Maria",
+                    LastName = "Augusta",
+                    TaxNumber = 111111111
+                };
+
+                var resultAdmin = await _userHelper.AddUserAsync(admin, "123456");  //cria um user com aqueles dados e aquela password
+                if (resultAdmin != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create the admin in seeder");
+                }
+
+            }
+
+            var IsInRoleAdmim = await _userHelper.IsUserInRoleAsync(admin, "Admin");
+            var tokenAdmin = await _userHelper.GenerateEmailConfirmationTokenAsync(admin);
+            await _userHelper.ConfirmEmailAsync(admin, tokenAdmin);
+
+            if (!IsInRoleAdmim)
+            {
+                await _userHelper.AddUserToRoleAsync(admin, "Admin");
+            }
+
+            #endregion
 
 
             if (!_context.Status.Any())

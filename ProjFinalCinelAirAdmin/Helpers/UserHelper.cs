@@ -89,14 +89,14 @@ namespace ProjFinalCinelAirAdmin.Helpers
                 false);
         }
 
-        //public async Task<SignInResult> LoginAsyncWithClientNumber(LoginViewModel model)
-        //{
-        //    return await _signInManager.PasswordSignInAsync(
-        //        model.Client_Number,
-        //        model.Password,
-        //        model.RememberMe,
-        //        false);
-        //}
+        public async Task<SignInResult> LoginAsyncWithClientNumber(LoginViewModel model)
+        {
+            return await _signInManager.PasswordSignInAsync(
+                model.Client_Number,
+                model.Password,
+                model.RememberMe,
+                false);
+        }
 
         public async Task LogoutAsync()
         {

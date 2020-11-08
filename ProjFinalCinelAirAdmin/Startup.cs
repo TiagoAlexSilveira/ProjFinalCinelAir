@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
 using ProjFinalCinelAirAdmin.Data;
+using ProjFinalCinelAirAdmin.Data.Repositories;
 using ProjFinalCinelAirAdmin.Helpers;
 
 namespace ProjFinalCinelAirAdmin
@@ -26,6 +22,9 @@ namespace ProjFinalCinelAirAdmin
         }
 
         public IConfiguration Configuration { get; }
+
+
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -42,8 +41,8 @@ namespace ProjFinalCinelAirAdmin
                 cfg.Password.RequireNonAlphanumeric = false;
                 cfg.Password.RequiredLength = 6;
             })
-              .AddDefaultTokenProviders()        //Extension Methods, métodos que chamam outros
-              .AddEntityFrameworkStores<DataContext>();
+                .AddDefaultTokenProviders()        //Extension Methods, métodos que chamam outros
+                .AddEntityFrameworkStores<DataContext>();
 
             //services.AddAuthentication().AddCookie().AddJwtBearer(cfg =>
             //{
@@ -66,7 +65,9 @@ namespace ProjFinalCinelAirAdmin
 
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
-     
+            services.AddScoped<ICountryRepository, CountryRepository>();
+
+
 
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -78,8 +79,8 @@ namespace ProjFinalCinelAirAdmin
 
 
             services.AddControllersWithViews();
-          
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -94,9 +95,11 @@ namespace ProjFinalCinelAirAdmin
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            // Para todas as páginas: Lidar com o erro 404 qd as actions não existem
+            app.UseStatusCodePagesWithReExecute("/error/{0}");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();

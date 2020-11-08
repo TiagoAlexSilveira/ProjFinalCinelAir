@@ -10,7 +10,6 @@ namespace ProjFinalCinelAirAdmin.Data.Repositories
 {
     public interface ICountryRepository : IGenericRepository<Country>
 	{
-
 		IQueryable GetCountriesWithCities();
 
 
@@ -32,10 +31,8 @@ namespace ProjFinalCinelAirAdmin.Data.Repositories
 		IEnumerable<SelectListItem> GetComboCountries();
 
 
-		IEnumerable<SelectListItem> GetComboCities(int conuntryId);
+		Task<IEnumerable<SelectListItem>> GetComboCities(int countryId);
 
 		Country GetCountryAsync(City city);
-
-
-	}
+    }
 }

@@ -52,7 +52,7 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         [Display(Name = "Full Name")]
         public string FullName => $"{this.FirstName} {this.LastName}";
 
-
+        public bool isActive { get; set; }
 
     }
 }
