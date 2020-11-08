@@ -60,6 +60,36 @@ namespace ProjFinalCinelAirClient.Data.Repositories
         }
 
 
+        /// <summary>
+        /// Return a list of all clients that have status Basic or Silver
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public IList<Client> GetAllClientsWithStatusBasicOrSilver()
+        {
+            var client = _context.Client;
+            var historic_status = _context.Historic_Status;
+            var notGoldClientList = new List<Client>();
+
+            foreach (var cl in client)
+            {
+                foreach (var hs in historic_status)
+                {
+                    if (hs.ClientId == cl.Id)
+                    {
+                        if (hs.StatusId == 2 || hs.StatusId == 3)
+                        {
+                            notGoldClientList.Add(cl);
+                        }
+                    }
+                }
+            }
+
+            return notGoldClientList;
+
+        }
+
+
 
 
 

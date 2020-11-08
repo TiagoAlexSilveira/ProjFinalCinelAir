@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ProjFinalCinelAir.CommonCore.Data.Entities;
 using ProjFinalCinelAirClient.Data.Repositories;
 using ProjFinalCinelAirClient.Helpers;
 using ProjFinalCinelAirClient.Models;
@@ -64,7 +65,7 @@ namespace ProjFinalCinelAirClient.Controllers
             //maybe i don't need this(ou tiro os valores pelo cliente ou pelas tables de status e bonus)
             var bonus_miles = _mile_BonusRepository.GetAll().Where(o => o.ClientId == client.Id && o.Validity >= DateTime.Now);
             var status_miles = _mile_StatusRepository.GetAll().Where(o => o.ClientId == client.Id && o.Validity >= DateTime.Now);
-            
+
             var totalstatus_miles = status_miles.Sum(i => i.available_Miles_Status);
             var totalbonus_miles = bonus_miles.Sum(i => i.available_Miles_Bonus);
 
@@ -86,18 +87,118 @@ namespace ProjFinalCinelAirClient.Controllers
             return View(model);
         }
 
-        /*public async Task<IActionResult> Nominate_Gold()
+
+        public IActionResult Nominate_Gold()
         {
             var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
-            var status = _statusRepository.GetClientStatusById(client.Id);
+            //var status = _statusRepository.GetClientStatusById(client.Id);
 
             var clientList = _clientRepository.GetAll().ToList();
+            var historic_status = _historic_StatusRepository.GetAll().ToList();
+            List<Client> NotgoldClientList = new List<Client>();
+
+            //get all clients with gold status
+            foreach (var cl in clientList)
+            {
+                foreach (var hs in historic_status)
+                {
+                    if (hs.ClientId == cl.Id)
+                    {
+                        if (hs.StatusId == 2 || hs.StatusId == 3)
+                        {
+                            NotgoldClientList.Add(cl);
+                        }
+                    }                
+                }
+            }
 
             var model = new NominateGoldViewModel
             {
+                ClientList = NotgoldClientList
+            };
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Nominate_Gold2(string searchInput)
+        {
+            ViewData["GetSearch"] = searchInput;
+
+            var clients = _clientRepository.GetAllClientsWithStatusBasicOrSilver().AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchInput))
+            {               
+                clients = clients.Where(o => o.FirstName.Contains(searchInput) || o.Client_Number.ToString().Contains(searchInput));
+            }
+
+            var vmodel = new NominateGoldViewModel
+            {
+                ClientList = clients.ToList()
+            };
+            return View("Nominate_Gold", vmodel);
+            
+        }
+
+
+        public async Task<IActionResult> Nominate_Gold_Confirm(int Id)
+        {
+            //var client = await _clientRepository.GetByIdAsync(id);
+            var hstatus = _historic_StatusRepository.GetClientHistoric_StatusById(Id);
+
+            hstatus.StatusId = 1;
+            hstatus.Start_Date = DateTime.Now;
+            hstatus.End_Date = hstatus.Start_Date.AddYears(1);
+            hstatus.wasNominated = true;
+            //TODO: fazer com que o user que nomeou não consiga nomear outra vez
+            //TODO: mandar notificação a este user que recebeu o status gold
+
+            await _historic_StatusRepository.UpdateAsync(hstatus);
+
+            //TODO: apresentar mensagem nomenation sucessful
+            return RedirectToAction("Index");
+
+        }
+
+
+        public IActionResult Donate_Miles()
+        {
+            var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+
+            //TODO: lista de companhias para donativos
+            //var companyDonationList = _donationRepository
+
+            /*var model = new DonationViewModel
+            {
+
+            };*/
+
+            return View();
+        }
+
+
+        public IActionResult Partners()
+        {
+            //TODO: fazer partners repository, model e view
+           return View();
+        }
+
+
+
+        public async Task<IActionResult> CinelAir_Card()
+        {
+            var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+            var hstatus = _historic_StatusRepository.GetClientHistoric_StatusById(client.Id);
+
+            //TODO: fazer card repository, acabar model e view
+            var model = new CinelAirCardViewModel
+            {
 
             };
-        }*/
+
+            return View();
+        }
+
 
 
         /*public async Task<IActionResult> UpgradeWithMiles()
@@ -106,27 +207,11 @@ namespace ProjFinalCinelAirClient.Controllers
         }
 
 
-        public async Task<IActionResult> Partners()
-        {
+       
 
-        }
-
-
-        public async Task<IActionResult> CinelAir_Card()
-        {
-
-        }
+*/
 
 
-        public async Task<IActionResult> Nomenate_Gold()
-        {
 
-        }
-
-
-        public async Task<IActionResult> Donate_Miles()
-        {
-
-        }*/
     }
 }

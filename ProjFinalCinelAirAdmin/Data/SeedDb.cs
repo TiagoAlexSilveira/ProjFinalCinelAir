@@ -62,6 +62,7 @@ namespace ProjFinalCinelAirAdmin.Data
                 {
                     Email = "tsilveira01@gmail.com",
                     UserName = "tsilveira01@gmail.com",
+                    CityId = 1
                 };
 
                 var client = new Client

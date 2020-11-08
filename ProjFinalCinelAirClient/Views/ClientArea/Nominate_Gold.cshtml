@@ -1,0 +1,47 @@
+﻿@model ProjFinalCinelAirClient.Models.NominateGoldViewModel
+@{
+    ViewData["Title"] = "Nominate Gold";
+}
+
+
+<partial name="_MainMenuPartial" />
+
+<form method="get" asp-action="Nominate_Gold2">
+    <p>
+        <input type="search" placeholder="Enter First Name or Client Number" value="@ViewData["GetSearch"]" name="searchInput" style="width: 300px" />
+        <input type="submit" value="Search" class="btn btn-primary" />
+        <a asp-action="Nominate_Gold">Get all Clients</a>
+    </p>
+
+</form>
+
+<table class="table table-bordered table-hover" id="table_status" >
+    <thead class="thead-dark" style="text-align:center">
+        <tr>
+            <th>
+                First Name
+            </th>
+            <th>
+                Client Number
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ClientList)
+        {
+            <tr class="text-center">
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Client_Number)
+                </td>     
+                <td>
+                    <a asp-action="Nominate_Gold_Confirm" asp-controller="ClientArea" asp-route-id="@item.Id"><i class="fa fa-check"></i>Nominate Gold</a> 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
