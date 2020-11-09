@@ -65,8 +65,8 @@ namespace ProjFinalCinelAirAdmin.Data
                     UserName = "tsilveira01@gmail.com",
                     CityId = 1,
                     isActive = true,
-                    TaxNumber = 354647362,
-                    Identification = "63547589",
+                    
+                    
                 };
 
                 var client = new Client
@@ -81,6 +81,7 @@ namespace ProjFinalCinelAirAdmin.Data
                     JoinDate = Convert.ToDateTime("2020-01-05"),
                     UserId = user.Id,
                     StreetAddress = "Rua das Ruas",
+                    isClientNumberConfirmed = true,
                 };
 
 
@@ -130,6 +131,7 @@ namespace ProjFinalCinelAirAdmin.Data
                     JoinDate = Convert.ToDateTime("2019-10-05"),
                     UserId = user2.Id,
                     StreetAddress = "Travessa das Flores",
+                    isClientNumberConfirmed = false,
                 };
 
 

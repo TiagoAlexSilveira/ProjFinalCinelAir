@@ -71,7 +71,11 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         
         public string UserId { get; set; }
 
+
         public User User { get; set; }
+
+
+        public bool isClientNumberConfirmed { get; set; }
        
     }
 }

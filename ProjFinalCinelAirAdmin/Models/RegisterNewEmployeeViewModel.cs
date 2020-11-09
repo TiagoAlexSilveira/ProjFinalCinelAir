@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjFinalCinelAirAdmin.Models
 {
-    public class ChangeUserViewModel
+    public class RegisterNewEmployeeViewModel
     {
         [Required]
         [Display(Name = "First Name")]
@@ -23,12 +23,11 @@ namespace ProjFinalCinelAirAdmin.Models
         [DataType(DataType.EmailAddress)]
         public string Username { get; set; }
 
+       
+        public string Email { get; set; }
 
         [MaxLength(100, ErrorMessage = "The field {0} only can contain {1} characters.")]
-        public string Address { get; set; }
-
-        [MaxLength(100, ErrorMessage = "The field {0} only can contain {1} characters.")]
-        public string PostalCode { get; set; }
+        public string StreetAdress { get; set; }
 
 
         [MaxLength(20, ErrorMessage = "The field {0} only can contain {1} characters.")]
@@ -48,22 +47,46 @@ namespace ProjFinalCinelAirAdmin.Models
         public int CountryId { get; set; }
 
 
+        [Required]
+        [Display(Name = "Postal Code")]
+        public string PostalCode { get; set; }
+
+
         public IEnumerable<SelectListItem> Countries { get; set; }
+
+
+        public IEnumerable<SelectListItem> Category { get; set; }
+
+        [Required]
+        public string CategoryId { get; set; }
+
+
+        [Required]
+        public string Password { get; set; }
+
+        [Required]
+        [Compare("Password")]
+        public string Confirm { get; set; }
 
         [Required]
         [Display(Name = "Tax Number")]
         public int TaxNumber { get; set; }
 
         [Required]
-        [Display(Name = "Identification")]
+        [Display(Name = "Identification Number")]
         public string Identification { get; set; }
 
-
+        
         [Required]
+        [Display(Name = "Start Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = false)]
+        public DateTime JoinDate { get; set; }
+
+
+        [DataType(DataType.Date)]
         [Display(Name = "Date of Birth")]
-        public DateTime DateOfBirth { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
+        public DateTime? DateofBirth { get; set; }
 
-        [Required]
-        public bool isActive { get; set; }
     }
 }

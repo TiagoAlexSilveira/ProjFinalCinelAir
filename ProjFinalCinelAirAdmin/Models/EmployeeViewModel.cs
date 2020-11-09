@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using ProjFinalCinelAir.CommonCore.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,32 +9,32 @@ using System.Threading.Tasks;
 
 namespace ProjFinalCinelAirAdmin.Models
 {
-    public class ChangeUserViewModel
+    public class EmployeeViewModel : IdentityUser
     {
-        [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
 
-        [Required]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
 
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        public string Username { get; set; }
+        [Display(Name = "Image")]
+        public string ImageUrl { get; set; }
 
 
-        [MaxLength(100, ErrorMessage = "The field {0} only can contain {1} characters.")]
-        public string Address { get; set; }
+        [Display(Name = "Street Address")]
+        public string StreetAddress { get; set; }
 
-        [MaxLength(100, ErrorMessage = "The field {0} only can contain {1} characters.")]
+
+        [Display(Name = "Postal Code")]
         public string PostalCode { get; set; }
 
 
-        [MaxLength(20, ErrorMessage = "The field {0} only can contain {1} characters.")]
-        public string PhoneNumber { get; set; }
+        public string CityName { get; set; }
+
+        public City City { get; set; }
+
 
 
         [Display(Name = "City")]
@@ -50,20 +52,29 @@ namespace ProjFinalCinelAirAdmin.Models
 
         public IEnumerable<SelectListItem> Countries { get; set; }
 
-        [Required]
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
+        public DateTime? DateofBirth { get; set; }
+
+
         [Display(Name = "Tax Number")]
         public int TaxNumber { get; set; }
 
-        [Required]
-        [Display(Name = "Identification")]
+
+        [Display(Name = "Citizen Card Number")]
         public string Identification { get; set; }
 
 
-        [Required]
-        [Display(Name = "Date of Birth")]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime JoinDate { get; set; }
 
-        [Required]
+
+        [Display(Name = "Full Name")]
+        public string FullName => $"{this.FirstName} {this.LastName}";
+
         public bool isActive { get; set; }
+
+        public string RoleName { get; set; }
+
     }
 }
