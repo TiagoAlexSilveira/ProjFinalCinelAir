@@ -183,6 +183,20 @@ namespace ProjFinalCinelAirClient.Data
                 await _context.SaveChangesAsync();
             }
 
+            if (!_context.BuyMilesShop.Any())
+            {
+                this.Add_BuyMilesShop(2000, 50);
+                this.Add_BuyMilesShop(4000, 70);
+                this.Add_BuyMilesShop(6000, 90);
+                this.Add_BuyMilesShop(10000, 110);
+                this.Add_BuyMilesShop(12000, 130);
+                this.Add_BuyMilesShop(14000, 150);
+                this.Add_BuyMilesShop(16000, 170);
+                this.Add_BuyMilesShop(18000, 190);
+                this.Add_BuyMilesShop(20000, 210);
+            }
+
+
             if (!_context.Historic_Status.Any())
             {
                 this.Add_Historic_Status(Convert.ToDateTime("2020-01-05"), null, true, 1, 1);
@@ -260,6 +274,15 @@ namespace ProjFinalCinelAirClient.Data
                 isValidated = isValidated,
                 StatusId = statusId,
                 ClientId = clientId
+            });
+        }
+
+        private void Add_BuyMilesShop(int mileQuantity, decimal price)
+        {
+            _context.BuyMilesShop.Add(new BuyMilesShop
+            {
+                MileQuantity = mileQuantity,
+                Price = price
             });
         }
 

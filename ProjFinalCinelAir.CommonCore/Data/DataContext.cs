@@ -31,6 +31,12 @@ namespace ProjFinalCinelAir.CommonCore.Data
 
         public DbSet<City> City { get; set; }
 
+        public DbSet<BuyMilesShop> BuyMilesShop { get; set; }
+
+        public DbSet<Card> Card { get; set; }
+
+        public DbSet<Partner> Partner { get; set; }
+
 
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)

@@ -1,0 +1,100 @@
+﻿@model ProjFinalCinelAirClient.Models.BuyMilesViewModel
+@{
+    ViewData["Title"] = "BuyMiles";
+}
+
+<partial name="_MainMenuPartial" />
+
+<br />
+<div class="col-12 text-center">
+    <h2>Buy Miles</h2>
+</div>
+<br />
+
+
+<form method="post">
+    
+    <div class="row" style="font-weight: bold; grid-row-gap: 1em">
+        @foreach (var item in Model.ShopList)
+        {
+            <div class="col-md-3" style="height:60px;border: solid 1px black">
+                <div class="row">
+                    <div class="col-md-5">
+                        @item.MileQuantity
+                    </div>
+                    <div class="col-md-3">
+                        @item.Price
+                    </div>
+                    <div class="col-md-3">
+                        <input value="" type="radio" onchange="getData(@item.Id)" asp-for="@item.MileQuantity" id="@item.MileQuantity" />
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+    <br />
+    <div row id="total_div" style="visibility:hidden; border: 1px solid black">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-5">
+            <p>Buy <span id="milesPicked"></span></p>
+            <p>You will have <span id="haveMiles"></span> Miles after this purchase</p>
+        </div>
+        <div class="col-md-2">
+            Total: <span id="totalMoney"></span>€
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>
+
+    <button id="finish" value="Finish Purchase" onclick="submitPurchase(this.name)"  style="visibility:hidden" class="btn btn-primary">finish</button>
+ 
+</form>
+
+<script type="text/javascript">
+    function getData(Id) {
+        var totalElem = document.getElementById("total_div")
+        var finishElem = document.getElementById("finish")
+        var milesPickedElem = document.getElementById("milesPicked")
+        var haveMilesElem = document.getElementById("haveMiles")
+        var totalMoneyElem = document.getElementById("totalMoney")
+
+        totalElem.style.visibility = "visible";
+
+        @foreach (var product in Model.ShopList)
+        {
+            <text>
+                if ('@product.Id' == Id) {
+
+                    milesPickedElem.textContent = '@product.MileQuantity';
+                    haveMilesElem.textContent = '@Model.Miles_Bonus' + '@product.MileQuantity';
+                    totalMoneyElem.textContent = '@product.Price';
+
+                    finishElem.name = '@product.Id';
+                    finishElem.style.display = "inline";
+                    finishElem.style.visibility = "visible";
+                }
+            </text>
+
+        }
+    }
+
+
+    function submitPurchase(id) {
+        console.log(id)
+
+         $.ajax({
+             url: "@Url.Action("MileShopBuyMiles", "ClientArea")",
+             type: 'Post',
+             data: { id: id },
+             success: function (res) {
+                
+             }
+         })
+    }
+
+</script>
+

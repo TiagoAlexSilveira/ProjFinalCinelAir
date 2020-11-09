@@ -20,11 +20,14 @@ namespace ProjFinalCinelAirClient.Controllers
         private readonly INotificationRepository _notificationRepository;
         private readonly IHistoric_StatusRepository _historic_StatusRepository;
         private readonly IStatusRepository _statusRepository;
+        private readonly ITravel_TicketRepository _travel_TicketRepository;
+        private readonly IBuyMilesShopRepository _buyMilesShopRepository;
 
         public ClientAreaController(IClientRepository clientRepository, IUserHelper userHelper,
                                     IMile_BonusRepository mile_BonusRepository, IMile_StatusRepository mile_StatusRepository,
                                     ITransactionRepository transactionRepository, INotificationRepository notificationRepository,
-                                    IHistoric_StatusRepository historic_StatusRepository, IStatusRepository statusRepository)
+                                    IHistoric_StatusRepository historic_StatusRepository, IStatusRepository statusRepository,
+                                    ITravel_TicketRepository travel_TicketRepository, IBuyMilesShopRepository buyMilesShopRepository)
         {
             _clientRepository = clientRepository;
             _userHelper = userHelper;
@@ -34,6 +37,8 @@ namespace ProjFinalCinelAirClient.Controllers
             _notificationRepository = notificationRepository;
             _historic_StatusRepository = historic_StatusRepository;
             _statusRepository = statusRepository;
+            _travel_TicketRepository = travel_TicketRepository;
+            _buyMilesShopRepository = buyMilesShopRepository;
         }
 
         public IActionResult Index()
@@ -189,6 +194,7 @@ namespace ProjFinalCinelAirClient.Controllers
         {
             var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
             var hstatus = _historic_StatusRepository.GetClientHistoric_StatusById(client.Id);
+           
 
             //TODO: fazer card repository, acabar model e view
             var model = new CinelAirCardViewModel
@@ -201,15 +207,54 @@ namespace ProjFinalCinelAirClient.Controllers
 
 
 
-        /*public async Task<IActionResult> UpgradeWithMiles()
+        public async Task<IActionResult> UpgradeWithMiles()
         {
+            var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+            var ticket = _travel_TicketRepository.GetAll().Where(o => o.ClientId == client.Id);
+
+            var model = new UpgradeWithMilesViewModel
+            {
+
+            };
+
+            return View();
+        }
+
+
+        public IActionResult MileShopBuyMiles()
+        {
+            var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+            var ticket = _travel_TicketRepository.GetAll().Where(o => o.ClientId == client.Id);
+            var shop = _buyMilesShopRepository.GetAll();
+
+            var model = new BuyMilesViewModel
+            {
+                Id = client.Id,
+                FirstName = client.FirstName,
+                LastName = client.LastName,
+                Miles_Bonus = client.Miles_Bonus,
+                ShopList = shop.ToList()
+            };
+
+            return View(model);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MileShopBuyMiles(int id)
+        {
+            var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+            var shop = await _buyMilesShopRepository.GetByIdAsync(id);
+
+            //TODO: amanha há mais
+
+
+            return View();
 
         }
 
 
-       
 
-*/
 
 
 

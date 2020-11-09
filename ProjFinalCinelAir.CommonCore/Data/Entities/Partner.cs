@@ -5,8 +5,10 @@ using System.Text;
 
 namespace ProjFinalCinelAir.CommonCore.Data.Entities
 {
-    public class Partner
+    public class Partner : IEntity
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }

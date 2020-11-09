@@ -23,6 +23,8 @@
     <Compile Remove="Migrations\20201106024923_UpdateTransactionTable.Designer.cs" />
     <Compile Remove="Migrations\20201106125441_addedTablesCityCountryAndEmployee.cs" />
     <Compile Remove="Migrations\20201106125441_addedTablesCityCountryAndEmployee.Designer.cs" />
+    <Compile Remove="Migrations\20201108232945_add_Card_Partners_Shop.cs" />
+    <Compile Remove="Migrations\20201108232945_add_Card_Partners_Shop.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>   

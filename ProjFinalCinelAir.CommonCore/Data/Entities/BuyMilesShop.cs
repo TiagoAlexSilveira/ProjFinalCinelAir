@@ -4,12 +4,13 @@ using System.Text;
 
 namespace ProjFinalCinelAir.CommonCore.Data.Entities
 {
-    public class Card : IEntity
+    public class BuyMilesShop :IEntity
     {
         public int Id { get; set; }
-        //TODO: adicionar à base de dados
 
-        public DateTime validity { get; set; }
+        public int MileQuantity { get; set; }
+
+        public decimal Price { get; set; }
 
     }
 }
