@@ -125,6 +125,7 @@ namespace ProjFinalCinelAirClient.Controllers
             return View(model);
         }
 
+
         [HttpGet]
         public IActionResult Nominate_Gold2(string searchInput)
         {
@@ -237,7 +238,6 @@ namespace ProjFinalCinelAirClient.Controllers
             };
 
             return View(model);
-
         }
 
         [HttpPost]
@@ -248,13 +248,122 @@ namespace ProjFinalCinelAirClient.Controllers
 
             //TODO: amanha há mais
 
-
             return View();
-
         }
 
 
+        public IActionResult MileShopExtendMiles()
+        {
+            var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+            var ticket = _travel_TicketRepository.GetAll().Where(o => o.ClientId == client.Id);
+            var shop = _buyMilesShopRepository.GetAll();
 
+            var model = new BuyMilesViewModel
+            {
+                Id = client.Id,
+                FirstName = client.FirstName,
+                LastName = client.LastName,
+                Miles_Bonus = client.Miles_Bonus,
+                ShopList = shop.ToList()
+            };
+
+            return View(model);
+        }
+
+
+        public IActionResult MileShopTransferMiles()
+        {
+            var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+            var ticket = _travel_TicketRepository.GetAll().Where(o => o.ClientId == client.Id);
+            var clientList = _clientRepository.GetAll();
+            var shopt = _buyMilesShopRepository.GetAll().ToList();                                                        
+            List<BuyMilesShop> sList = new List<BuyMilesShop>();
+
+            //lista contém só milhas que o cliente pode transferir com base nas milhas já compradas ou transferidas
+            foreach(var item in shopt)
+            {
+                int aux = 20000 - client.AnnualMilesShopped;
+                if (item.MileQuantity <= aux)
+                {
+                    sList.Add(item);
+                }
+            }
+
+            var rmodel = new TransferMilesViewModel
+            {
+                Id = client.Id,
+                FirstName = client.FirstName,
+                LastName = client.LastName,
+                Miles_Bonus = client.Miles_Bonus,
+                AnnualMilesShopped = client.AnnualMilesShopped,
+                ClientList = clientList.ToList(),
+                ShopList = sList,
+                Message = ""
+            };
+
+            return View(rmodel);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> MileShopTransferMiles_Confirm(TransferMilesViewModel model)
+        {
+            var selectedClient = _clientRepository.GetClientByClientNumber(Convert.ToInt32(model.SelectedClientNumber));
+
+            if (model.SelectedRadio == 0)
+            {
+                TempData["radio"] = "Please select an amount";
+
+                return RedirectToAction("MileShopTransferMiles");
+            };
+
+            if (selectedClient != null)
+            {
+                var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+                var selectedAmount = await _buyMilesShopRepository.GetByIdAsync(model.SelectedRadio);
+                var clientBonus = _mile_BonusRepository.GetAll().Where(o => o.ClientId == client.Id);
+                var selectedClientBonus = _mile_BonusRepository.GetAll().Where(u => u.ClientId == selectedClient.Id);
+
+                client.Miles_Bonus -= selectedAmount.MileQuantity;
+                //TODO: falar com dulce sobre Miles_Bonus
+                selectedClient.Miles_Bonus += selectedAmount.MileQuantity;
+                var clientTransaction = new Transaction
+                {
+                    ClientId = client.Id,
+                    Miles = selectedAmount.MileQuantity,
+                    Date = DateTime.Now,
+                    Movement_Type = "Transfer",
+                    Description = $"You transfered {selectedAmount.MileQuantity} to {selectedClient.FirstName} with client number {selectedClient.Client_Number}",
+                    Balance_Miles_Bonus = client.Miles_Bonus - selectedAmount.MileQuantity,
+                    Balance_Miles_Status = client.Miles_Status
+                };
+                var selectedClientTransaction = new Transaction
+                {
+                    ClientId = selectedClient.Id,
+                    Miles = selectedAmount.MileQuantity,
+                    Date = DateTime.Now,
+                    Movement_Type = "Transfer",
+                    Description = $"You were transfered {selectedAmount.MileQuantity} by {client.FirstName} with client number {client.Client_Number}",
+                    Balance_Miles_Bonus = selectedClient.Miles_Bonus + selectedAmount.MileQuantity,
+                    Balance_Miles_Status = client.Miles_Status
+                };
+
+                await _clientRepository.UpdateAsync(client);
+                await _clientRepository.UpdateAsync(selectedClient);
+                await _transactionRepository.CreateAsync(clientTransaction);
+                await _transactionRepository.CreateAsync(selectedClientTransaction);
+
+                TempData["t"] = "Transfer completed sucessfully!";
+                //TODO: redirecionar para a mesma página mandar mensagem de success
+                return RedirectToAction("MileShopTransferMiles");               
+            }
+            else
+            {
+                TempData["t"] = "Selected Client does not exist!";
+
+                return RedirectToAction("MileShopTransferMiles");
+            }          
+        }
 
 
 

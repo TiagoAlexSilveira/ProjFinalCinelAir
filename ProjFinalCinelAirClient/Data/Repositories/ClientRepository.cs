@@ -33,6 +33,13 @@ namespace ProjFinalCinelAirClient.Data.Repositories
             return client;
         }
 
+        public Client GetClientByClientNumber(int number)
+        {
+            var client = _context.Client.FirstOrDefault(e => e.Client_Number == number);
+
+            return client;
+        }
+
 
         public User GetUserByClientId(int id)
         {
@@ -58,6 +65,7 @@ namespace ProjFinalCinelAirClient.Data.Repositories
 
             return list;
         }
+
 
 
         /// <summary>

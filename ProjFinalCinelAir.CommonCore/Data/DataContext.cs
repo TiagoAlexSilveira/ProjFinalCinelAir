@@ -65,7 +65,6 @@ namespace ProjFinalCinelAir.CommonCore.Data
                 .HasIndex(b => b.TaxNumber)
                 .IsUnique();
 
-
         
             // State Unique
             modelBuilder.Entity<Status>()

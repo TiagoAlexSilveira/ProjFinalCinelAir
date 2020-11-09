@@ -1,0 +1,139 @@
+﻿@model ProjFinalCinelAirClient.Models.BalanceViewModel
+@{
+    ViewData["Title"] = "Balance and Transactions";
+}
+
+<partial name="_MainMenuPartial" />
+
+<br />
+<br />
+
+<h2>Balance and Transactions</h2>
+
+<br />
+
+
+<div class="row">
+    <div id="div_bonus" class="btn" style="height: 5em; border:solid black 2px" onclick="ShowBonus()">
+        Bonus Miles = @Model.available_Miles_Bonus miles
+    </div>
+
+
+    <div id="div_status" class="btn" style="height: 5em; border:solid black 2px" onclick="ShowStatus()">
+        Bonus Miles = @Model.available_Miles_Status miles
+    </div>
+</div>
+
+
+<br />
+
+<table class="table table-bordered table-hover" id="table_status" style="display:none; visibility:hidden">
+    <thead class="thead-dark" style="text-align:center">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Movement_Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Miles)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Balance_Miles_Status)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TransactionList)
+        {
+            <tr class="text-center">
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Movement_Type)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Miles)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Balance_Miles_Status)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<table class="table table-bordered table-hover" id="table_bonus" style="display:none; visibility:hidden">
+    <thead class="thead-dark" style="text-align:center">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Movement_Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Miles)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Balance_Miles_Bonus)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TransactionList)
+        {
+            <tr class="text-center">
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Movement_Type)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Miles)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Balance_Miles_Bonus)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+<script>
+    function ShowStatus() {
+        var tableStatusElem = document.getElementById("table_status")
+        var tableBonusElem = document.getElementById("table_bonus")
+        tableBonusElem.style.visibility = "none";
+        tableBonusElem.style.display = "none";
+        tableStatusElem.style.visibility = "visible";
+        tableStatusElem.style.display = "inline";
+    }
+    function ShowBonus() {
+        var tableStatusElem = document.getElementById("table_status")
+        var tableBonusElem = document.getElementById("table_bonus")
+        tableStatusElem.style.visibility = "none";
+        tableStatusElem.style.display = "none";
+        tableBonusElem.style.visibility = "visible";
+        tableBonusElem.style.display = "inline";
+    }
+</script>

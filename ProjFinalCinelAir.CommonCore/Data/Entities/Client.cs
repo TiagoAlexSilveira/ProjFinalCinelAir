@@ -68,14 +68,14 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         [Display(Name = "Full Name")]
         public string FullName => $"{this.FirstName} {this.LastName}";
 
-        
-        public string UserId { get; set; }
 
+        public string UserId { get; set; }
 
         public User User { get; set; }
 
-
         public bool isClientNumberConfirmed { get; set; }
+
+        public int AnnualMilesShopped { get; set; } //limite anual de milhas compradas pelo cliente (máx 20000 milhas por ano)
        
     }
 }
