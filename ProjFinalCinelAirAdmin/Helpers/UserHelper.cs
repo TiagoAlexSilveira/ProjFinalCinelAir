@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
 using ProjFinalCinelAirAdmin.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProjFinalCinelAirAdmin.Helpers
@@ -11,16 +16,38 @@ namespace ProjFinalCinelAirAdmin.Helpers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly DataContext _context;
 
         public UserHelper(UserManager<User> userManager,
             SignInManager<User> signInManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            DataContext dataContext )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _context = dataContext;
         }
 
+
+        public async Task<string> GetRoleNameByIdAsync(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+
+            return role.Name;
+
+        }
+
+
+
+        public async Task<string> GetRoleNameAsync(User user)
+        {
+            var roleUser = await _context.UserRoles.Where(r => r.UserId == user.Id).FirstOrDefaultAsync();
+  
+            var role = await _roleManager.FindByIdAsync(Convert.ToString(roleUser.RoleId));
+            return role.Name;
+
+        }
 
         public async Task<IdentityResult> AddUserAsync(User user, string password)
         {
@@ -89,14 +116,14 @@ namespace ProjFinalCinelAirAdmin.Helpers
                 false);
         }
 
-        //public async Task<SignInResult> LoginAsyncWithClientNumber(LoginViewModel model)
-        //{
-        //    return await _signInManager.PasswordSignInAsync(
-        //        model.Client_Number,
-        //        model.Password,
-        //        model.RememberMe,
-        //        false);
-        //}
+        public async Task<SignInResult> LoginAsyncWithClientNumber(LoginViewModel model)
+        {
+            return await _signInManager.PasswordSignInAsync(
+                model.Client_Number,
+                model.Password,
+                model.RememberMe,
+                false);
+        }
 
         public async Task LogoutAsync()
         {
@@ -119,6 +146,13 @@ namespace ProjFinalCinelAirAdmin.Helpers
                 user,
                 password,
                 false);
+        }
+
+        public async Task<IList<User>> GetUsersInRoleAsync(string role)
+        {
+
+            return await _userManager.GetUsersInRoleAsync(role);
+
         }
     }
 }

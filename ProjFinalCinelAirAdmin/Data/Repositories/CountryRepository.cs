@@ -14,8 +14,6 @@ namespace ProjFinalCinelAirAdmin.Data.Repositories
     {
         private readonly DataContext _context;
 
-
-
         public CountryRepository(DataContext context) : base(context)
         {
             _context = context;
@@ -35,6 +33,8 @@ namespace ProjFinalCinelAirAdmin.Data.Repositories
             await _context.SaveChangesAsync();
 
         }
+
+
 
         public async Task<int> DeleteCityAsync(City city)
         {
@@ -57,9 +57,9 @@ namespace ProjFinalCinelAirAdmin.Data.Repositories
 
 
 
-        public IEnumerable<SelectListItem> GetComboCities(int countryId)
+        public async Task<IEnumerable<SelectListItem>> GetComboCities(int countryId)
         {
-            var country = _context.Country.Find(countryId);
+            var country = await GetCountryWithCitiesAsync(countryId);
             var list = new List<SelectListItem>();
             if (country != null)
             {
@@ -145,8 +145,6 @@ namespace ProjFinalCinelAirAdmin.Data.Repositories
             return country.Id;
         }
 
-
-
-
+   
     }
 }

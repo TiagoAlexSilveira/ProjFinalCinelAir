@@ -49,6 +49,29 @@ namespace ProjFinalCinelAir.CommonCore.Data
         {
 
 
+            // Criar um indice único só para o nome do País
+            modelBuilder.Entity<Country>()
+                .HasIndex(c => c.Name)
+                .IsUnique();
+
+
+            // Número de identificação único (cc)
+            modelBuilder.Entity<User>()
+                .HasIndex(b => b.Identification)
+                .IsUnique();
+
+            // Número de Identificação fiscal único
+            modelBuilder.Entity<User>()
+                .HasIndex(b => b.TaxNumber)
+                .IsUnique();
+
+
+        
+            // State Unique
+            modelBuilder.Entity<Status>()
+                .HasIndex(b => b.Description)
+                .IsUnique();
+
             //Cascading Delete Rule
             var cascadeFKs = modelBuilder.Model.GetEntityTypes()
                 .SelectMany(t => t.GetForeignKeys())
@@ -61,6 +84,8 @@ namespace ProjFinalCinelAir.CommonCore.Data
 
             base.OnModelCreating(modelBuilder);
         }
+
+      
     }
 
 }

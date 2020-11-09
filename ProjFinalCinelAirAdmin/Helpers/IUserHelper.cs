@@ -1,21 +1,26 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
 using ProjFinalCinelAirAdmin.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ProjFinalCinelAirAdmin.Helpers
 {
     public interface IUserHelper
     {
+
+        Task<string> GetRoleNameByIdAsync(string id);
+
         Task<IdentityResult> AddUserAsync(User user, string password); //permite criar um utilizador
 
+        Task<string> GetRoleNameAsync(User user);
 
         Task<User> GetUserByEmailAsync(string email); //vai procurar o email e retorna-lo
 
 
         Task<SignInResult> LoginAsyncWithEmail(LoginViewModel model); 
 
-        //Task<SignInResult> LoginAsyncWithClientNumber(LoginViewModel model);
+        Task<SignInResult> LoginAsyncWithClientNumber(LoginViewModel model);
 
         Task LogoutAsync();
 
@@ -41,5 +46,7 @@ namespace ProjFinalCinelAirAdmin.Helpers
         Task<string> GeneratePasswordResetTokenAsync(User user);
 
         Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
+
+        Task<IList<User>> GetUsersInRoleAsync(string role);
     }
 }

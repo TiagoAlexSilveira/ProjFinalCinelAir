@@ -23,7 +23,7 @@ namespace ProjFinalCinelAirAdmin.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Privacy(string id)
         {
             return View();
         }

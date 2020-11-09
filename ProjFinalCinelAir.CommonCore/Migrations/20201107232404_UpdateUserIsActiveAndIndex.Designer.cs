@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjFinalCinelAir.CommonCore.Data;
 
 namespace ProjFinalCinelAir.CommonCore.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201107232404_UpdateUserIsActiveAndIndex")]
+    partial class UpdateUserIsActiveAndIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,39 +152,6 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.BuyMilesShop", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("MileQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BuyMilesShop");
-                });
-
-            modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Card", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("validity")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Card");
-                });
-
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.City", b =>
                 {
                     b.Property<int>("Id")
@@ -256,9 +225,6 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("isClientNumberConfirmed")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -397,30 +363,6 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.HasIndex("ClientId");
 
                     b.ToTable("Notification");
-                });
-
-            modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Partner", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Contact")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Partner");
                 });
 
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Rate", b =>

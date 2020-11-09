@@ -35,6 +35,8 @@ namespace ProjFinalCinelAirClient.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _userHelper.LoginAsyncWithEmail(model);
+
+                
                 if (result.Succeeded)
                 {
                     if (this.Request.Query.Keys.Contains("ReturnUrl")) //se tentar ebntrar numa zona em que não está autorizado, isto redireciona-o para o login e depois quando auntenticado, para a página em que tentou entrar

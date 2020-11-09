@@ -1,12 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using ProjFinalCinelAir.CommonCore.Data.Entities;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ProjFinalCinelAir.CommonCore.Data.Entities
+namespace ProjFinalCinelAirAdmin.Models
 {
-    public class User : IdentityUser // IdentityUser é uma classe do .NET Core
+    public class EmployeeViewModel : IdentityUser
     {
-
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
@@ -27,10 +31,26 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         public string PostalCode { get; set; }
 
 
+        public string CityName { get; set; }
+
+        public City City { get; set; }
+
+
+
+        [Display(Name = "City")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a city")]
         public int CityId { get; set; }
 
 
-        public City City { get; set; }
+        public IEnumerable<SelectListItem> Cities { get; set; }
+
+
+        [Display(Name = "Country")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a country")]
+        public int CountryId { get; set; }
+
+
+        public IEnumerable<SelectListItem> Countries { get; set; }
 
 
         [DataType(DataType.Date)]
@@ -53,6 +73,8 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         public string FullName => $"{this.FirstName} {this.LastName}";
 
         public bool isActive { get; set; }
+
+        public string RoleName { get; set; }
 
     }
 }

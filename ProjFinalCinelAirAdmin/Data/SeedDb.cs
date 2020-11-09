@@ -34,6 +34,7 @@ namespace ProjFinalCinelAirAdmin.Data
             #endregion
 
 
+
             #region Criar Cidades e País
             // Adicionar as seguintes cidades a Portugal
             if (!_context.Country.Any())
@@ -62,7 +63,10 @@ namespace ProjFinalCinelAirAdmin.Data
                 {
                     Email = "tsilveira01@gmail.com",
                     UserName = "tsilveira01@gmail.com",
-                    CityId = 1
+                    CityId = 1,
+                    isActive = true,
+                    
+                    
                 };
 
                 var client = new Client
@@ -77,7 +81,7 @@ namespace ProjFinalCinelAirAdmin.Data
                     JoinDate = Convert.ToDateTime("2020-01-05"),
                     UserId = user.Id,
                     StreetAddress = "Rua das Ruas",
-                    
+                    isClientNumberConfirmed = true,
                 };
 
 
@@ -109,7 +113,10 @@ namespace ProjFinalCinelAirAdmin.Data
                 {
                     Email = "dcruzsimoes@gmail.com",
                     UserName = "dcruzsimoes@gmail.com",
-                    CityId = 1
+                    CityId = 1,
+                    isActive = true,
+                    TaxNumber = 226250989,
+                    Identification = "11895671",
                 };
 
                 var client2 = new Client
@@ -124,6 +131,7 @@ namespace ProjFinalCinelAirAdmin.Data
                     JoinDate = Convert.ToDateTime("2019-10-05"),
                     UserId = user2.Id,
                     StreetAddress = "Travessa das Flores",
+                    isClientNumberConfirmed = false,
                 };
 
 
@@ -146,6 +154,46 @@ namespace ProjFinalCinelAirAdmin.Data
             }
 
 
+
+            #region Criar Admin
+
+            var admin = await _userHelper.GetUserByEmailAsync("admincinelair@yopmail.com");
+            if (admin == null)
+            {
+                admin = new User
+                {
+                    Email = "admincinelair@yopmail.com",
+                    UserName = "admincinelair@yopmail.com",
+                    CityId = 1,
+                    FirstName = "Maria",
+                    LastName = "Augusta",
+                    TaxNumber = 111111111,
+                    Identification = "213658422",
+                    StreetAddress = "Travessa do Oleiro",
+                    PostalCode = "1100-010",
+                    DateofBirth = Convert.ToDateTime("1979-10-10"),
+                    PhoneNumber = "219966559",
+                    isActive = true
+                };
+
+                var resultAdmin = await _userHelper.AddUserAsync(admin, "123456");  //cria um user com aqueles dados e aquela password
+                if (resultAdmin != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create the admin in seeder");
+                }
+
+            }
+
+            var IsInRoleAdmim = await _userHelper.IsUserInRoleAsync(admin, "Admin");
+            var tokenAdmin = await _userHelper.GenerateEmailConfirmationTokenAsync(admin);
+            await _userHelper.ConfirmEmailAsync(admin, tokenAdmin);
+
+            if (!IsInRoleAdmim)
+            {
+                await _userHelper.AddUserToRoleAsync(admin, "Admin");
+            }
+
+            #endregion
 
 
             if (!_context.Status.Any())
@@ -204,7 +252,7 @@ namespace ProjFinalCinelAirAdmin.Data
         }
 
 
-        private void Add_Travel_Ticket(int ticket_id, DateTime travel_date, string departure_city, string arrival_city, int clientId, int rateId, int miles_status_id, int miles_bonus_id )
+        private void Add_Travel_Ticket(int ticket_id, DateTime travel_date, string departure_city, string arrival_city, int clientId, int rateId, int miles_status_id, int miles_bonus_id)
         {
             _context.Travel_Ticket.Add(new Travel_Ticket
             {
@@ -256,7 +304,7 @@ namespace ProjFinalCinelAirAdmin.Data
             _context.Historic_Status.Add(new Historic_Status
             {
                 Start_Date = start,
-                End_Date = end, 
+                End_Date = end,
                 isValidated = isValidated,
                 StatusId = statusId,
                 ClientId = clientId
