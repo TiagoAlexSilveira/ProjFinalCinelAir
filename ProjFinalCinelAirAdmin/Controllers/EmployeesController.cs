@@ -208,6 +208,8 @@ namespace ProjFinalCinelAirAdmin.Controllers
                 {
                     model.Countries = _countryRepository.GetComboCountries();
                     this.ModelState.AddModelError(string.Empty, "The user couldn't be created. Please, confirm data");
+                    model.Countries = _countryRepository.GetComboCountries();
+                    model.Category = GetCategory();
                     return this.View(model);
                 }
 
@@ -221,7 +223,8 @@ namespace ProjFinalCinelAirAdmin.Controllers
                 catch (Exception)
                 {
                    
-                    model.Countries = _countryRepository.GetComboCountries();                  
+                    model.Countries = _countryRepository.GetComboCountries();
+                    model.Category = GetCategory();
                     this.ModelState.AddModelError(string.Empty, "Error adding the employee to the role! Please contact the technical support!");
 
                     return this.View(model);
@@ -241,7 +244,7 @@ namespace ProjFinalCinelAirAdmin.Controllers
                     model.Countries = _countryRepository.GetComboCountries();
                   
                     this.ModelState.AddModelError(string.Empty, "Error on the email confirmation! Please, contact the technical suppoprt! ");
-
+                    model.Category = GetCategory();
                     return this.View(model);
                 }
 
@@ -268,14 +271,16 @@ namespace ProjFinalCinelAirAdmin.Controllers
                 }
                 catch (Exception)
                 {
-                    
+
                     model.Countries = _countryRepository.GetComboCountries();
+                    model.Category = GetCategory();
                     this.ModelState.AddModelError(string.Empty, "Error on seeding the email to the employee! Please contact support!");
 
                     return RedirectToAction(nameof(Index));
                 }
             }
-
+            model.Countries = _countryRepository.GetComboCountries();
+            model.Category = GetCategory();
             this.ModelState.AddModelError(string.Empty, "The user already exists");
             return View(model);
         }
@@ -313,7 +318,7 @@ namespace ProjFinalCinelAirAdmin.Controllers
 
             return View();
         }
-        /*
+        
         public async Task<IActionResult> Edit(string id)
         {
             try
@@ -326,38 +331,49 @@ namespace ProjFinalCinelAirAdmin.Controllers
                     return NotFound();
                 }
 
-                // Obter o detalhe do departamento
-                var departmentDetails = await _departmentRepository.GetDepartmentDetailAsync(user.Id);
+                // Obter o role do user
+                //var roleName = await _userHelper.;
 
-                // Obter o departamento
-                Department department = await _departmentRepository.GetByIdAsync(departmentDetails.Department.Id);
 
                 City city = await _countryRepository.GetCityAsync(user.CityId);
 
-                Country country = _countryRepository.GetCountryAsync(city);
+                var country = _countryRepository.GetCountryAsync(city);
 
-                EmployeeViewModel employeeModel = new EmployeeViewModel()
+                string roleName = await _userHelper.GetRoleNameAsync(user);
+
+                
+
+                var model = new UpdateEmployeeViewModel
                 {
+                    Countries = _countryRepository.GetComboCountries(),
+                    Category = GetCategory(),
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    Email = user.Email,
-                    Address = user.Address,
+                    StreetAdress = user.StreetAddress,
+                    PostalCode = user.PostalCode,
                     PhoneNumber = user.PhoneNumber,
                     TaxNumber = user.TaxNumber,
-                    SocialSecurityNumber = user.SocialSecurityNumber,
+                    Identification = user.Identification,
                     CityId = user.CityId,
-                    City = city.Name,
                     isActive = user.isActive,
-                    Department = department.Name,
-                    StartDate = departmentDetails.StartDate,
-                    CloseDate = departmentDetails.CloseDate,
-                    Departments = GetDepartments(),
-                    CountryId = country.Id,
-                    Countries = _countryRepository.GetComboCountries(),
-                    Cities = _countryRepository.GetComboCities(city.Id)
+                    DateofBirth = user.DateofBirth,
+                    JoinDate = user.JoinDate,
+                    Email = user.Email,
+                   
                 };
 
-                return View(employeeModel);
+                var role = model.Category.Where(x => x.Text == roleName).FirstOrDefault();
+
+                model.CategoryId = role.Value;
+
+                if (country != null)
+                {
+                    model.CountryId = country.Id;
+                    model.Cities = await _countryRepository.GetComboCities(country.Id);
+                    model.Countries = _countryRepository.GetComboCountries();
+                    model.CityId = user.CityId;
+                }
+                return View(model);
             }
             catch (Exception)
             {
@@ -366,43 +382,37 @@ namespace ProjFinalCinelAirAdmin.Controllers
             }
         }
 
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EmployeeViewModel employeeViewModel)
+        public async Task<IActionResult> Edit(UpdateEmployeeViewModel model)
         {
 
             if (ModelState.IsValid)
             {
-                // Nunca me fio no que vem da View, fazer sempre o check com a base de dados.
-                var user = await _userHelper.GetUserByEmailAsync(employeeViewModel.Email);
+                // Nunca me fio no que vem da View, fazer sempre o check com a base de dados. ( Fazer a pesquisa por nif, número de identificação e email). QQ um destes campos pode ter mudado, ou pode ter havido um engano
+                var user = await _userHelper.FindUser(model.Email, model.TaxNumber, model.Identification);
 
                 if (user != null)
                 {
-                    user.FirstName = employeeViewModel.FirstName;
-                    user.LastName = employeeViewModel.LastName;
-                    user.Email = employeeViewModel.Email;
-                    user.Address = employeeViewModel.Address;
-                    user.PhoneNumber = employeeViewModel.PhoneNumber;
-                    user.TaxNumber = employeeViewModel.TaxNumber;
-                    user.SocialSecurityNumber = employeeViewModel.SocialSecurityNumber;
-                    user.CityId = employeeViewModel.CityId;
-                    user.isActive = employeeViewModel.isActive;
-
-                    // Obter o detalhe do departamento
-                    var departmentDetails = await _departmentRepository.GetDepartmentDetailAsync(user.Id);
-
-                    if (departmentDetails == null)
-                    {
-                        return NotFound();
-                    }
-
-                    departmentDetails.StartDate = employeeViewModel.StartDate;
-                    departmentDetails.CloseDate = employeeViewModel.CloseDate;
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.Email = model.Email;
+                    user.StreetAddress = model.StreetAdress;
+                    user.PhoneNumber = model.PhoneNumber;
+                    user.TaxNumber = model.TaxNumber;
+                    user.Identification = model.Identification;
+                    user.CityId = model.CityId;
+                    user.isActive = model.isActive;
+                    user.PostalCode = model.PostalCode;
+                    user.CityId = model.CityId;
+                    user.isActive = model.isActive;
+                    user.DateofBirth = model.DateofBirth;
+                    user.JoinDate = model.JoinDate;
 
                     var response = await _userHelper.UpdateUserAsync(user); // Actualizar o User
 
-                    var response2 = await _departmentRepository.UpdateDepartmentDetailsAsync(departmentDetails); // Actualizar o User
+                    var response2 = _userHelper.UpdateUserRole(user.Id, model.CategoryId);
 
                     // Actualizar os detalhes
 
@@ -414,7 +424,7 @@ namespace ProjFinalCinelAirAdmin.Controllers
 
 
                     ModelState.AddModelError(string.Empty, response.Errors.FirstOrDefault().Description);
-                    return View(employeeViewModel);
+                    return View(model);
 
                 }
 
@@ -422,7 +432,7 @@ namespace ProjFinalCinelAirAdmin.Controllers
                 {
                     ModelState.AddModelError(string.Empty, "User not found!");
 
-                    return View(employeeViewModel);
+                    return View(model);
                 }
             }
             else
@@ -432,7 +442,7 @@ namespace ProjFinalCinelAirAdmin.Controllers
         }
 
 
-        */
+        
     }
 
 }

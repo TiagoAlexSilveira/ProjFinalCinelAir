@@ -2,9 +2,73 @@
     ViewData["Title"] = "Home Page";
 }
 
+@if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+{
 
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about - ESTOU NO ADMIN<a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    @model List<ProjFinalCinelAir.CommonCore.Data.Entities.Client>
+
+    @section Style{
+
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    }
+
+    <div class="site-section" id="next" style="width:100%">
+        <div class="container" style="width:100%">
+            <br />
+            <h2>Clients To Validate</h2>
+            <br />
+
+            <table id="example">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>EMail</th>
+                        <th>Client Number</th>
+                        <th>Is Confirmed</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.User.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Client_Number)</td>
+                            <td>@Html.DisplayFor(modelItem => item.isClientNumberConfirmed)</td>
+                            <td>
+                                @*<a asp-action="Edit" asp-route-id="@item.UserId" class="btn btn-warning">Edit</a>*@
+                                <a asp-controller="Clients" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                                <a asp-controller="Clients" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>EMail</th>
+                        <th>Client Number</th>
+                        <th>Is Confirmed</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
 
 
+    @section Scripts{
+        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+
+        </script>
+    }
+
+
+}
 

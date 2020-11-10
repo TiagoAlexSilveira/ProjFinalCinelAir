@@ -30,6 +30,26 @@ namespace ProjFinalCinelAirAdmin.Helpers
         }
 
 
+        public bool UpdateUserRole(string userId, string roleId)
+        {
+            var userRole = _context.UserRoles.Where(x => x.UserId == userId).FirstOrDefault();
+
+            userRole.RoleId = roleId;
+
+            _context.SaveChanges();
+
+            return true;
+
+        }
+
+
+
+        public async Task<User> FindUser(string email, int taxNumber,  string identification)
+        {
+            return await _context.Users.Where(x => x.Email == email || x.TaxNumber == taxNumber || x.Identification == identification).FirstAsync();
+
+        }
+
         public async Task<string> GetRoleNameByIdAsync(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);

@@ -1,0 +1,35 @@
+﻿@model List<ProjFinalCinelAir.CommonCore.Data.Entities.AwardTicket>
+
+@{
+    ViewData["Title"] = "Award Tickets";
+}
+
+
+<div class="site-section" id="next" style="width:100%">
+    <div class="container" style="width:100%">
+        <br />
+        <h2>Award Tickets List</h2>
+        <br />
+
+
+        @foreach (var item in Model)
+        {
+            <div style="margin-right:4%; height:300px;box-shadow: 0 0 3px gray; padding:3px">
+              
+                <div>
+                    <h6 style="width:50px; padding:0">@Html.DisplayFor(modelItem => item.Description) <a asp-controller="AwardTicket" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a></h6>
+                    <h6 style="width:50px; padding:0">@Html.DisplayFor(modelItem => item.Miles) Milhas</h6>
+                  
+                    <p>
+                        <asp:Label ID="lbl_tipo" runat="server" Text="Label"></asp:Label>
+                        <asp:LinkButton ID="btn_addCart" runat="server" CommandName="btn_addCart" CssClass="addCart"><i class="flaticon-bag"></i><span> Add</span></asp:LinkButton>
+                    </p>
+
+                    <p><asp:Label ID="lbl_id" runat="server" Text="Label" Visible="false"></asp:Label> </p>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+

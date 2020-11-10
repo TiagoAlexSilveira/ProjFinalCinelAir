@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjFinalCinelAir.CommonCore.Data;
 
 namespace ProjFinalCinelAir.CommonCore.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201110013122_addedFieldToPartner")]
+    partial class addedFieldToPartner
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,33 +150,6 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.AwardTicket", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Miles")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Seats")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("availableSeats")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("isValidated")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AwardTicket");
                 });
 
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.BuyMilesShop", b =>

@@ -25,7 +25,7 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
-
+        [Display(Name = "Client Number")]
         public int Client_Number { get; set; }
 
 
@@ -74,7 +74,7 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
 
         public User User { get; set; }
 
-
+        [Display(Name = "isConfirmed")]
         public bool isClientNumberConfirmed { get; set; }
        
     }

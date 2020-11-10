@@ -37,7 +37,7 @@ namespace ProjFinalCinelAir.CommonCore.Data
 
         public DbSet<Partner> Partner { get; set; }
 
-
+        public DbSet<AwardTicket> AwardTicket { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {

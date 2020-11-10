@@ -44,8 +44,8 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin Backoffice</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Employees" asp-action="Index">Employees</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index">Clients</a>
+                                    <a class="nav-link text-dark" asp-controller="Employees" asp-action="Index">Employees</a>
+                                    <a class="nav-link text-dark" asp-controller="Clients" asp-action="Index">Clients</a>
                                 </div>
                             </li>
 
@@ -69,12 +69,15 @@
                         {
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Faz alguma coisa</a>
+                                <a class="nav-link text-dark" asp-controller="Partners" asp-action="Index">Partners</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Faz alguma coisa</a>
+                                <a class="nav-link text-dark" asp-controller="AwardTicket" asp-action="Index">Award Tickets</a>
+                            </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Reports" asp-action="Index">Reports</a>
                             </li>
 
                         }

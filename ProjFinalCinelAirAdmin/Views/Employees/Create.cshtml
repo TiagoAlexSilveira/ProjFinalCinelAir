@@ -66,7 +66,7 @@
 
                         <div class="form-group" style="width: 48%; float: left;margin-right:4%">
                             <label asp-for="TaxNumber">Tax Number</label>
-                            <input asp-for="TaxNumber" class="form-control" />
+                            <input asp-for="TaxNumber" class="form-control" type="text"/>
                             <span asp-validation-for="TaxNumber" class="text-warning"></span>
                         </div>
 
@@ -95,7 +95,7 @@
                         </div>
                      
                         <div class="form-group" style=" float: right;">
-                            <input id="submit" type="submit" class="btn btn-primary" />
+                            <input id="submit" type="submit" class="btn btn-primary" value="Confirm"/>
                             <a class="btn btn-success" asp-action="Index">Back to List</a>
                         </div>
                     </form>

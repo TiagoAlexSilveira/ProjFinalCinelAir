@@ -8,6 +8,9 @@ namespace ProjFinalCinelAirAdmin.Helpers
 {
     public interface IUserHelper
     {
+        bool UpdateUserRole(string userId, string roleId);
+
+        Task<User> FindUser(string email, int taxNumber, string identification);
 
         Task<string> GetRoleNameByIdAsync(string id);
 

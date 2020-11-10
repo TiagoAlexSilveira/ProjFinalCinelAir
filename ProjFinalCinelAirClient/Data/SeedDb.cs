@@ -63,7 +63,9 @@ namespace ProjFinalCinelAirClient.Data
                 {
                     Email = "tsilveira01@gmail.com",
                     UserName = "tsilveira01@gmail.com",
-                    CityId = 1
+                    CityId = 1,
+                    TaxNumber = 354647362,
+                    Identification = "63547589",
                 };
 
                 var client = new Client
@@ -109,7 +111,9 @@ namespace ProjFinalCinelAirClient.Data
                 {
                     Email = "dcruzsimoes@gmail.com",
                     UserName = "dcruzsimoes@gmail.com",
-                    CityId = 1
+                    CityId = 1,
+                    TaxNumber = 226250989,
+                    Identification = "11895671",
                 };
 
                 var client2 = new Client

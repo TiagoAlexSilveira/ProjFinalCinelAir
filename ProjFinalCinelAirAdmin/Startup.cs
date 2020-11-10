@@ -65,10 +65,12 @@ namespace ProjFinalCinelAirAdmin
             services.AddTransient<SeedDb>();
 
             services.AddScoped<IUserHelper, UserHelper>();
-            services.AddScoped<IMailHelper, MailHelper>();
+            services.AddScoped<IMailHelper, MailHelper>();            
+            services.AddScoped<IClientHelper, ClientHelper>();            
+            services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<ICountryRepository, CountryRepository>();
-
-
+            services.AddScoped<IPartnerRepository, PartnerRepository>();
+            services.AddScoped<IAwardTicketRepository, AwardTicketRepository>();
 
 
             services.Configure<CookiePolicyOptions>(options =>
