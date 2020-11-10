@@ -17,16 +17,14 @@
 
     @if ((string)@TempData["t"] == "Selected Client does not exist!")
     {
-        <div class="text-danger" style="font-size:large"> <p>@TempData["t"]</p> </div>
-        <br />
+        <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["t"]</div>
     }
     else
     {
-        <div class="text-success" style="font-size:large"><p>@TempData["t"]</p><i class="fa fa-check"></i> </div>
-        <br />
+        <div class="text-success" style="font-size:large; font-weight:bold">@TempData["t"]</div>
     }
 
-
+    <br />
 
 
     <div class="row" style="font-weight: bold; grid-row-gap: 1em">
@@ -46,7 +44,11 @@
 
     </div>
     <br />
-    <div class="text-danger" style="font-size:large"> <p>@TempData["radio"]</p> </div>
+    @if ((string)TempData["radio"] == "Please select an amount")
+    {
+        <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["radio"]</div>
+
+    }
     <br />
 
     <div>
@@ -78,7 +80,7 @@
 </form>
 
 
-<script type="text/javascript">
+@*<script type="text/javascript">
     function getData(Miles) {
         var totalElem = document.getElementById("total_div")
         var finishElem = document.getElementById("finish")
@@ -134,7 +136,7 @@
          })
     }
 
-</script>
+</script>*@
 
 
 

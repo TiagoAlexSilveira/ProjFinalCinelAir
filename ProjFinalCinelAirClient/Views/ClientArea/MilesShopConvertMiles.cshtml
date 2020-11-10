@@ -1,0 +1,87 @@
+﻿@model ProjFinalCinelAirClient.Models.ConvertMilesViewModel
+@{
+    ViewData["Title"] = "ConvertMiles";
+}
+
+<partial name="_MainMenuPartial" />
+
+
+<form method="post" asp-action="MileShopConvertMiles_confirm">
+    <input type="hidden" asp-for="Id" />
+
+    @if ((string)@TempData["t"] == "Selected Client does not exist!")
+    {
+        <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["t"]</div>
+    }
+    else
+    {
+        <div class="text-success" style="font-size:large; font-weight:bold">@TempData["t"]</div>
+    }
+
+    <br />
+
+    @if (Model.ShopList.Count > 0)
+    {
+        <div class="row" style="font-weight: bold; grid-row-gap: 1em">
+            @foreach (var item in Model.ShopList)
+            {
+                <div class="col-md-3" style="height:60px;border: solid 1px black">
+                    <div class="row">
+                        <div class="col-md-5">
+                            @item.MileQuantity
+                        </div>
+                        <div class="col-md-3">
+                            <input value="@item.Id" type="radio" asp-for="SelectedRadio" id="@item" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <br />
+        @if ((string)TempData["radio"] == "Please select an amount")
+        {
+            <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["radio"]</div>
+
+        }
+        <br />
+
+        <div>
+            Converting Miles costs $7.50 EUR* per 1000 miles
+
+            2000 Miles are converted to half that quantity in Status Miles
+        </div>
+        <br />
+
+        <button id="finish" value="Finish Convert" type="submit" class="btn btn-primary">finish</button>
+
+    }
+    else
+    {
+        <h2>You have reached the maximum for your anual period (20000 Miles) </h2>
+
+        <h2>You currently cannot convert any of your Miles </h2>
+    }
+
+
+    <br />
+
+    @*<div row id="total_div" style="visibility:hidden; border: 1px solid black">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-5">
+            <p>Buy <span id="milesPicked"></span></p>
+            <p>You will have <span id="haveMiles"></span> Miles after this purchase</p>
+        </div>
+        <div class="col-md-2">
+            Total: <span id="totalMoney"></span>€
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>*@
+
+
+
+</form>

@@ -6,41 +6,86 @@
 
 <partial name="_MainMenuPartial" />
 
-<form method="get" asp-action="Nominate_Gold2">
-    <p>
-        <input type="search" placeholder="Enter First Name or Client Number" value="@ViewData["GetSearch"]" name="searchInput" style="width: 300px" />
-        <input type="submit" value="Search" class="btn btn-primary" />
-        <a asp-action="Nominate_Gold">Get all Clients</a>
-    </p>
-</form>
+<div class="col-12 text-center">
+    <h2>Nominate Gold</h2>
+</div>
 
-<table class="table table-bordered table-hover" id="table_status" >
-    <thead class="thead-dark" style="text-align:center">
-        <tr>
-            <th>
-                First Name
-            </th>
-            <th>
-                Client Number
-            </th>
-            <th>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.ClientList)
+<div class="col-12 ">
+    <p>
+        Here you can nominate another client for gold status so he can share all the benefits that you do.
+        Only clients with gold status can nominate another client(with status Basic or Silver), this is limited one nomination per client.
+        The nominated client cannot nominate another for status gold.
+    </p>
+    <p>
+        Simply search for the client you wish to nominate below, by Client Number or Name.
+    </p>
+
+</div>
+<br />
+
+@if (!string.IsNullOrEmpty((string)@TempData["cant"]))
+{
+    <div class="col-12 text-center">
+        <div style="font-size:large; font-weight:bold">@TempData["cant"]</div>
+    </div>
+}
+else
+{
+    <div class="col-12 text-center">
+        <form method="get" asp-action="Nominate_Gold2">
+            <div style="font-size: 1em; ">
+                <input type="search" placeholder="Enter First Name or Client Number" value="@ViewData["GetSearch"]" name="searchInput" style="width: 300px; height:30px" />
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <br />
+
+
+
+    @if (Model.ClientList.Count > 0)
+    {
+
+        <table class="table table-bordered table-hover" id="table_status">
+            <thead class="thead-dark" style="text-align:center">
+                <tr>
+                    <th>
+                        First Name
+                    </th>
+                    <th>
+                        Client Number
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ClientList)
+                {
+                    <tr class="text-center">
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Client_Number)
+                        </td>
+                        <td>
+                            <a style="color:green; font-weight: bold" asp-action="Nominate_Gold_Confirm" asp-controller="ClientArea" asp-route-id="@item.Id">Nominate Gold <i class="fa fa-check"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        if (!string.IsNullOrEmpty((string)@TempData["message"]))
         {
-            <tr class="text-center">
-                <td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.Client_Number)
-                </td>     
-                <td>
-                    <a asp-action="Nominate_Gold_Confirm" asp-controller="ClientArea" asp-route-id="@item.Id"><i class="fa fa-check"></i>Nominate Gold</a> 
-                </td>
-            </tr>
+            <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["message"]</div>
         }
-    </tbody>
-</table>
+
+    }
+}
+
+
+
