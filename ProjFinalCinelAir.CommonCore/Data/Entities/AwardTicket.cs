@@ -16,6 +16,6 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
 
         public int? availableSeats { get; set; }
 
-        public bool? isValidated { get; set; }
+        public bool isValidated { get; set; }
     }
 }

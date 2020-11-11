@@ -27,6 +27,8 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         public bool isValidated { get; set; }
         //TODO:por isto na base de dados
         //se tiver tempo criar páginas das companhias
+        [Display(Name = "Charity")]
+        public bool isCharity { get; set; }
 
 
     }

@@ -4,9 +4,87 @@
     ViewData["Title"] = "Award Tickets";
 }
 
+@section Style{
 
-<div class="site-section" id="next" style="width:100%">
-    <div class="container" style="width:100%">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+
+    <style>
+
+        .containerGrid {
+            width: 24%;
+            height: 150px;
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 25% 100px auto;
+            grid-gap: 20px 20px;
+            box-shadow: 0 0 3px gray;
+            padding: 3px;
+            float: left;
+            margin: 4px
+        }
+
+        .itemGrid {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 1;
+            grid-row-end: 2;
+            background-color:green;
+           
+        }
+
+        .itemGrid2 {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 2;
+            grid-row-end: 2;
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 25% 65% 10%;
+        }
+
+        .itemGrid2Child1 {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 1;
+            grid-row-end: 2;
+        }
+
+        .itemGrid2Child2 {
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 2;
+            grid-row-end: 3;
+            align-self: start;
+            text-align: start;
+            font-size: x-large;
+        }
+
+        .itemGrid2Child3 {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 2;
+            grid-row-end: 3;
+            align-self: start;
+            text-align: start;
+        }
+
+        .itemGrid2Child4 {
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 3;
+            grid-row-end: 4;
+            align-self: end;
+            text-align: end;
+      
+        }
+
+        #labelSeats :hover{
+            cursor:pointer;
+        }
+    </style>
+}
+<div class="site-section" style="width:100%; min-height: 700px;margin-bottom:2%">
+    <div class="container" style="width:100%;">
         <br />
         <h2>Award Tickets List</h2>
         <br />
@@ -14,22 +92,53 @@
 
         @foreach (var item in Model)
         {
-            <div style="margin-right:4%; height:300px;box-shadow: 0 0 3px gray; padding:3px">
-              
-                <div>
-                    <h6 style="width:50px; padding:0">@Html.DisplayFor(modelItem => item.Description) <a asp-controller="AwardTicket" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a></h6>
-                    <h6 style="width:50px; padding:0">@Html.DisplayFor(modelItem => item.Miles) Milhas</h6>
-                  
-                    <p>
-                        <asp:Label ID="lbl_tipo" runat="server" Text="Label"></asp:Label>
-                        <asp:LinkButton ID="btn_addCart" runat="server" CommandName="btn_addCart" CssClass="addCart"><i class="flaticon-bag"></i><span> Add</span></asp:LinkButton>
+            <div class="containerGrid">
+
+                <div class="itemGrid">
+                    <p style="text-align:center">
+                        @Html.DisplayFor(modelItem => item.Description)
+                        <a asp-controller="AwardTicket" asp-action="Details" asp-route-id="@item.Id"
+                           style="text-align:right; width:4px; height: 4px; color:yellow; margin-right:4px"><i class="fas fa-info-circle"></i></a>
+                        <a asp-controller="AwardTicket" asp-action="Edit" asp-route-id="@item.Id"
+                           style="text-align:right; width:4px; height: 4px; color:darkblue"><i class="fas fa-edit"></i></a>
                     </p>
 
-                    <p><asp:Label ID="lbl_id" runat="server" Text="Label" Visible="false"></asp:Label> </p>
                 </div>
+
+                <div class="itemGrid2">
+
+                    <p class="itemGrid2Child1">From</p>
+                    <label class="itemGrid2Child2">Miles</label>
+                    <h1 class="itemGrid2Child3">@Html.DisplayFor(modelItem => item.Miles)</h1>
+                    <div class="itemGrid2Child4">
+                        <span class="d-inline-block" data-toggle="popover" data-content="Seats: @Html.DisplayFor(modelItem => item.availableSeats)">
+                            <label id ="labelSeats" style="padding:5px; color:#6dcff1"><i class="far fa-plus-square"></i></label>
+                        </span>
+                    </div>
+
+                </div>
+
             </div>
         }
 
     </div>
+
 </div>
 
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script type="text/javascript">
+ 
+
+    $(document).ready(function () {
+
+        $('[data-toggle="popover"]').popover();
+
+    });
+
+</script>
+
+
+}

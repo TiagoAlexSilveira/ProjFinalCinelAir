@@ -97,6 +97,7 @@ namespace ProjFinalCinelAirAdmin.Controllers
             partner.Description = model.Description;
             partner.ImageUrl = path;
             partner.isValidated = false;
+            partner.isCharity = model.isCharity;
             return partner;
 
         }
@@ -109,6 +110,7 @@ namespace ProjFinalCinelAirAdmin.Controllers
             view.Contact = partner.Contact;
             view.Description = partner.Description;
             view.ImageUrl = partner.ImageUrl;
+            view.isCharity = partner.isCharity;
             return view;
 
         }
@@ -170,6 +172,7 @@ namespace ProjFinalCinelAirAdmin.Controllers
                         Description = model.Description,
                         ImageUrl = path,
                         Id = model.Id,
+                        isCharity = model.isCharity,
                     };                    
                  
                     await _partnerRepository.UpDateAsync(partner); // Método Update já grava as alterações

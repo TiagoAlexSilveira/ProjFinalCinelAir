@@ -4,10 +4,7 @@ using System.Text;
 
 namespace ProjFinalCinelAir.CommonCore.Data.Entities
 {
-    public enum MovementType
+    class SuperUserNotifications
     {
-        Flight,
-       
-     
     }
 }
