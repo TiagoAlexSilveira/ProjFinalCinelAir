@@ -1,0 +1,66 @@
+﻿@model ProjFinalCinelAir.CommonCore.Data.Entities.AwardTicket
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<div>
+    <div class="container">
+
+        <h2>Award Ticket Update</h2>
+        <br />
+        @if (!string.IsNullOrEmpty(@ViewBag.Message))
+        {
+            <div class="text-success">
+                <p>
+                    @ViewBag.Message
+                </p>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <a class="btn btn-success" asp-controller="Home" asp-action="Index">Home</a>
+            </div>
+
+        }
+
+        else
+        {
+
+            <div class="row">
+                <div class="col-md-4 offset-md-4" style="min-width: 50%; margin:auto">
+                    <form method="post">
+
+                        <div class="form-group" style="width: 36%; float: left; margin-right:4%;">
+                            <label asp-for="Description"></label>
+                            <input asp-for="Description" class="form-control" />
+                            <input asp-for="Id" hidden />
+                        </div>
+
+                        <div class="form-group" style="float:left; width: 36%; float:left;">
+                            <label asp-for="Miles"></label>
+                            <input asp-for="Miles" class="form-control" />
+                        </div>
+
+                        <div class="form-group" style="float:left;height:auto; width: 36%; float:left; margin-right:4%;">
+                            <label asp-for="Seats"></label>
+                            <input asp-for="Seats" class="form-control" />
+                        </div>
+
+                        <div class="form-group" style="float:left;height:auto; width: 36%; float:left;">
+                            <label asp-for="availableSeats"></label>
+                            <input asp-for="availableSeats" class="form-control" />
+                        </div>
+
+                        <div class="form-group" style="float:left;height:auto; width: 100%;">
+                            <input type="submit" value="Update" class="btn btn-primary"/>
+                            <a class="btn btn-success" asp-action="Index">Back To List</a>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>

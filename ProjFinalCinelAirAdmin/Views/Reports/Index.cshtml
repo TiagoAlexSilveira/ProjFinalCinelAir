@@ -1,0 +1,74 @@
+﻿@model List<ProjFinalCinelAir.CommonCore.Data.Entities.Client>
+
+@{
+    ViewData["Title"] = "Reports";
+}
+
+@section Style{
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+}
+
+
+<div class="site-section" id="next" style="width:100%">
+    <div class="container" style="width:100%">
+        <br />
+        <h2>Clients Report</h2>
+        <br />
+
+        <div class="form-group">
+            <a class="btn btn-success" asp-controller="Reports" asp-action="GetExcel">Client List - Excel</a>
+        </div>
+
+        <br />
+
+        <table id="example">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Client Number</th>
+                    <th>Tax Number</th>
+                    <th>Identification</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Client_Number)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TaxNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Identification) </td>
+                        <td>
+                            @*<a asp-action="Edit" asp-route-id="@item.UserId" class="btn btn-warning">Edit</a>*@
+                            <a asp-controller="Reports" asp-action="GetPdf" asp-route-id="@item.Id" class="btn btn-primary">Get pdf</a>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Name</th>
+                    <th>Client Number</th>
+                    <th>Tax Number</th>
+                    <th>Identification</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+
+    </script>
+}
+

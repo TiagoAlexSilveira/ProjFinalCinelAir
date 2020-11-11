@@ -65,7 +65,7 @@ namespace ProjFinalCinelAirClient.Data
                     UserName = "tsilveira01@gmail.com",
                     CityId = 1,
                     TaxNumber = 354647362,
-                    Identification = "63547589"
+                    Identification = "63547589",
                 };
 
                 var client = new Client
@@ -113,7 +113,7 @@ namespace ProjFinalCinelAirClient.Data
                     UserName = "dcruzsimoes@gmail.com",
                     CityId = 1,
                     TaxNumber = 226250989,
-                    Identification = "11895671"
+                    Identification = "11895671",
                 };
 
                 var client2 = new Client

@@ -1,4 +1,4 @@
-﻿@model ProjFinalCinelAirAdmin.Models.EmployeeViewModel
+﻿@model ProjFinalCinelAirAdmin.Models.ClientViewModel
 @{
     ViewData["Title"] = "Employee Details";
 }
@@ -6,13 +6,13 @@
 <div>
     <div class="container">
 
-        <h2>Employee Details</h2>
+        <h2>Employee Update</h2>
         <br />
-        @if (!string.IsNullOrEmpty(@ViewBag.UserMessage))
+        @if (!string.IsNullOrEmpty(@ViewBag.Message))
         {
             <div class="text-success">
                 <p>
-                    @ViewBag.UserMessage
+                    @ViewBag.Message
                 </p>
             </div>
 
@@ -34,82 +34,86 @@
 
                         <div class="form-group" style="width: 48%; float: left; margin-right:4%">
                             <label asp-for="FirstName">First Name</label>
-                            <input asp-for="FirstName" class="form-control" disabled/>
+                            <input asp-for="FirstName" class="form-control" />
                             <span asp-validation-for="FirstName" class="text-warning"></span>
                         </div>
 
                         <div class="form-group" style="float:left; width: 48%; float:left">
                             <label asp-for="LastName">Last Name</label>
-                            <input asp-for="LastName" class="form-control" disabled/>
+                            <input asp-for="LastName" class="form-control" />
                             <span asp-validation-for="LastName" class="text-warning"></span>
                         </div>
 
                         <div class="form-group" style=" width: 100%;">
-                            <label asp-for="UserName">Email</label>
-                            <input asp-for="UserName" class="form-control" disabled/>
-                            <span asp-validation-for="UserName" class="text-warning"></span>
+                            <label asp-for="Email">Email</label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-warning"></span>
+                        </div>
+
+                        <div class="form-group" style=" width: 48%; float:left;margin-right:4%">
+                            <label asp-for="ClientNumber"></label>
+                            <input asp-for="ClientNumber" class="form-control" />
+                            <span asp-validation-for="ClientNumber" class="text-warning"></span>
+                        </div>
+
+                        <div class="form-group" style="width: 48%; float: left;">
+                            <label asp-for="StreetAddress">Address</label>
+                            <input asp-for="StreetAddress" class="form-control" />
+                            <span asp-validation-for="StreetAddress" class="text-warning"></span>
                         </div>
 
                         <div class="form-group" style="width: 48% ;  float:left; margin-right:4%">
                             <label asp-for="CountryId" class="control-label"></label>
-                            <select id="CountryId" asp-for="CountryId" asp-items="Model.Countries" class="form-control" disabled></select>
+                            <select id="CountryId" asp-for="CountryId" asp-items="Model.Countries" class="form-control"></select>
                             <span asp-validation-for="CountryId" class="text-danger"></span>
                         </div>
 
                         <div class="form-group" style="width: 48%; float: left">
                             <label asp-for="CityId" class="control-label"></label>
-                            <select id="CityId" asp-for="CityId" asp-items="Model.Cities" class="form-control" disabled></select>
+                            <select id="CityId" asp-for="CityId" asp-items="Model.Cities" class="form-control"></select>
                             <span asp-validation-for="CityId" class="text-danger"></span>
                         </div>
 
+
                         <div class="form-group" style="width: 48%; float: left;margin-right:4%">
-                            <label asp-for="StreetAddress">Address</label>
-                            <input asp-for="StreetAddress" class="form-control" disabled/>
-                            <span asp-validation-for="StreetAddress" class="text-warning"></span>
-                        </div>
-                        <div class="form-group" style="width: 48%; float: left;">
                             <label asp-for="PostalCode">Postal Code</label>
-                            <input asp-for="PostalCode" class="form-control" disabled />
+                            <input asp-for="PostalCode" class="form-control" />
                             <span asp-validation-for="PostalCode" class="text-warning"></span>
-                        </div>
-                        <div class="form-group" style="width: 48%; float: left;margin-right:4%">
-                            <label asp-for="PhoneNumber">Phone Number</label>
-                            <input asp-for="PhoneNumber" class="form-control" disabled/>
-                            <span asp-validation-for="PhoneNumber" class="text-warning"></span>
-                        </div>
-
-                        <div class="form-group" style="width: 48%; float: left;">
-                            <label asp-for="TaxNumber">Tax Number</label>
-                            <input asp-for="TaxNumber" class="form-control" disabled/>
-                            <span asp-validation-for="TaxNumber" class="text-warning"></span>
-                        </div>
-
-                        <div class="form-group" style="width: 48%; float: left; margin-right:4%">
-                            <label asp-for="Identification">Identification Number</label>
-                            <input asp-for="Identification" class="form-control" disabled/>
-                            <span asp-validation-for="Identification" class="text-warning"></span>
                         </div>
 
                         <div class="form-group" style="width: 48%; float: left;">
                             <label asp-for="DateofBirth" class="control-label"></label>
-                            <input asp-for="DateofBirth" type="date" class="form-control" disabled/>
+                            <input asp-for="DateofBirth" type="date" class="form-control" />
                             <span asp-validation-for="DateofBirth" class="text-danger"></span>
                         </div>
-
                         <div class="form-group" style="width: 48%; float: left; margin-right:4%">
-                            <label asp-for="RoleName" class="control-label">Category</label>
-                            <input asp-for="RoleName" class="form-control" disabled />
-                            <span asp-validation-for="RoleName" class="text-danger"></span>                           
+                            <label asp-for="TaxNumber">Tax Number</label>
+                            <input asp-for="TaxNumber" class="form-control" />
+                            <span asp-validation-for="TaxNumber" class="text-warning"></span>
                         </div>
 
                         <div class="form-group" style="width: 48%; float: left;">
+                            <label asp-for="Identification">Identification Number</label>
+                            <input asp-for="Identification" class="form-control" />
+                            <span asp-validation-for="Identification" class="text-warning"></span>
+                        </div>
+
+                        <div class="form-group" style="width: 48%; float: left; margin-right:4%">
                             <label asp-for="JoinDate" class="control-label"></label>
-                            <input asp-for="JoinDate" type="date" class="form-control" disabled />
+                            <input asp-for="JoinDate" type="date" class="form-control" />
                             <span asp-validation-for="JoinDate" class="text-danger"></span>
                         </div>
 
+                        <div class="form-group" style="width: 48%; float: left;">
+                            <label asp-for="isValidated" class="control-label"></label>
+                            <input asp-for="isValidated" class="form-control" />
+                            <span asp-validation-for="isValidated" class="text-danger"></span>
+                        </div>
+
                         <br />
-                        <div class="form-group" style=" float: left; margin-top:30px">
+                        <br />
+                        <div class="form-group" style=" float: right; margin-top:30px">
+                            <input type="submit" value="Update" class="btn btn-primary" />
                             <a class="btn btn-success" asp-action="Index">Back To List</a>
                         </div>
 
@@ -131,7 +135,7 @@
                 $("#CityId").empty();
                 $.ajax({
                     type: 'POST',
-                    url: '@Url.Action("GetCitiesAsync")',
+                    url: '@Url.Action("GetCitiesFromCountry")',
                     dataType: 'json',
                     data: { countryId: $("#CountryId").val() },
                     success: function (cities) {

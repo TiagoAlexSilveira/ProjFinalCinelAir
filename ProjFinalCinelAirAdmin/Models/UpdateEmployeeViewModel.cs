@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjFinalCinelAirAdmin.Models
 {
-    public class RegisterNewEmployeeViewModel
+    public class UpdateEmployeeViewModel
     {
         [Required]
         [Display(Name = "First Name")]
@@ -18,12 +18,7 @@ namespace ProjFinalCinelAirAdmin.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-
         [Required]
-        [DataType(DataType.EmailAddress)]
-        public string Username { get; set; }
-
-       
         public string Email { get; set; }
 
         [MaxLength(100, ErrorMessage = "The field {0} only can contain {1} characters.")]
@@ -60,14 +55,6 @@ namespace ProjFinalCinelAirAdmin.Models
         [Required]
         public string CategoryId { get; set; }
 
-
-        [Required]
-        public string Password { get; set; }
-
-        [Required]
-        [Compare("Password")]
-        public string Confirm { get; set; }
-
         [Required]
         [Display(Name = "Tax Number")]
         public int TaxNumber { get; set; }
@@ -76,7 +63,7 @@ namespace ProjFinalCinelAirAdmin.Models
         [Display(Name = "Identification Number")]
         public string Identification { get; set; }
 
-        
+
         [Required]
         [Display(Name = "Start Date")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = false)]
@@ -88,7 +75,7 @@ namespace ProjFinalCinelAirAdmin.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime? DateofBirth { get; set; }
 
+        [Required]
         public bool isActive { get; set; }
-        
     }
 }

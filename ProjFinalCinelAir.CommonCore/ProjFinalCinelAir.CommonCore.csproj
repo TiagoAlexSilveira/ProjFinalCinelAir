@@ -25,6 +25,16 @@
     <Compile Remove="Migrations\20201106125441_addedTablesCityCountryAndEmployee.Designer.cs" />
     <Compile Remove="Migrations\20201108232945_add_Card_Partners_Shop.cs" />
     <Compile Remove="Migrations\20201108232945_add_Card_Partners_Shop.Designer.cs" />
+    <Compile Remove="Migrations\20201110031430_addedTableAwardTicket.cs" />
+    <Compile Remove="Migrations\20201110031430_addedTableAwardTicket.Designer.cs" />
+    <Compile Remove="Migrations\20201110031549_addedTableAwardTicket.cs" />
+    <Compile Remove="Migrations\20201110031549_addedTableAwardTicket.Designer.cs" />
+    <Compile Remove="Migrations\20201110031805_addedTableAwardTicket.cs" />
+    <Compile Remove="Migrations\20201110031805_addedTableAwardTicket.Designer.cs" />
+    <Compile Remove="Migrations\20201110032302_addedTableAwardTicket.cs" />
+    <Compile Remove="Migrations\20201110032302_addedTableAwardTicket.Designer.cs" />
+    <Compile Remove="Migrations\20201111001520_AddedCharityToPartner.cs" />
+    <Compile Remove="Migrations\20201111001520_AddedCharityToPartner.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>   

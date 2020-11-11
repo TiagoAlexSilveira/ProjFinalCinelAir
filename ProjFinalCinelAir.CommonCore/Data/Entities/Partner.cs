@@ -9,6 +9,7 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
     {
         public int Id { get; set; }
 
+        [Display(Name= "Company")]
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -22,7 +23,13 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         [Display(Name = "Image")]
         public string ImageUrl { get; set; }
 
+
+        public bool isValidated { get; set; }
         //TODO:por isto na base de dados
         //se tiver tempo criar páginas das companhias
+        [Display(Name = "Charity")]
+        public bool isCharity { get; set; }
+
+
     }
 }

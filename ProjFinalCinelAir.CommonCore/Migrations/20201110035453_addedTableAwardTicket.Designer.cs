@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjFinalCinelAir.CommonCore.Data;
 
 namespace ProjFinalCinelAir.CommonCore.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201110035453_addedTableAwardTicket")]
+    partial class addedTableAwardTicket
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -169,7 +171,7 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.Property<int?>("availableSeats")
                         .HasColumnType("int");
 
-                    b.Property<bool>("isValidated")
+                    b.Property<bool?>("isValidated")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
@@ -238,9 +240,6 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AnnualMilesShopped")
-                        .HasColumnType("int");
 
                     b.Property<int>("Client_Number")
                         .HasColumnType("int");
@@ -419,11 +418,8 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Subject")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("isRepliedByEmployee")
-                        .HasColumnType("bit");
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -450,9 +446,6 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("isCharity")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("isValidated")
                         .HasColumnType("bit");

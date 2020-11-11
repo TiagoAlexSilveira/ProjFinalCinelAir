@@ -45,6 +45,10 @@ namespace ProjFinalCinelAirAdmin.Controllers
                 var result = await _userHelper.LoginAsyncWithEmail(model);
                 var user = await _userHelper.GetUserByEmailAsync(model.Username);
 
+                if (user == null)
+                {
+                    return NotFound();
+                }
                 //Obter o role do utilizador 
                 var roleUser = _context.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault();
                 var role = _context.Roles.Where(x => x.Id == roleUser.RoleId).FirstOrDefault();
