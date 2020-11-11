@@ -3,137 +3,184 @@
     ViewData["Title"] = "Balance and Transactions";
 }
 
+
 <partial name="_MainMenuPartial" />
 
 <br />
 <br />
+<div class="col-12 text-center">
+    <h2>Balance and Transactions</h2>
+</div>
 
-<h2>Balance and Transactions</h2>
+<div class="col-12 text-center">
+    <p>
+        Check your miles balance and all transactions you've made.
+    </p>
 
+</div>
 <br />
 
+<div class="col-12 text-center">
+    <div class="row justify-content-center" >
+        <div id="div_bonus" class="btn uptable" style="width:200px; border:solid black 2px" onclick="ShowBonus()">
+            <div style="font-weight:bold">
+                Bonus Miles
+            </div>
+            <div>
+                @Model.available_Miles_Bonus miles
+            </div> 
+            <hr />
+            <p>Validity</p>
+        </div>
+        
 
-<div class="row">
-    <div id="div_bonus" class="btn" style="height: 5em; border:solid black 2px" onclick="ShowBonus()">
-        Bonus Miles = @Model.available_Miles_Bonus miles
+
+        <div id="div_status" class="btn uptable" style="width:200px; border:solid black 2px" onclick="ShowStatus()">
+            <div style="font-weight:bold">
+                Bonus Miles
+            </div>
+            <div>
+                @Model.available_Miles_Status miles
+            </div>
+            <hr />
+            <p>Validity</p>
+        </div>
     </div>
+</div>
+<br />
 
+<div id="containerstatus" style="display:none; visibility:hidden">
 
-    <div id="div_status" class="btn" style="height: 5em; border:solid black 2px" onclick="ShowStatus()">
-        Bonus Miles = @Model.available_Miles_Status miles
-    </div>
+    <table class="table table-bordered table-hover uptable" id="table_status">
+        <thead class="thead-dark" style="text-align:center">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Movement_Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Miles)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Balance_Miles_Status)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.TransactionList)
+            {
+                <tr class="text-center">
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Movement_Type)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Miles)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Balance_Miles_Status)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
 </div>
 
 
-<br />
 
-<table class="table table-bordered table-hover" id="table_status" style="display:none; visibility:hidden">
-    <thead class="thead-dark" style="text-align:center">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Movement_Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Miles)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Balance_Miles_Status)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.TransactionList)
-        {
-            <tr class="text-center">
-                <td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.Movement_Type)
-                </td>
-                <td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.Miles)
-                </td>
-                <td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.Balance_Miles_Status)
-                </td>
+<div id="containerbonus" style="display:none; visibility:hidden">
+    <table class="table table-bordered table-hover " id="table_bonus" >
+        <thead class="thead-dark" style="text-align:center">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Movement_Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Miles)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Balance_Miles_Bonus)
+                </th>
             </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.TransactionList)
+            {
+                <tr class="text-center">
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Movement_Type)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Miles)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Balance_Miles_Bonus)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#table_bonus').DataTable();
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#table_status').DataTable();
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        function ShowStatus() {
+            var tableStatusElem = document.getElementById("containerstatus")
+            var tableBonusElem = document.getElementById("containerbonus")
+            tableBonusElem.style.visibility = "none";
+            tableBonusElem.style.display = "none";
+            tableStatusElem.style.visibility = "visible";
+            tableStatusElem.style.display = "inline";
         }
-    </tbody>
-</table>
-
-
-<table class="table table-bordered table-hover" id="table_bonus" style="display:none; visibility:hidden">
-    <thead class="thead-dark" style="text-align:center">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Movement_Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Miles)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Balance_Miles_Bonus)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.TransactionList)
-        {
-            <tr class="text-center">
-                <td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.Movement_Type)
-                </td>
-                <td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.Miles)
-                </td>
-                <td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.Balance_Miles_Bonus)
-                </td>
-            </tr>
+        function ShowBonus() {
+            var tableStatusElem = document.getElementById("containerstatus")
+            var tableBonusElem = document.getElementById("containerbonus")
+            tableStatusElem.style.visibility = "none";
+            tableStatusElem.style.display = "none";
+            tableBonusElem.style.visibility = "visible";
+            tableBonusElem.style.display = "inline";
         }
-    </tbody>
-</table>
+
+    </script>
+}
 
 
-
-
-<script>
-    function ShowStatus() {
-        var tableStatusElem = document.getElementById("table_status")
-        var tableBonusElem = document.getElementById("table_bonus")
-        tableBonusElem.style.visibility = "none";
-        tableBonusElem.style.display = "none";
-        tableStatusElem.style.visibility = "visible";
-        tableStatusElem.style.display = "inline";
-    }
-    function ShowBonus() {
-        var tableStatusElem = document.getElementById("table_status")
-        var tableBonusElem = document.getElementById("table_bonus")
-        tableStatusElem.style.visibility = "none";
-        tableStatusElem.style.display = "none";
-        tableBonusElem.style.visibility = "visible";
-        tableBonusElem.style.display = "inline";
-    }
-</script>

@@ -14,44 +14,47 @@
 
 <form method="post">
     
-    <div class="row" style="font-weight: bold; grid-row-gap: 1em">
+    <div class="row" style="font-weight: bold; grid-row-gap: 1em;">
         @foreach (var item in Model.ShopList)
         {
-            <div class="col-md-3" style="height:60px;border: solid 1px black">
-                <div class="row">
-                    <div class="col-md-5">
-                        @item.MileQuantity
-                    </div>
-                    <div class="col-md-3">
-                        @item.Price
-                    </div>
-                    <div class="col-md-3">
-                        <input value="" type="radio" onchange="getData(@item.Id)" asp-for="@item.MileQuantity" id="@item.MileQuantity" />
+            <div class="col-md-2 justify-content-md-center" style="border: solid 1px black">
+                <div class="col-md-12 text-center" style="color:cadetblue ;vertical-align:middle;text-align:center; display:table-cell;font-weight:bold; height:50px ">
+                    @item.MileQuantity miles
+                </div>
+                <div class="col-md-12 text-center" style="border-top: solid 1px black; height: 50px ">
+                    <div class="row" style="padding-top: 15px">
+                        <div class="col-md-8">
+                            @item.Price €
+                        </div>
+                        <div class="col-md-4">
+                            <input value="" type="radio" onchange="getData(@item.Id)" asp-for="@item.MileQuantity" id="@item.MileQuantity" />
+                        </div>
                     </div>
                 </div>
+
             </div>
         }
 
     </div>
     <br />
-    <div row id="total_div" style="visibility:hidden; border: 1px solid black">
+    <div row id="total_div" style="visibility:hidden; border: 3px solid cadetblue">
         <div class="col-md-2">
 
         </div>
         <div class="col-md-5">
-            <p>Buy <span id="milesPicked"></span></p>
+            <p>Buy <span style="font-weight: bold" id="milesPicked"></span></p>
             <p>You will have <span id="haveMiles"></span> Miles after this purchase</p>
         </div>
         <div class="col-md-2">
-            Total: <span id="totalMoney"></span>€
+            <span style="font-weight: bold">Total:</span> <span id="totalMoney"></span>€
         </div>
         <div class="col-md-2">
 
         </div>
     </div>
+    <br />
+    <button id="finish" value="Finish Purchase" onclick="submitPurchase(this.name)"  style="visibility:hidden; background-color:cadetblue; color:white; font-weight:bold" class="btn btn-primary">Complete Purchase</button>
 
-    <button id="finish" value="Finish Purchase" onclick="submitPurchase(this.name)"  style="visibility:hidden" class="btn btn-primary">finish</button>
- 
 </form>
 
 <script type="text/javascript">

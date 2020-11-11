@@ -142,7 +142,17 @@ body {
 /***********************/
 
 /*Nomenate Gold View*/
+/********************/
 
 
+/*Balance and Transactions View*/
+.uptable{
+
+}
+
+.uptable:hover{
+    background-color: darkgray;
+    color: white;
+}
 
 /********************/
