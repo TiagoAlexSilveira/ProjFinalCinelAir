@@ -1,4 +1,4 @@
-﻿@model ProjFinalCinelAir.CommonCore.Data.Entities.Client
+﻿@model ProjFinalCinelAirAdmin.Models.ClientViewModel
 @{
     ViewData["Title"] = "Employee Details";
 }
@@ -6,7 +6,7 @@
 <div>
     <div class="container">
 
-        <h2>Employee Details</h2>
+        <h2>Client Details</h2>
         <br />
         @if (!string.IsNullOrEmpty(@ViewBag.UserMessage))
         {
@@ -33,50 +33,54 @@
                         <div asp-validation-summary="ModelOnly"></div>
 
                         <div class="form-group" style="width: 48%; float: left; margin-right:4%">
-                            <label asp-for="FirstName">First Name</label>
-                            <input asp-for="FirstName" class="form-control" disabled />
+                            <label asp-for="client.FirstName">First Name</label>
+                            <input asp-for="client.FirstName" class="form-control" disabled />
                         </div>
 
                         <div class="form-group" style="float:left; width: 48%; float:left">
-                            <label asp-for="LastName">Last Name</label>
-                            <input asp-for="LastName" class="form-control" disabled />
+                            <label asp-for="client.LastName">Last Name</label>
+                            <input asp-for="client.LastName" class="form-control" disabled />
                         </div>
 
                         <div class="form-group" style=" width: 100%;">
-                            <label asp-for="User.Email">Email</label>
-                            <input asp-for="User.Email" class="form-control" disabled />
+                            <label asp-for="client.User.Email">Email</label>
+                            <input asp-for="client.User.Email" class="form-control" disabled />
                         </div>
 
 
                         <div class="form-group" style="width: 48%; float: left;margin-right:4%">
-                            <label asp-for="PhoneNumber">Phone Number</label>
-                            <input asp-for="PhoneNumber" class="form-control" disabled />
+                            <label asp-for="client.PhoneNumber">Phone Number</label>
+                            <input asp-for="client.PhoneNumber" class="form-control" disabled />
                         </div>
 
                         <div class="form-group" style="width: 48%; float: left;">
-                            <label asp-for="TaxNumber">Tax Number</label>
-                            <input asp-for="TaxNumber" class="form-control" disabled />
+                            <label asp-for="client.TaxNumber">Tax Number</label>
+                            <input asp-for="client.TaxNumber" class="form-control" disabled />
                         </div>
 
                         <div class="form-group" style="width: 48%; float: left; margin-right:4%">
-                            <label asp-for="Identification">Identification Number</label>
-                            <input asp-for="Identification" class="form-control" disabled />
+                            <label asp-for="client.Identification">Identification Number</label>
+                            <input asp-for="client.Identification" class="form-control" disabled />
                         </div>
 
                         <div class="form-group" style="width: 48%; float: left;">
-                            <label asp-for="DateofBirth" class="control-label"></label>
-                            <input asp-for="DateofBirth" type="date" class="form-control" disabled />
+                            <label asp-for="client.DateofBirth" class="control-label"></label>
+                            <input asp-for="client.DateofBirth" type="date" class="form-control" disabled />
                         </div>
 
 
                         <div class="form-group" style="width: 48%; float: left;margin-right:4%">
-                            <label asp-for="JoinDate" class="control-label"></label>
-                            <input asp-for="JoinDate" type="date" class="form-control" disabled />
+                            <label asp-for="client.JoinDate" class="control-label"></label>
+                            <input asp-for="client.JoinDate" type="date" class="form-control" disabled />
                         </div>
 
                         <div class="form-group" style="width: 4%; float: left;">
-                            <label asp-for="isClientNumberConfirmed" class="control-label"></label>
-                            <input asp-for="isClientNumberConfirmed" class="form-control" disabled/>
+                            <label asp-for="client.isClientNumberConfirmed" class="control-label"></label>
+                            <input asp-for="client.isClientNumberConfirmed" class="form-control" disabled />
+                        </div>
+                        <div class="form-group" style="width: 48%; float: left;">
+                            <label asp-for="StatusName" class="control-label"></label>
+                            <input asp-for="StatusName" class="form-control" disabled />
                         </div>
                         <br />
                         <br />

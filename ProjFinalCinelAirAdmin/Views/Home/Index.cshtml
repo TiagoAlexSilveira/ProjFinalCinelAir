@@ -1,74 +1,342 @@
-﻿@{
+﻿@model ProjFinalCinelAirAdmin.Models.GenericViewModel
+
+
+@{
     ViewData["Title"] = "Home Page";
+}
+
+
+
+@section Style{
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+
+    <style>
+
+        .containerGrid {
+            width: 24%;
+            height: 150px;
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 25% 100px auto;
+            grid-gap: 20px 20px;
+            box-shadow: 0 0 3px gray;
+            padding: 3px;
+            float: left;
+            margin: 4px
+        }
+
+        .itemGrid {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 1;
+            grid-row-end: 2;
+            background-color: green;
+        }
+
+        .itemGrid2 {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 2;
+            grid-row-end: 2;
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 25% 65% 10%;
+        }
+
+        .itemGrid2Child1 {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 1;
+            grid-row-end: 2;
+        }
+
+        .itemGrid2Child2 {
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 2;
+            grid-row-end: 3;
+            align-self: start;
+            text-align: start;
+            font-size: x-large;
+        }
+
+        .itemGrid2Child3 {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 2;
+            grid-row-end: 3;
+            align-self: start;
+            text-align: start;
+        }
+
+        .itemGrid2Child4 {
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 3;
+            grid-row-end: 4;
+            align-self: end;
+            text-align: end;
+        }
+
+        #labelSeats :hover {
+            cursor: pointer;
+        }
+    </style>
+}
+
+
+
+<br />
+
+@if (this.User.Identity.IsAuthenticated && this.User.IsInRole("RegularUser"))
+{
+    <div class="site-section" id="next" style="width:100%">
+        <div class="container" style="width:100%; min-height:800px">
+            <p>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Hello
+                </button>
+
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="~/img/funny3.gif" alt="Good Morning">
+                    <div class="card-body">
+                        <p class="card-text">
+                            It´s amazing to have such a young, fresh and talented member as part of our team. Hope we can together take the company to new heights.
+                            Have a great day!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 }
 
 @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
 {
 
-    @model List<ProjFinalCinelAir.CommonCore.Data.Entities.Client>
+    <div class="site-section" id="next" style="width:100%">
+        <div class="container" style="width:100%; min-height:800px">
+            <br />
 
-    @section Style{
+            <p>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseHello" aria-expanded="false" aria-controls="collapseHello">
+                    Hello
+                </button>
 
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
-    }
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Clients To Validate
+                </button>
+
+            </p>
+
+            <br />
+            <div class="collapse" id="collapseHello">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="~/img/funny3.gif" alt="Good Morning">
+                    <div class="card-body">
+                        <p class="card-text">
+                            It´s amazing to have such a young, fresh and talented member as part of our team. Hope we can together take the company to new heights.
+                            Have a great day!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="collapse" id="collapseExample">
+                <table id="example">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>EMail</th>
+                            <th>Client Number</th>
+                            <th>Is Confirmed</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Clients)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.User.Email)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Client_Number)</td>
+                                <td>@Html.DisplayFor(modelItem => item.isClientNumberConfirmed)</td>
+                                <td>
+                                    @*<a asp-action="Edit" asp-route-id="@item.UserId" class="btn btn-warning">Edit</a>*@
+                                    <a asp-controller="Clients" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                                    <a asp-controller="Clients" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>EMail</th>
+                            <th>Client Number</th>
+                            <th>Is Confirmed</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+@if (this.User.Identity.IsAuthenticated && this.User.IsInRole("SuperUser"))
+{
 
     <div class="site-section" id="next" style="width:100%">
         <div class="container" style="width:100%">
-            <br />
-            <h2>Clients To Validate</h2>
-            <br />
 
-            <table id="example">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>EMail</th>
-                        <th>Client Number</th>
-                        <th>Is Confirmed</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
+
+            <br />
+            <p>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseHello" aria-expanded="false" aria-controls="collapseHello">
+                    Hello
+                </button>
+
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Partners To Validate
+                </button>
+
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#awardTickets" aria-expanded="false" aria-controls="awardTickets">
+                    Validate Seats - Award Tickets
+                </button>
+
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#clienteNotifications" aria-expanded="false" aria-controls="clienteNotifications">
+                    Client Notifications
+                </button>
+            </p>
+
+            <br />
+            <div class="collapse" id="collapseHello">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="~/img/funny3.gif" alt="Good Morning">
+                    <div class="card-body">
+                        <p class="card-text">
+                            It´s amazing to have such a young, fresh and talented member as part of our team. Hope we can together take the company to new heights.
+                            Have a great day!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="collapse" id="collapseExample">
+
+                <table id="example">
+                    <thead>
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.User.Email)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Client_Number)</td>
-                            <td>@Html.DisplayFor(modelItem => item.isClientNumberConfirmed)</td>
-                            <td>
-                                @*<a asp-action="Edit" asp-route-id="@item.UserId" class="btn btn-warning">Edit</a>*@
-                                <a asp-controller="Clients" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-                                <a asp-controller="Clients" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-                            </td>
-                        </tr>
+                            <th>Company</th>
+                            <th>Contact</th>
+                            <th>Image</th>
+                            <th>Is Validated</th>
 
-                    }
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th>Name</th>
-                        <th>EMail</th>
-                        <th>Client Number</th>
-                        <th>Is Confirmed</th>
-                        <th></th>
-                    </tr>
-                </tfoot>
-            </table>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Partners)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Contact)</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%;height:auto;" />
+                                    }
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.isValidated)</td>
+
+                                <td>
+                                    <a asp-controller="Partners" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                                    <a asp-controller="Partners" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                                    <a asp-controller="Partners" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Company</th>
+                            <th>Contact</th>
+                            <th>Image</th>
+                            <th>Is Validated</th>
+                            <th></th>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="collapse" id="awardTickets">
+
+
+                @foreach (var item in Model.AwardTickets)
+                {
+                    <div class="containerGrid">
+
+                        <div class="itemGrid">
+                            <p style="text-align:center">
+                                @Html.DisplayFor(modelItem => item.Description)
+                                <a asp-controller="AwardTicket" asp-action="Details" asp-route-id="@item.Id"
+                                   style="text-align:right; width:4px; height: 4px; color:yellow; margin-right:4px"><i class="fas fa-info-circle"></i></a>
+                                <a asp-controller="AwardTicket" asp-action="Edit" asp-route-id="@item.Id"
+                                   style="text-align:right; width:4px; height: 4px; color:darkblue"><i class="fas fa-edit"></i></a>
+                            </p>
+
+                        </div>
+
+                        <div class="itemGrid2">
+
+                            <p class="itemGrid2Child1">From</p>
+                            <label class="itemGrid2Child2">Miles</label>
+                            <h1 class="itemGrid2Child3">@Html.DisplayFor(modelItem => item.Miles)</h1>
+                            <div class="itemGrid2Child4">
+                                <span class="d-inline-block" data-toggle="popover" data-content="Seats: @Html.DisplayFor(modelItem => item.availableSeats)">
+                                    <label id="labelSeats" style="padding:5px; color:#6dcff1"><i class="far fa-plus-square"></i></label>
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+            </div>
+
+            <div class="collapse" id="clienteNotifications">
+                @foreach (var item in Model.Notifications)
+                {
+                    <div class="card" style="width: 18rem; float: left; margin-right:2%">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Client.FullName)</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.Subject)</h6>
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.Message)</p>
+                            <a asp-controller="Notifications" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info">Reply</a>
+                        </div>
+                    </div>
+                }
+                </div>
         </div>
     </div>
 
 
-    @section Scripts{
-        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-        <script type="text/javascript">
+}
+
+@section Scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
         $(document).ready(function () {
             $('#example').DataTable();
+            $('[data-toggle="popover"]').popover();
         });
 
-        </script>
-    }
-
+    </script>
 
 }
 

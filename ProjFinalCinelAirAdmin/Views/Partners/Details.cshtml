@@ -34,12 +34,20 @@
                     <label class="form-control" style="height:auto"> @Html.DisplayFor(model => model.Description) </label>
                 </div>
 
-                <div class="form-group" style="float:left;height:auto; width: 36%; float:left; margin-right:4%;">
-                    <label class="control-label"> @Html.DisplayNameFor(model => model.isCharity) </label>
-                    <input class="form-control" style="height:auto" type="checkbox" value=@Html.DisplayFor(model => model.isCharity) disabled/>  
+                <div class="form-group" style="float:left; width: 36%; float:left;">
+                    <label class="control-label">@Html.DisplayNameFor(model => model.isCharity)</label>
+                    <input class="form-control" asp-for="isCharity" type="checkbox" style="width:10%" disabled />
                 </div>
 
-                <div class="form-group" style=" float: left;">
+
+                <div class="form-group" style="float:left;height:auto; width: 36%; float:left; margin-right:4%;">
+                    <label class="control-label"> @Html.DisplayNameFor(model => model.isValidated) </label>
+                    <input class="form-control" asp-for="isValidated" type="checkbox" style="width:10%" disabled />
+                </div>
+
+                <div style="clear:both"></div>
+
+                <div class="form-group">
                     <a class="btn btn-success" asp-action="Index">Back to List</a>
                 </div>
 

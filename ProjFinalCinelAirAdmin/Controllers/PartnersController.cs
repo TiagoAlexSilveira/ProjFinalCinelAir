@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
@@ -11,6 +12,7 @@ using ProjFinalCinelAirAdmin.Models;
 
 namespace ProjFinalCinelAirAdmin.Controllers
 {
+    [Authorize(Roles = "Admin, SuperUser, RegularUser")]
     public class PartnersController : Controller
     {
         private readonly IPartnerRepository _partnerRepository;

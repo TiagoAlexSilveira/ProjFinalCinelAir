@@ -52,7 +52,7 @@ namespace ProjFinalCinelAirAPI.Controllers
             string URL = "https://airlineapinode.azurewebsites.net/";
             string Controller = $"ticket/{dateString}";
 
-            var response = await _apiService.GetDataAsync<List<TicketModel>>(URL, "ticket/2020-10-29"); // Aceder à ApiNode
+            var response = await _apiService.GetDataAsync<List<TicketModel>>(URL, dateString); // Aceder à ApiNode
 
 
             List<TicketModel> TicketList = (List<TicketModel>)response.Result;
@@ -74,7 +74,7 @@ namespace ProjFinalCinelAirAPI.Controllers
             string URL = "https://airlineapinode.azurewebsites.net/";
             string Controller = $"ticket/{dateString}";
 
-            var response = await _apiService.GetDataAsync<List<TicketModel>>(URL, "ticket/2020-10-29"); // Aceder à ApiNode
+            var response = await _apiService.GetDataAsync<List<TicketModel>>(URL, dateString); // Aceder à ApiNode
 
 
             List<TicketModel> TicketList = (List<TicketModel>)response.Result;
@@ -91,6 +91,8 @@ namespace ProjFinalCinelAirAPI.Controllers
                 UpdateMilesBonus(client);   // Actualizar as milhas_Bonus         
 
                 UpdateStatus(client); // Actualizar o Status do cliente
+
+                UpdateAllStatus();
 
             }
         }
@@ -213,7 +215,7 @@ namespace ProjFinalCinelAirAPI.Controllers
                 _context.Transaction.Add(new Transaction
                 {
                     ClientId = client.Id,
-                    Movement_Type = MovementType.Flight.ToString(),
+                    Movement_Type = "Flight",
                     Date = dateTransaction,
                     Description = $"Flight from {ticket.From} to {ticket.To}",
                     Miles = miles,
@@ -237,7 +239,7 @@ namespace ProjFinalCinelAirAPI.Controllers
                 _context.Transaction.Add(new Transaction
                 {
                     ClientId = client.Id,
-                    Movement_Type = MovementType.Flight.ToString(),
+                    Movement_Type = "Flight",
                     Date = dateTransaction,
                     Description = $"Flight from {ticket.From} to {ticket.To}",
                     Miles = miles,
@@ -446,6 +448,85 @@ namespace ProjFinalCinelAirAPI.Controllers
                 _context.SaveChanges();
 
             }
+        }
+
+        private void UpdateAllStatus() 
+        {
+            // Obter a lista de utilizadores que tiveram activação neste dia do mês
+            DateTime date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            var listClients = _context.Client.Where(x => x.JoinDate.Value.Month == date.Month && x.JoinDate.Value.Day == x.JoinDate.Value.Day);
+
+            // Actualizar cada cliente
+            foreach (var client in listClients)
+            {
+
+                DateTime lastYear = new DateTime(DateTime.Now.Year-1, DateTime.Now.Month, DateTime.Now.Day);
+
+                var ticketList = (from ticket in _context.Travel_Ticket where ticket.ClientId == client.Id && ticket.Travel_Date >= lastYear select ticket).ToList(); // Obtenho os voos realizados no último ano
+
+                int miles_status_sum = 0;
+                int voos = 0;
+
+                foreach (var item in ticketList)
+                {
+                    // Obter as milhas status correspondentes ao voo
+                    var miles_status = (from miles in _context.Mile_Status where miles.Id == item.Miles_StatusId select miles).FirstOrDefault(); // Obtenho o cliente
+
+                    miles_status_sum += miles_status.Miles_Number; // Somar as milhas
+
+                    voos += 1;
+                }
+
+                var status = (from clientStatus in _context.Historic_Status where clientStatus.ClientId == client.Id && clientStatus.End_Date == null select clientStatus).FirstOrDefault(); // Obtenho o cliente
+
+                // 1- Basic; 2 - Silver; 3 - Gold =======> Legenda dos Status
+
+                if ((miles_status_sum >= 30000 || voos >= 25) && status.StatusId == 1) // Critérios para cliente mudar de status para Silver (apenas no caso de ser básico) 
+                {
+                    // Realizar a actualização do status do cliente no histórico
+                    var clientQuery = (from historicStatus in _context.Historic_Status where historicStatus.ClientId == client.Id && historicStatus.End_Date == null select historicStatus).FirstOrDefault();
+
+
+                    clientQuery.End_Date = DateTime.Now; // Actualizar o campo das milhas status
+
+
+                    _context.Historic_Status.Add(new Historic_Status
+                    {
+                        Start_Date = DateTime.Now,
+                        isValidated = false,
+                        StatusId = 2,
+                        ClientId = client.Id
+                    });
+
+                    _context.SaveChanges();
+
+
+                }
+
+                else if ((miles_status_sum >= 70000 || voos >= 50) && (status.StatusId == 1 || status.StatusId == 2)) // Critérios para cliente mudar de status para Gold(no caso de ser básico ou Silver) 
+                {
+                    // Realizar a actualização do status do cliente no histórico
+                    var clientQuery = (from historicStatus in _context.Historic_Status where historicStatus.ClientId == client.Id && historicStatus.End_Date == null select historicStatus).FirstOrDefault();
+
+
+                    clientQuery.End_Date = DateTime.Now; // Actualizar o campo das milhas status
+
+
+                    _context.Historic_Status.Add(new Historic_Status
+                    {
+                        Start_Date = DateTime.Now,
+                        isValidated = false,
+                        StatusId = 3,
+                        ClientId = client.Id
+                    });
+
+                    _context.SaveChanges();
+
+                }
+
+            }
+
+     
         }
 
       

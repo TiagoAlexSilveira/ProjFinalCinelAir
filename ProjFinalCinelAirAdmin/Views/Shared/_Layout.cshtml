@@ -8,18 +8,28 @@
     <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+
+
+    <!-- Syncfusion Essential JS 2 Styles -->
+    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
+
+    <!-- Syncfusion Essential JS 2 Scripts -->
+    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
+
     @*<script src="~/lib/jquery/jquery.js"></script>*@
+    <style>
+    </style>
     @RenderSection("Style", required: false)
 </head>
 <body>
-  
+
     <header>
         @RenderSection("Head", required: false)
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-             
+
             <div class="container" style="height: 85px; width: 100%;box-shadow: -20px 8px 10px 5px #6dcff1; padding: 0px; opacity:0.7; border-radius: 25px 15px">
 
-                <img src="~/img/BackImage.jpg" style="width:100%; height: 100%; border-radius: 25px 15px;"/>
+                <img src="~/img/BackImage.jpg" style="width:100%; height: 100%; border-radius: 25px 15px;" />
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -54,14 +64,26 @@
                         @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("SuperUser"))
                         {
 
+
+
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Faz alguma coisa</a>
+                                <a class="nav-link text-dark" asp-controller="AwardTicket" asp-action="Index">Award Tickets</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Faz alguma coisa</a>
-
+                                <a class="nav-link text-dark" asp-controller="Notifications" asp-action="Index">Notifications</a>
                             </li>
+
+
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clients</a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="xpto">
+                                    <a class="dropdown-item" asp-controller="Clients" asp-action="Index">All</a>
+                                    <a class="dropdown-item" asp-controller="Clients" asp-action="IndexStatus">Status Change</a>
+                                </div>
+                            </li>
+
 
                         }
 
@@ -82,39 +104,39 @@
 
                         }
                     </ul>
-                  
-                    </div>
 
-
-                   <div class="navbar-collapse collapse w-100 order-3 dual-collapse2" style="position: absolute; max-width:20%; margin-left:52%">
-                        <ul class="navbar-nav ml-auto">
-
-                            @if (this.User.Identity.IsAuthenticated)
-                            {
-                                <li class="nav-item dropdown">
-
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@this.User.Identity.Name</a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangeUser">User Account</a>
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i></a>
-                                </li>
-
-                            }
-                            else
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                                </li>
-                            }
-
-
-                        </ul>
-                    </div>
                 </div>
+
+
+                <div class="navbar-collapse collapse w-100 order-3 dual-collapse2" style="position: absolute; max-width:20%; margin-left:52%">
+                    <ul class="navbar-nav ml-auto">
+
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item dropdown">
+
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@this.User.Identity.Name</a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangeUser">User Account</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i></a>
+                            </li>
+
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                        }
+
+
+                    </ul>
+                </div>
+            </div>
         </nav>
     </header>
     <div class="container">
@@ -135,6 +157,16 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <ejs-scripts></ejs-scripts>
+
+
+    <script type="text/javascript">
+
+        $('.dropdown-toggle').dropdown()
+    </script>
+
     @RenderSection("Scripts", required: false)
+
+    <ejs-scripts></ejs-scripts>
 </body>
-</html>
+    </html>
