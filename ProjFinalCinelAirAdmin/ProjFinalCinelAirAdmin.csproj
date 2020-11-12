@@ -948,6 +948,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\API\" />
     <Folder Include="wwwroot\images\Partners\" />
   </ItemGroup>
 
