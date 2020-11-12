@@ -124,7 +124,6 @@ namespace ProjFinalCinelAirAdmin.Controllers
 
             if (notification == null)
             {
-
                 return NotFound();
             }
 
@@ -138,6 +137,10 @@ namespace ProjFinalCinelAirAdmin.Controllers
                   $"{model.Value }");
 
             ViewBag.Message = "Reply sent to the client";
+
+            _context.Notification.Update(notification);
+            _context.SaveChanges();
+
             return View();
 
 
