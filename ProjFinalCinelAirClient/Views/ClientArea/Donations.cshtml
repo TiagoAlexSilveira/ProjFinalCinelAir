@@ -1,0 +1,100 @@
+﻿@model ProjFinalCinelAirClient.Models.DonationViewModel
+@{
+    ViewData["Title"] = "Balance and Transactions";
+}
+
+<partial name="_MainMenuPartial" />
+
+<br />
+<br />
+<div class="col-12 text-center">
+    <h2>Donations</h2>
+</div>
+<br />
+@if (!string.IsNullOrEmpty((string)TempData["donation"]))
+{
+    @if (TempData["donation"].ToString().Contains("Thank"))
+    {
+        <div>
+            <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["donation"]</div>
+        </div>
+    }
+    else
+    {
+        <div>
+            <div class="alert alert-success" role="alert" style="font-size:large; font-weight:bold">@TempData["donation"]</div>
+        </div>
+    }
+}
+
+<br />
+
+<form method="post" asp-action="Donations_Confirm">
+    <input type="hidden" asp-for="Id" />
+
+
+    @if (Model.DonationList.Count > 0)
+    {
+        <p style="font-size: large">Pick an Institution</p>
+        <hr />
+        <div style="width: 200px; word-break:break-word; border: black 1px solid; text-align:center; grid-row-gap: 1em; grid-column-gap: 1em">
+            @foreach (var item in Model.DonationList)
+            {
+                <div style="height:60px; margin-top: 10px">
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@Url.Content(item.ImageUrl)" alt="Image" style="border-radius:25px; max-width: 100%; height: 220px;" />
+                    }
+                </div>
+                <div>
+                    <p style="font-weight:bold">@item.Name</p>
+
+                    <p>@item.Description</p>
+
+                    <p>@item.Contact</p>
+                </div>
+                <div style="border-top: 1px solid black">
+                    <input value="@item.Id" type="radio" asp-for="SelectedPartner" id="@item.Id" />
+                </div>
+            }
+        </div>
+        <br />
+        <p style="font-size: large">Choose the amount of miles to donate</p>
+        <hr />
+        <div class="row" style="font-weight: bold; grid-row-gap: 1em;">
+            @foreach (var sitem in Model.ShopList)
+            {
+                <div class="col-md-2 justify-content-md-center" style="border: solid 1px black">
+                    <div class="col-md-12 text-center" style="color:cadetblue ;vertical-align:middle;text-align:center; display:table-cell;font-weight:bold; height:50px ">
+                        @sitem.MileQuantity miles
+                    </div>
+                    <div class="col-md-12 text-center" style="border-top: solid 1px black; height: 50px ">
+                        <div class="row" style="padding-top: 15px">
+                            <div class="col-md-4">
+                                <input value="@sitem.MileQuantity" type="radio" asp-for="SelectedItem" id="@sitem.Id" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <br />
+
+        <input type="submit" class="btn btn-primary btn-block" value="Complete Donation" />
+
+    }
+    else
+    {
+        <br />
+        <div class="col-12 text-center">
+            <h4>We apreciate your donations, but there aren't any partners in need at this time. Check back later</h4>
+        </div>
+        <br />
+    }
+    <br />
+    <br />
+
+
+
+</form>

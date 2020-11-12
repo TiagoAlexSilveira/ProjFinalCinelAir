@@ -75,7 +75,12 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
 
         public bool isClientNumberConfirmed { get; set; }
 
-        public int AnnualMilesShopped { get; set; } //limite anual de milhas compradas pelo cliente (máx 20000 milhas por ano)
-       
+        public int AnnualMilesBought { get; set; } //limite anual de milhas compradas pelo cliente (máx 20000 milhas por ano)
+        public int AnnualMilesTransfered { get; set; } 
+        public int AnnualMilesConverted { get; set; }
+
+        public int CardId { get; set; }
+        public Card Card { get; set; }
+
     }
 }

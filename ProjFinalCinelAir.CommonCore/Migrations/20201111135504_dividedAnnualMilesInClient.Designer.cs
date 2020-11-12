@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjFinalCinelAir.CommonCore.Data;
 
 namespace ProjFinalCinelAir.CommonCore.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201111135504_dividedAnnualMilesInClient")]
+    partial class dividedAnnualMilesInClient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,7 +204,7 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("ExpirationDate")
+                    b.Property<DateTime>("validity")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -246,9 +248,6 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("AnnualMilesTransfered")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CardId")
                         .HasColumnType("int");
 
                     b.Property<int>("Client_Number")
@@ -300,8 +299,6 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CardId");
 
                     b.HasIndex("UserId");
 
@@ -756,12 +753,6 @@ namespace ProjFinalCinelAir.CommonCore.Migrations
 
             modelBuilder.Entity("ProjFinalCinelAir.CommonCore.Data.Entities.Client", b =>
                 {
-                    b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.Card", "Card")
-                        .WithMany()
-                        .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("ProjFinalCinelAir.CommonCore.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");

@@ -9,7 +9,7 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         public int Id { get; set; }
         //TODO: adicionar à base de dados
 
-        public DateTime validity { get; set; }
+        public DateTime ExpirationDate { get; set; }
 
     }
 }

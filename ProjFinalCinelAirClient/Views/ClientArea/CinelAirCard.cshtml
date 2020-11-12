@@ -1,0 +1,35 @@
+﻿@model ProjFinalCinelAirClient.Models.CinelAirCardViewModel
+@{
+    ViewData["Title"] = "CinelAirCard";
+}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap" rel="stylesheet">
+
+<partial name="_MainMenuPartial" />
+
+<br />
+<br />
+<div class="col-12 text-center">
+    <h2>CinelAir Miles Card</h2>
+</div>
+<br />
+<br />
+
+<div>
+    <div style="height: 280px; width: 420px; border: solid black 2px">
+        <div class="row" style="margin-top:10px">
+            <div class="col-6 d-flex align-items-center" style="border: solid red 1px;padding-left:25px">
+                <span style="font-size: 2em;font-family: 'Poppins', Arial, sans-serif">Cinel<span style="color:#6dcff1">Air</span></span>
+            </div>
+
+            <div class="col-6" style="text-align: right; border: solid blue 1px; padding-right:35px">
+                <div>
+                    <span>MilesCard</span>
+                </div>
+                <div>
+                    <span>@Model.ClientStatus</span>
+                </div>
+            </div>           
+        </div>
+    </div>
+
+</div>

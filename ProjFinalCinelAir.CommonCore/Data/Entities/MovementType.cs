@@ -7,6 +7,8 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
     public enum MovementType
     {
         Flight,
+        NominateGold,
+        UpdatedStatus,
        
      
     }

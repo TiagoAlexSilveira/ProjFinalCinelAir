@@ -35,6 +35,8 @@
     <Compile Remove="Migrations\20201110032302_addedTableAwardTicket.Designer.cs" />
     <Compile Remove="Migrations\20201111001520_AddedCharityToPartner.cs" />
     <Compile Remove="Migrations\20201111001520_AddedCharityToPartner.Designer.cs" />
+    <Compile Remove="Migrations\20201111195909_AddedCardToClient.cs" />
+    <Compile Remove="Migrations\20201111195909_AddedCardToClient.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>   

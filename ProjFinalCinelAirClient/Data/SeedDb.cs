@@ -33,6 +33,14 @@ namespace ProjFinalCinelAirClient.Data
             await _userHelper.CheckRoleAsync("RegularUser");
             #endregion
 
+            if (!_context.Card.Any())
+            {
+                this.Add_Card(Convert.ToDateTime("2021-01-05"));
+                this.Add_Card(Convert.ToDateTime("2020-10-05"));
+
+                await _context.SaveChangesAsync();
+            }
+
 
 
             #region Criar Cidades e País
@@ -80,6 +88,7 @@ namespace ProjFinalCinelAirClient.Data
                     JoinDate = Convert.ToDateTime("2020-01-05"),
                     UserId = user.Id,
                     StreetAddress = "Rua das Ruas",
+                    CardId = 1
                 };
 
 
@@ -128,6 +137,7 @@ namespace ProjFinalCinelAirClient.Data
                     JoinDate = Convert.ToDateTime("2019-10-05"),
                     UserId = user2.Id,
                     StreetAddress = "Travessa das Flores",
+                    CardId = 2
                 };
 
 
@@ -185,15 +195,7 @@ namespace ProjFinalCinelAirClient.Data
 
             #endregion
 
-
-            if (!_context.Status.Any())
-            {
-                this.Add_Status("Basic");
-                this.Add_Status("Silver");
-                this.Add_Status("Gold");
-
-                await _context.SaveChangesAsync();
-            }
+           
 
 
             if (!_context.Rate.Any())
@@ -324,6 +326,14 @@ namespace ProjFinalCinelAirClient.Data
             });
         }
 
+
+        private void Add_Card(DateTime expiryDate)
+        {
+            _context.Card.Add(new Card
+            {
+                ExpirationDate = expiryDate
+            });
+        }
 
 
     }
