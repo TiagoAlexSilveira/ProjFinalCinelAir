@@ -5,14 +5,38 @@
 
 <partial name="_MainMenuPartial" />
 
+<br />
+<div class="col-12 text-center">
+    <h2>Transfer Miles</h2>
+</div>
 
-<form method="post" asp-action="MileShopTransferMiles_confirm">
+
+<div class="col-12 text-center">   
     <p>
-        <input asp-for="SelectedClientNumber" type="search" placeholder="Client Number" value="@Model.Client_Number" style="width: 300px" />
+        Transfer Miles to another CinelAir Miles client
+    </p>
+</div>
+<br />
+
+<div class="col-12 ">
+    <p>
+        Choose a client(by Client Number) to transfer miles to:
+    </p>
+</div>
+<form method="post" asp-action="MileShopTransferMiles_confirm">
+    <input type="hidden" asp-for="Id" />
+    <p>
+        <span style="font-weight:bold">Client: </span><input asp-for="SelectedClientNumber" type="search" placeholder="Client Number" value="@Model.Client_Number" style="width: 300px" />
         @*<input type="submit" value="dsdj" class="btn btn-primary"/>*@
         @*<a asp-action="MileShopTransferMiles">Get all Clients</a>*@
     </p>
 
+    @if (!string.IsNullOrEmpty((string)@TempData["c"]))
+    {
+        <div>
+            <div class="alert alert-warning" style="font-size:large; font-weight:bold">@TempData["c"]</div>
+        </div>
+    }
 
 
     @if ((string)@TempData["t"] == "Selected Client does not exist!")
@@ -21,22 +45,29 @@
     }
     else
     {
-        <div class="text-success" style="font-size:large; font-weight:bold">@TempData["t"]</div>
+        <div>
+            <div class="alert alert-success" style="font-size:large; font-weight:bold">@TempData["t"]</div>
+        </div>
+        
     }
 
     <br />
 
-
-    <div class="row" style="font-weight: bold; grid-row-gap: 1em">
+    <div class="col-12 ">
+        <p>
+            Select the amount you wish to transfer:
+        </p>
+    </div>
+    <div class="row" style="font-weight: bold; grid-row-gap: 1em; grid-column-gap: 2em">
         @foreach (var item in Model.ShopList)
         {
-            <div class="col-md-3" style="height:60px;border: solid 1px black">
+            <div class="col-md-2 d-flex" style="vertical-align:middle; height:60px;border: solid 1px black">
                 <div class="row">
-                    <div class="col-md-5">
-                        @item.MileQuantity
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-3 d-flex align-items-center" style="background-color:cadetblue; vertical-align: middle;text-align: center; border: solid 1px lightblue">
                         <input value="@item.Id" type="radio" asp-for="SelectedRadio" id="@item" />
+                    </div>
+                    <div class="col-9 d-flex align-items-center" style="text-align:center">
+                        @item.MileQuantity Miles
                     </div>
                 </div>
             </div>
@@ -44,98 +75,84 @@
 
     </div>
     <br />
-    @if ((string)TempData["radio"] == "Please select an amount")
+    @if (!string.IsNullOrEmpty((string)@TempData["radio"]))
     {
-        <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["radio"]</div>
+        <div>
+            <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["radio"]</div>
+        </div>
     }
     <br />
 
-    <div>
+    <div style="font-weight: bold">
         Miles transfers cost $7.50 EUR* per 1000 miles
-
         *Plus a processing fee of $30.00 per transaction
     </div>
 
     <br />
 
-    <div row id="total_div" style="visibility:hidden; border: 1px solid black">
-        <div class="col-md-2">
 
-        </div>
-        <div class="col-md-5">
-            <p>Buy <span id="milesPicked"></span></p>
-            <p>You will have <span id="haveMiles"></span> Miles after this purchase</p>
-        </div>
-        <div class="col-md-2">
-            Total: <span id="totalMoney"></span>€
-        </div>
-        <div class="col-md-2">
-
-        </div>
-    </div>
-
-    <button id="finish" value="Finish Purchase" type="submit" class="btn btn-primary">finish</button>
+    <button id="finish" value="Finish Purchase" type="submit" class="btn btn-block btn-primary" style="font-weight: bold ;background-color:cadetblue">Complete Transfer</button>
 
 </form>
 
 
 @*<script type="text/javascript">
-    function getData(Miles) {
-        var totalElem = document.getElementById("total_div")
-        var finishElem = document.getElementById("finish")
-        var milesPickedElem = document.getElementById("milesPicked")
-        var haveMilesElem = document.getElementById("haveMiles")
-        var totalMoneyElem = document.getElementById("totalMoney")
+        function getData(Miles) {
+            var totalElem = document.getElementById("total_div")
+            var finishElem = document.getElementById("finish")
+            var milesPickedElem = document.getElementById("milesPicked")
+            var haveMilesElem = document.getElementById("haveMiles")
+            var totalMoneyElem = document.getElementById("totalMoney")
 
-        totalElem.style.visibility = "visible";
+            totalElem.style.visibility = "visible";
 
-        @foreach (var product in Model.ShopList)
-        {
-            <text>
-                if ('@product' == Miles) {
+            @foreach (var product in Model.ShopList)
+            {
+                <text>
+                    if ('@product' == Miles) {
 
-                    milesPickedElem.textContent = '@product';
+                        milesPickedElem.textContent = '@product';
 
-                    finishElem.name = '@product';
-                    finishElem.style.display = "inline";
-                    finishElem.style.visibility = "visible";
-                }
-            </text>
+                        finishElem.name = '@product';
+                        finishElem.style.display = "inline";
+                        finishElem.style.visibility = "visible";
+                    }
+                </text>
 
+            }
         }
-    }
 
 
-    function submitSearch() {
-        txtElem = document.getElementById("sbox")
-        var aux = txtElem.value;
-        console.log(txtElem.value)
+        function submitSearch() {
+            txtElem = document.getElementById("sbox")
+            var aux = txtElem.value;
+            console.log(txtElem.value)
 
-        $.ajax({
-            url: "@Url.Action("MileShopTransferMiles2", "ClientArea")",
-            type: 'Get',
-            data: { search: aux },
-             success: function (res) {
+            $.ajax({
+                url: "@Url.Action("MileShopTransferMiles2", "ClientArea")",
+                type: 'Get',
+                data: { search: aux },
+                 success: function (res) {
 
-             }
-         })
-    }
+                 }
+             })
+        }
 
 
-    function submitTransfer(id) {
-        console.log(id)
+        function submitTransfer(id) {
+            console.log(id)
 
-         $.ajax({
-             url: "@Url.Action("MileShopTransferMiles_Confirm", "ClientArea")",
-             type: 'Post',
-             data: { id: id },
-             success: function (res) {
+             $.ajax({
+                 url: "@Url.Action("MileShopTransferMiles_Confirm", "ClientArea")",
+                 type: 'Post',
+                 data: { id: id },
+                 success: function (res) {
 
-             }
-         })
-    }
+                 }
+             })
+        }
 
-</script>*@
+    </script>*@
 
 
 

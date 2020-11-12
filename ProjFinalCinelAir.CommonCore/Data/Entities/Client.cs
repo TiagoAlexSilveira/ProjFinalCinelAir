@@ -79,6 +79,8 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         public int AnnualMilesTransfered { get; set; } 
         public int AnnualMilesConverted { get; set; }
 
+        public int AnnualMilesExtended { get; set; }
+
         public int CardId { get; set; }
         public Card Card { get; set; }
 

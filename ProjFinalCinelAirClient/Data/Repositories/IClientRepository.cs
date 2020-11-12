@@ -6,6 +6,7 @@ namespace ProjFinalCinelAirClient.Data.Repositories
 {
     public interface IClientRepository : IGenericRepository<Client>
     {
+        int DeductMilesWitCut(int milesToPay, Client client, List<Mile_Bonus> list);
         void DeductMilesWithoutCut(int milesToPay, List<Mile_Bonus> list);
         IList<Client> GetAllClientsWithStatusBasicOrSilver();
         Client GetClientByClientNumber(int number);

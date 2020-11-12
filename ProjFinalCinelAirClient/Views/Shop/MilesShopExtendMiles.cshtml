@@ -1,0 +1,54 @@
+﻿@model ProjFinalCinelAirClient.Models.ExtendMilesViewModel
+@{
+    ViewData["Title"] = "BuyMiles";
+}
+
+<partial name="_MainMenuPartial" />
+
+<br />
+<div class="col-12 text-center">
+    <h2>Extend Miles</h2>
+</div>
+<br />
+@if (!string.IsNullOrEmpty((string)TempData["succ"]))
+{
+    <div>
+        <div class="alert alert-success" role="alert" style="font-size:large; font-weight:bold">@TempData["succ"]</div>
+    </div>
+}
+
+
+<form method="post" asp-action="MileShopExtendMiles_Confirm">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="row" style="font-weight: bold; grid-row-gap: 1em; grid-column-gap: 2em">
+        @foreach (var item in Model.ShopList)
+        {
+            <div class="col-md-2 d-flex" style="vertical-align:middle; height:60px;border: solid 1px black">
+                <div class="row">
+                    <div class="col-3 d-flex align-items-center" style="background-color:cadetblue; vertical-align: middle;text-align: center; border: solid 1px lightblue">
+                        <input value="@item.MileQuantity" type="radio" asp-for="SelectedAmount" id="@item" />
+                    </div>
+                    <div class="col-9 d-flex align-items-center" style="text-align:center">
+                        @item.MileQuantity Miles
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+    <br />
+    @if (!string.IsNullOrEmpty((string)TempData["mss"]))
+    {
+        <div>
+            <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["mss"]</div>
+        </div>
+    }
+
+    <br />
+ 
+    <button id="finish" value="Finish Purchase" type="submit" class="btn btn-primary">Complete Purchase</button>
+
+</form>
+
+

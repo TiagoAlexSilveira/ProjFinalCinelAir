@@ -54,14 +54,15 @@ namespace ProjFinalCinelAirClient.Controllers
         [HttpPost]
         public async Task<IActionResult> MileShopBuyMiles(BuyMilesViewModel model)
         {
+            var client = await _clientRepository.GetByIdAsync(model.Id);
+
             if (model.SelectedRadio < 1)
             {
                 TempData["m"] = "Please choose an amount to purchase";
 
                 return RedirectToAction("MileShopBuyMiles");
-            }
-
-            var client = await _clientRepository.GetByIdAsync(model.Id);
+            }         
+            
             var selectedItem = await _buyMilesShopRepository.GetByIdAsync(model.SelectedRadio);
 
             client.Miles_Bonus += selectedItem.MileQuantity;
@@ -96,12 +97,23 @@ namespace ProjFinalCinelAirClient.Controllers
         }
 
 
-        public IActionResult MileShopExtendMiles()
+        public IActionResult MilesShopExtendMiles()
         {
             var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
             var shop = _buyMilesShopRepository.GetAll();
+            List<BuyMilesShop> sList = new List<BuyMilesShop>();
 
-            var model = new BuyMilesViewModel
+            //lista contém só milhas que o cliente pode transferir com base nas milhas já compradas ou transferidas
+            foreach (var item in shop)
+            {
+                int aux = 20000 - client.AnnualMilesExtended;
+                if (item.MileQuantity <= aux && item.MileQuantity <= client.Miles_Bonus)
+                {
+                    sList.Add(item);
+                }
+            }
+
+            var model = new ExtendMilesViewModel
             {
                 Id = client.Id,
                 FirstName = client.FirstName,
@@ -111,6 +123,42 @@ namespace ProjFinalCinelAirClient.Controllers
             };
 
             return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> MileShopExtendMiles_Confirm(ExtendMilesViewModel model)
+        {
+            var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+            var shop = _buyMilesShopRepository.GetAll();
+
+            if (model.SelectedAmount == 0)
+            {
+                TempData["radio"] = "Please select an amount";
+
+                return RedirectToAction("MileShopTransferMiles");
+            };
+
+
+            var clientBonus = _mile_BonusRepository.GetAll().Where(o => o.ClientId == client.Id).OrderBy(o => o.Validity).ToList();
+
+            int difference = _clientRepository.DeductMilesWitCut(model.SelectedAmount,client ,clientBonus);
+
+
+            var clientTransaction = new Transaction
+            {
+                ClientId = client.Id,
+                Miles = model.SelectedAmount,
+                Date = DateTime.Now,
+                Movement_Type = "Transfer",
+                Description = $"You extended {model.SelectedAmount} miles and lost {difference} miles",
+                Balance_Miles_Bonus = client.Miles_Bonus,
+                Balance_Miles_Status = client.Miles_Status
+            };
+
+            await _transactionRepository.CreateAsync(clientTransaction);
+
+            return RedirectToAction("MilesShopExtendMiles");
         }
 
 
@@ -125,9 +173,9 @@ namespace ProjFinalCinelAirClient.Controllers
             foreach (var item in shopt)
             {
                 int aux = 20000 - client.AnnualMilesTransfered;
-                if (item.MileQuantity <= aux)
-                {
-                    sList.Add(item);
+                if (item.MileQuantity <= aux && item.MileQuantity <= client.Miles_Bonus)
+                {                    
+                     sList.Add(item);                             
                 }
             }
 
@@ -151,6 +199,7 @@ namespace ProjFinalCinelAirClient.Controllers
         public async Task<IActionResult> MileShopTransferMiles_Confirm(TransferMilesViewModel model)
         {
             var selectedClient = _clientRepository.GetClientByClientNumber(Convert.ToInt32(model.SelectedClientNumber));
+            var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
 
             if (model.SelectedRadio == 0)
             {
@@ -159,29 +208,35 @@ namespace ProjFinalCinelAirClient.Controllers
                 return RedirectToAction("MileShopTransferMiles");
             };
 
+            if (model.SelectedClientNumber == client.Client_Number.ToString())
+            {
+                TempData["c"] = "You cannot choose your own client number. Please pick a different client!";
+
+                return RedirectToAction("MileShopTransferMiles");
+            }
+
+
             if (selectedClient != null)
             {
-                var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+          
                 var selectedAmount = await _buyMilesShopRepository.GetByIdAsync(model.SelectedRadio);
-                var clientBonus = _mile_BonusRepository.GetAll().Where(o => o.ClientId == client.Id);
-                var selectedClientBonus = _mile_BonusRepository.GetAll().Where(u => u.ClientId == selectedClient.Id);
+                var clientBonus = _mile_BonusRepository.GetAll().Where(o => o.ClientId == client.Id).OrderBy(o => o.Validity).ToList();
+                var selectedClientBonus = _mile_BonusRepository.GetAll().Where(u => u.ClientId == selectedClient.Id).OrderBy(u => u.Validity).ToList();              
+
+                _clientRepository.DeductMilesWithoutCut(selectedAmount.MileQuantity, clientBonus);
+
+                var firstClientItem = clientBonus.First();
 
                 client.Miles_Bonus -= selectedAmount.MileQuantity;
                 client.AnnualMilesTransfered += selectedAmount.MileQuantity;
-                //TODO: falar com dulce sobre Miles_Bonus
-                selectedClient.Miles_Bonus += selectedAmount.MileQuantity;
 
-                var clientMileBonus = new Mile_Bonus
-                {
-                    Miles_Number = selectedAmount.MileQuantity,
-                    //TODO: as milhas bonus quando transferidas ficam com que validade?
-                    available_Miles_Bonus = client.Miles_Bonus - selectedAmount.MileQuantity,
-                    ClientId = client.Id
-                };
+                selectedClient.Miles_Bonus += selectedAmount.MileQuantity;
+              
+
                 var selectedClientMileBonus = new Mile_Bonus
                 {
                     Miles_Number = selectedAmount.MileQuantity,
-                    //TODO: as milhas bonus quando transferidas ficam com que validade?
+                    Validity = firstClientItem.Validity.AddYears(1),
                     available_Miles_Bonus = selectedClient.Miles_Bonus + selectedAmount.MileQuantity,
                     ClientId = selectedClient.Id
                 };
@@ -211,10 +266,9 @@ namespace ProjFinalCinelAirClient.Controllers
                 await _clientRepository.UpdateAsync(selectedClient);
                 await _transactionRepository.CreateAsync(clientTransaction);
                 await _transactionRepository.CreateAsync(selectedClientTransaction);
-                await _mile_BonusRepository.CreateAsync(clientMileBonus);
                 await _mile_BonusRepository.CreateAsync(selectedClientMileBonus);
 
-                TempData["t"] = "Transfer completed sucessfully!";
+                TempData["t"] = $"You transfered {selectedAmount.MileQuantity} miles to {selectedClient.FullName} with client number {selectedClient.Client_Number}";
 
                 return RedirectToAction("MileShopTransferMiles");
             }
@@ -260,6 +314,8 @@ namespace ProjFinalCinelAirClient.Controllers
 
             client.Miles_Bonus -= selectedAmount.MileQuantity;
             client.AnnualMilesConverted += selectedAmount.MileQuantity;
+
+
 
             var clientMileBonus = new Mile_Bonus
             {

@@ -130,11 +130,11 @@ namespace ProjFinalCinelAirClient.Data.Repositories
                     {
                         if (item2.Id == id)
                         {
-                            _context.Mile_Bonus.Remove(item2);
-                            _context.SaveChanges();
+                            _context.Mile_Bonus.Remove(item2);                           
                         }
                     }
                 }
+                _context.SaveChanges();
             }
             else
             {
@@ -142,25 +142,133 @@ namespace ProjFinalCinelAirClient.Data.Repositories
                 var itemToUpdate = _context.Mile_Bonus.Find(saveID.Last());
                 itemToUpdate.Miles_Number = diff;
 
-                _context.Mile_Bonus.Update(itemToUpdate);
+                if (list.Count == 1)
+                {
+                    _context.Mile_Bonus.Update(itemToUpdate);
 
+                    _context.SaveChanges();
+                }
+                else 
+                {
+                    _context.Mile_Bonus.Update(itemToUpdate);
+                    saveID.Remove(itemToUpdate.Id);
+
+                    foreach (var item2 in list)
+                    {
+                        foreach (var id in saveID)
+                        {
+                            if (item2.Id == id)
+                            {
+                                _context.Mile_Bonus.Remove(item2);
+
+                            }
+                        }
+                    }
+
+                    _context.SaveChanges();
+
+                }      
+
+                //podia precisar atualizar o available_miles, mas nunca preciso desse valor 
+
+            };           
+        }
+
+
+
+        /// <summary>
+        /// Removes and updates the clients mileBonus table with the selected amount of miles
+        /// </summary>
+        /// <param name="milesToPay"></param>
+        /// <param name="list"></param>
+        public int DeductMilesWitCut(int milesToPay, Client client, List<Mile_Bonus> list)
+        {
+            var aux = 0;
+            var amountSum = 0;
+            List<int> saveID = new List<int>();
+
+            foreach (var item in list)
+            {
+                if (amountSum < milesToPay)
+                {
+                    amountSum += item.Miles_Number;
+                    aux += 1;
+                    saveID.Add(item.Id);
+                }
+            }
+
+            var diff = amountSum - milesToPay;
+
+            if (diff <= 0)
+            {
+                //remover as linhas caso a diferença entre valor a pagar e milhas seja igual
                 foreach (var item2 in list)
                 {
                     foreach (var id in saveID)
                     {
                         if (item2.Id == id)
                         {
-                            _context.Mile_Bonus.Remove(item2);
-                            
+                            item2.Validity = item2.Validity.AddYears(3);
                         }
                     }
                 }
+              
+                client.AnnualMilesExtended += milesToPay;
+                _context.Client.Update(client);
 
                 _context.SaveChanges();
+                return diff;
+            }
+            else
+            {
+                //ultimo item a ser tirado a diferença
+                var itemToUpdate = _context.Mile_Bonus.Find(saveID.Last());
+                itemToUpdate.Miles_Number -= diff;
+                itemToUpdate.Validity = itemToUpdate.Validity.AddYears(3);
+
+                if (saveID.Count == 1)
+                {
+                    _context.Mile_Bonus.Update(itemToUpdate);
+                    client.Miles_Bonus -= diff;
+                    client.AnnualMilesExtended += milesToPay;
+                    _context.Client.Update(client);
+
+                    _context.SaveChanges();
+                    return diff;
+                }
+                else
+                {
+                    _context.Mile_Bonus.Update(itemToUpdate);
+                    saveID.Remove(itemToUpdate.Id);
+
+                    foreach (var item2 in list)
+                    {
+                        foreach (var id in saveID)
+                        {
+                            if (item2.Id == id)
+                            {
+                                item2.Validity = item2.Validity.AddYears(3);
+                                _context.Mile_Bonus.Update(item2);
+                               
+                            }
+                        }
+                    }
+
+                    client.Miles_Bonus -= diff;
+                    client.AnnualMilesExtended += milesToPay;
+                    _context.Client.Update(client);
+
+                    _context.SaveChanges();
+                    return diff;
+
+                }
+
 
                 //podia precisar atualizar o available_miles, mas nunca preciso desse valor 
 
-            };           
+            };
         }
+
+        
     }
 }
