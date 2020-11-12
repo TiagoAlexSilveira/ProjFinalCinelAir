@@ -70,31 +70,24 @@ namespace ProjFinalCinelAirClient.Controllers
         public IActionResult BalanceAndTransactions()
         {
             var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
-            var allMilesList = _mile_BonusRepository.GetAll().Where(o => o.ClientId == client.Id).ToList();
-            if (allMilesList.Count > 0)
+            var allMilesBonusList = _mile_BonusRepository.GetAll().Where(o => o.ClientId == client.Id).OrderBy(u => u.Validity).ToList();
+            var allMilesListFirst = new Mile_Bonus();
+            if (allMilesBonusList.Count > 0)
             {
-
-            }
-
-            var milesBonus = _mile_BonusRepository.GetAll().Where(o => o.ClientId == client.Id).OrderBy(u => u.Validity);
-           
-            
-            var lastMiles = milesBonus.First();
-
-            //estou a utilizar este
-            var clientMilesBonus = client.Miles_Bonus;
-            var clientMilesStatus = client.Miles_Status;
+                allMilesListFirst = allMilesBonusList.First(); //ultimo bloco de milhas com data de validade mais perto de expirar
+            }           
 
             var transactions = _transactionRepository.GetAll().Where(o => o.ClientId == client.Id);
-
+            
             var model = new BalanceViewModel
             {
-                available_Miles_Status = clientMilesStatus,
-                available_Miles_Bonus = clientMilesBonus,
+                available_Miles_Status = client.Miles_Status,
+                available_Miles_Bonus = client.Miles_Bonus,
                 ClientId = client.Id,
                 TransactionList = transactions.ToList(),
-                ExpiryDateLastMiles = lastMiles.Validity,
-                LastMiles = lastMiles.Miles_Number
+                ExpiryDateLastMiles = allMilesListFirst.Validity.ToShortDateString(),
+                LastMiles = allMilesListFirst.Miles_Number
+                //TODO: ver data da proxima revisao para o status
             };
 
             return View(model);
@@ -183,8 +176,9 @@ namespace ProjFinalCinelAirClient.Controllers
             await _notificationRepository.CreateAsync(clientNotification);
             await _notificationRepository.CreateAsync(selectedClientNotification);
 
-            //TODO: apresentar mensagem nomenation sucessful
-            return RedirectToAction("Index");
+            TempData["sc"] = $"You have sucessfully nominated {selectedClient.FullName} for status Gold"; 
+
+            return RedirectToAction("Nominate_Gold");
 
         }
 
@@ -226,17 +220,12 @@ namespace ProjFinalCinelAirClient.Controllers
 
             var client = await _clientRepository.GetByIdAsync(model.Id);
             var selectedDonation = await _partnerRepository.GetByIdAsync(model.SelectedPartner);
-            var milesBonus = _mile_BonusRepository.GetAll().Where(o => o.ClientId == client.Id).OrderBy(u => u.Validity);
+            var milesBonus = _mile_BonusRepository.GetAll().Where(o => o.ClientId == client.Id).OrderBy(u => u.Validity).ToList();
 
             client.Miles_Bonus -= model.SelectedItem;
 
-            var clientMileBonus = new Mile_Bonus
-            {
-                Miles_Number = model.SelectedItem,
-                //TODO: as milhas bonus quando transferidas ficam com que validade?
-                available_Miles_Bonus = client.Miles_Bonus - model.SelectedItem,
-                ClientId = client.Id
-            };
+            _clientRepository.DeductMilesWithoutCut(model.SelectedItem, milesBonus);
+           
 
             var clientTransaction = new Transaction
             {
@@ -251,8 +240,7 @@ namespace ProjFinalCinelAirClient.Controllers
 
             await _clientRepository.UpdateAsync(client);
             await _transactionRepository.CreateAsync(clientTransaction);
-            //await _mile_BonusRepository.CreateAsync(clientMileBonus);
-            //ver as mudanças na tabela dos mile bonus
+
             //TODO mandar mail?
             TempData["donation"] = $"You have donated {model.SelectedItem} Miles to {selectedDonation.Name}.Thank you for your donation!";
 

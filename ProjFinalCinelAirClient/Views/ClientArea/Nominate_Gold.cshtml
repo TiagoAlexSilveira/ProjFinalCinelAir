@@ -23,6 +23,15 @@
 </div>
 <br />
 
+@if (!string.IsNullOrEmpty((string)@TempData["sc"]))
+{
+    <div>
+        <div class="alert alert-success" role="alert" style="font-size:large; font-weight:bold">@TempData["succ"]</div>
+    </div>
+}
+
+<br />
+
 @if (!string.IsNullOrEmpty((string)@TempData["cant"]))
 {
     <div class="col-12 text-center">

@@ -39,7 +39,7 @@ namespace ProjFinalCinelAirClient.Models
 
         public ICollection<Transaction> TransactionList { get; set; } 
 
-        public DateTime ExpiryDateLastMiles { get; set; }
+        public string ExpiryDateLastMiles { get; set; }
 
         public int LastMiles { get; set; }
 

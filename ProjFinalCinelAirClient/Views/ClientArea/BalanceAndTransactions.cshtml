@@ -30,14 +30,14 @@
                 @Model.available_Miles_Bonus miles
             </div> 
             <hr />
-            <p>@Model.LastMiles expiring on @Model.ExpiryDateLastMiles</p>
+            <p>@Model.LastMiles miles expiring on @Model.ExpiryDateLastMiles</p>
         </div>
         
 
 
         <div id="div_status" class="btn uptable" style="width:200px; border:solid black 2px" onclick="ShowStatus()">
             <div style="font-weight:bold">
-                Bonus Miles
+                Status Miles
             </div>
             <div>
                 @Model.available_Miles_Status miles
@@ -51,7 +51,7 @@
 
 <div id="containerstatus" style="display:none; visibility:hidden">
 
-    <table class="table table-bordered table-hover uptable" id="table_status">
+    <table class="table table-bordered uptable" id="table_status">
         <thead class="thead-dark" style="text-align:center">
             <tr>
                 <th>

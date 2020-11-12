@@ -98,9 +98,69 @@ namespace ProjFinalCinelAirClient.Data.Repositories
         }
 
 
+        /// <summary>
+        /// Deducts and updates the clients mileBonus table with the selected amount of miles
+        /// </summary>
+        /// <param name="milesToPay"></param>
+        /// <param name="list"></param>
+        public void DeductMilesWithoutCut(int milesToPay, List<Mile_Bonus> list)
+        {
+            var aux = 0;
+            var amountSum = 0;
+            List<int> saveID = new List<int>();
 
+            foreach (var item in list)
+            {
+                if (amountSum < milesToPay)
+                {
+                    amountSum += item.Miles_Number;
+                    aux += 1;
+                    saveID.Add(item.Id);
+                }
+            }
 
+            var diff = amountSum - milesToPay;
 
+            if (diff <= 0)
+            {
+                //remover as linhas caso a diferença entre valor a pagar e milhas seja igual
+                foreach (var item2 in list)
+                {
+                    foreach (var id in saveID)
+                    {
+                        if (item2.Id == id)
+                        {
+                            _context.Mile_Bonus.Remove(item2);
+                            _context.SaveChanges();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //ultimo item a ser tirado a diferença
+                var itemToUpdate = _context.Mile_Bonus.Find(saveID.Last());
+                itemToUpdate.Miles_Number = diff;
 
+                _context.Mile_Bonus.Update(itemToUpdate);
+
+                foreach (var item2 in list)
+                {
+                    foreach (var id in saveID)
+                    {
+                        if (item2.Id == id)
+                        {
+                            _context.Mile_Bonus.Remove(item2);
+                            
+                        }
+                    }
+                }
+
+                _context.SaveChanges();
+
+                //podia precisar atualizar o available_miles, mas nunca preciso desse valor 
+
+            };           
+        }
     }
 }
