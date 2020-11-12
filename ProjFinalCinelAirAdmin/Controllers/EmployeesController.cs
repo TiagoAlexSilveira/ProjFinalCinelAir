@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ProjFinalCinelAir.CommonCore.Data;
@@ -12,6 +13,7 @@ using ProjFinalCinelAirAdmin.Models;
 
 namespace ProjFinalCinelAirAdmin.Controllers
 {
+
     public class EmployeesController : Controller
     {
         #region atributos

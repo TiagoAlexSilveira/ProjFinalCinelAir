@@ -53,8 +53,18 @@
                             <input asp-for="availableSeats" class="form-control" />
                         </div>
 
+
+                        @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("SuperUser"))
+                        {
+                            <div class="form-group" style="float:left;height:auto; width: 36%; float:left;">
+                                <label asp-for="isValidated"></label>
+                                <input asp-for="isValidated" class="form-control" type="checkbox" style="width:20%" />
+                            </div>
+
+                        }
+
                         <div class="form-group" style="float:left;height:auto; width: 100%;">
-                            <input type="submit" value="Update" class="btn btn-primary"/>
+                            <input type="submit" value="Update" class="btn btn-primary" />
                             <a class="btn btn-success" asp-action="Index">Back To List</a>
                         </div>
                     </form>

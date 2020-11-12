@@ -12,7 +12,7 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
 
         public Client Client { get; set; }
 
-        public MovementType Subject  { get; set; }
+        public string Subject  { get; set; }
 
         public string Message { get; set; }
 

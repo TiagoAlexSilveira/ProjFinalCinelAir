@@ -54,17 +54,27 @@
                         <span asp-validation-for="Contact" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group" style="float:left; width: 36%; float:left; margin-right:4%;">
+                    <div class="form-group" style="float:left; width: 36%; float:left;">
                         <label asp-for="ImageFile" class="control-label"></label>
                         <input asp-for="ImageFile" class="form-control" type="file" /> <!--Deixa de ser uma caixa de texto e passa a ser uma caixa de upload-->
                         <span asp-validation-for="ImageFile" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group" style="float:left; width: 36%; float:left; margin-right:4%;">
+                    <div class="form-group" style="float:left; width: 36%; float:left; margin-right:4%;text-align:start">
                         <label asp-for="isCharity" class="control-label"></label>
-                        <input asp-for="isCharity" class="form-control" type="checkbox" /> 
+                        <input asp-for="isCharity" class="form-control" type="checkbox" style="width: 10%;" />
                         <span asp-validation-for="isCharity" class="text-danger"></span>
                     </div>
+
+                    @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("SuperUser"))
+                    {
+
+                        <div class="form-group" style="float:left; width: 36%; float:left;text-align:start">
+                            <label asp-for="isValidated" class="control-label"></label>
+                            <input asp-for="isValidated" class="form-control" type="checkbox" style="width: 10%;"/>
+                            <span asp-validation-for="isValidated" class="text-danger"></span>
+                        </div>
+                    }
 
                     <div style="clear:both"></div>
 

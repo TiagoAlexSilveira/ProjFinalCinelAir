@@ -1,4 +1,6 @@
 ﻿using ProjFinalCinelAir.CommonCore.Data.Entities;
+using ProjFinalCinelAirAdmin.Controllers;
+using ProjFinalCinelAirAdmin.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,11 @@ namespace ProjFinalCinelAirAdmin.Models
 
         public DateTime Date { get; set; }
 
-        public ICollection<Notification> NotificationList { get; set; }
+        public string SuperUserReply { get; set; }
+
+  
+
+        //public ICollection<Notification> NotificationList { get; set; }
 
     }
 }

@@ -163,25 +163,25 @@ namespace ProjFinalCinelAirAdmin.Data
             _pdfCell = new PdfPCell(new Phrase("Name", fontStyleBold));
             _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            _pdfCell.BackgroundColor = BaseColor.LightGray;
+            _pdfCell.BackgroundColor = BaseColor.White;
             _pdfTable.AddCell(_pdfCell);
 
             _pdfCell = new PdfPCell(new Phrase("Client Number", fontStyleBold));
             _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            _pdfCell.BackgroundColor = BaseColor.LightGray;
+            _pdfCell.BackgroundColor = BaseColor.White;
             _pdfTable.AddCell(_pdfCell);
 
             _pdfCell = new PdfPCell(new Phrase("Tax Number", fontStyleBold));
             _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            _pdfCell.BackgroundColor = BaseColor.LightGray;
+            _pdfCell.BackgroundColor = BaseColor.White;
             _pdfTable.AddCell(_pdfCell);
 
             _pdfCell = new PdfPCell(new Phrase("Identification", fontStyleBold));
             _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            _pdfCell.BackgroundColor = BaseColor.LightGray;
+            _pdfCell.BackgroundColor = BaseColor.White;
             _pdfTable.AddCell(_pdfCell);
 
             _pdfTable.CompleteRow();
@@ -194,25 +194,25 @@ namespace ProjFinalCinelAirAdmin.Data
                 _pdfCell = new PdfPCell(new Phrase(client.FirstName, fontStyleBold));
                 _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-                _pdfCell.BackgroundColor = BaseColor.LightGray;
+                _pdfCell.BackgroundColor = BaseColor.White;
                 _pdfTable.AddCell(_pdfCell);
 
                 _pdfCell = new PdfPCell(new Phrase(Convert.ToString(client.Client_Number), fontStyleBold));
                 _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-                _pdfCell.BackgroundColor = BaseColor.LightGray;
+                _pdfCell.BackgroundColor = BaseColor.White;
                 _pdfTable.AddCell(_pdfCell);
 
                 _pdfCell = new PdfPCell(new Phrase(Convert.ToString(client.TaxNumber), fontStyleBold));
                 _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-                _pdfCell.BackgroundColor = BaseColor.LightGray;
+                _pdfCell.BackgroundColor = BaseColor.White;
                 _pdfTable.AddCell(_pdfCell);
 
                 _pdfCell = new PdfPCell(new Phrase(Convert.ToString(client.Identification), fontStyleBold));
                 _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-                _pdfCell.BackgroundColor = BaseColor.LightGray;
+                _pdfCell.BackgroundColor = BaseColor.White;
                 _pdfTable.AddCell(_pdfCell);
 
                 _pdfTable.CompleteRow();

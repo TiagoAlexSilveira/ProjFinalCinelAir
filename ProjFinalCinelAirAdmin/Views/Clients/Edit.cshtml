@@ -1,12 +1,12 @@
 ﻿@model ProjFinalCinelAirAdmin.Models.ClientViewModel
 @{
-    ViewData["Title"] = "Employee Details";
+    ViewData["Title"] = "Edit Client";
 }
 
 <div>
     <div class="container">
 
-        <h2>Employee Update</h2>
+        <h2>Client Update</h2>
         <br />
         @if (!string.IsNullOrEmpty(@ViewBag.Message))
         {
@@ -33,33 +33,33 @@
                         <div asp-validation-summary="ModelOnly"></div>
 
                         <div class="form-group" style="width: 48%; float: left; margin-right:4%">
-                            <label asp-for="FirstName">First Name</label>
-                            <input asp-for="FirstName" class="form-control" />
-                            <span asp-validation-for="FirstName" class="text-warning"></span>
+                            <label asp-for="client.FirstName">First Name</label>
+                            <input asp-for="client.FirstName" class="form-control" />
+                            <span asp-validation-for="client.FirstName" class="text-warning"></span>
                         </div>
 
                         <div class="form-group" style="float:left; width: 48%; float:left">
-                            <label asp-for="LastName">Last Name</label>
-                            <input asp-for="LastName" class="form-control" />
-                            <span asp-validation-for="LastName" class="text-warning"></span>
+                            <label asp-for="client.LastName">Last Name</label>
+                            <input asp-for="client.LastName" class="form-control" />
+                            <span asp-validation-for="client.LastName" class="text-warning"></span>
                         </div>
 
                         <div class="form-group" style=" width: 100%;">
-                            <label asp-for="Email">Email</label>
-                            <input asp-for="Email" class="form-control" />
-                            <span asp-validation-for="Email" class="text-warning"></span>
+                            <label asp-for="client.Email">Email</label>
+                            <input asp-for="client.Email" class="form-control" />
+                            <span asp-validation-for="client.Email" class="text-warning"></span>
                         </div>
 
                         <div class="form-group" style=" width: 48%; float:left;margin-right:4%">
-                            <label asp-for="ClientNumber"></label>
-                            <input asp-for="ClientNumber" class="form-control" />
-                            <span asp-validation-for="ClientNumber" class="text-warning"></span>
+                            <label asp-for="client.Client_Number"></label>
+                            <input asp-for="client.Client_Number" class="form-control" />
+                            <span asp-validation-for="client.Client_Number" class="text-warning"></span>
                         </div>
 
                         <div class="form-group" style="width: 48%; float: left;">
-                            <label asp-for="StreetAddress">Address</label>
-                            <input asp-for="StreetAddress" class="form-control" />
-                            <span asp-validation-for="StreetAddress" class="text-warning"></span>
+                            <label asp-for="client.StreetAddress">Address</label>
+                            <input asp-for="client.StreetAddress" class="form-control" />
+                            <span asp-validation-for="client.StreetAddress" class="text-warning"></span>
                         </div>
 
                         <div class="form-group" style="width: 48% ;  float:left; margin-right:4%">
@@ -76,47 +76,72 @@
 
 
                         <div class="form-group" style="width: 48%; float: left;margin-right:4%">
-                            <label asp-for="PostalCode">Postal Code</label>
-                            <input asp-for="PostalCode" class="form-control" />
-                            <span asp-validation-for="PostalCode" class="text-warning"></span>
+                            <label asp-for="client.PostalCode">Postal Code</label>
+                            <input asp-for="client.PostalCode" class="form-control" />
+                            <span asp-validation-for="client.PostalCode" class="text-warning"></span>
                         </div>
 
                         <div class="form-group" style="width: 48%; float: left;">
-                            <label asp-for="DateofBirth" class="control-label"></label>
-                            <input asp-for="DateofBirth" type="date" class="form-control" />
-                            <span asp-validation-for="DateofBirth" class="text-danger"></span>
+                            <label asp-for="client.DateofBirth" class="control-label"></label>
+                            <input asp-for="client.DateofBirth" type="date" class="form-control" />
+                            <span asp-validation-for="client.DateofBirth" class="text-danger"></span>
                         </div>
                         <div class="form-group" style="width: 48%; float: left; margin-right:4%">
-                            <label asp-for="TaxNumber">Tax Number</label>
-                            <input asp-for="TaxNumber" class="form-control" />
-                            <span asp-validation-for="TaxNumber" class="text-warning"></span>
+                            <label asp-for="client.TaxNumber">Tax Number</label>
+                            <input asp-for="client.TaxNumber" class="form-control" />
+                            <span asp-validation-for="client.TaxNumber" class="text-warning"></span>
                         </div>
 
                         <div class="form-group" style="width: 48%; float: left;">
-                            <label asp-for="Identification">Identification Number</label>
-                            <input asp-for="Identification" class="form-control" />
-                            <span asp-validation-for="Identification" class="text-warning"></span>
+                            <label asp-for="client.Identification">Identification Number</label>
+                            <input asp-for="client.Identification" class="form-control" />
+                            <span asp-validation-for="client.Identification" class="text-warning"></span>
                         </div>
 
                         <div class="form-group" style="width: 48%; float: left; margin-right:4%">
-                            <label asp-for="JoinDate" class="control-label"></label>
-                            <input asp-for="JoinDate" type="date" class="form-control" />
-                            <span asp-validation-for="JoinDate" class="text-danger"></span>
+                            <label asp-for="client.JoinDate" class="control-label"></label>
+                            <input asp-for="client.JoinDate" type="date" class="form-control" />
+                            <span asp-validation-for="client.JoinDate" class="text-danger"></span>
                         </div>
 
-                        <div class="form-group" style="width: 48%; float: left;">
-                            <label asp-for="isValidated" class="control-label"></label>
-                            <input asp-for="isValidated" class="form-control" />
-                            <span asp-validation-for="isValidated" class="text-danger"></span>
-                        </div>
+                        @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+                        {
+                            <div class="form-group" style="width: 48%; float: left;">
+                                <label asp-for="client.isClientNumberConfirmed" class="control-label"></label>
+                                <input asp-for="client.isClientNumberConfirmed" class="form-control" />
+                                <span asp-validation-for="client.isClientNumberConfirmed" class="text-danger"></span>
+                            </div>
+                        }
 
+                        @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("SuperUser"))
+                        {
+                            <div class="form-group" style="width: 48%; float: left;">
+                                <label asp-for="client.isClientNumberConfirmed" class="control-label"></label>
+                                <input asp-for="client.isClientNumberConfirmed" class="form-control" />
+                                <span asp-validation-for="client.isClientNumberConfirmed" class="text-danger"></span>
+                            </div>
+
+                            <label asp-for="StatusId" class="control-label"></label>
+                            <select id="StatusId" asp-for="StatusId" asp-items="Model.Status" class="form-control"></select>
+                            <span asp-validation-for="StatusId" class="text-danger"></span>
+                        }
                         <br />
                         <br />
-                        <div class="form-group" style=" float: right; margin-top:30px">
-                            <input type="submit" value="Update" class="btn btn-primary" />
-                            <a class="btn btn-success" asp-action="Index">Back To List</a>
-                        </div>
+                        @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+                        {
+                            <div class="form-group" style=" float: right; margin-top:30px">
+                                <input asp-action="Edit" type="submit" value="Update" class="btn btn-primary" />
+                                <a class="btn btn-success" asp-action="Index">Back To List</a>
+                            </div>
+                        }
 
+                        @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("SuperUser"))
+                        {
+                            <div class="form-group" style=" float: right; margin-top:30px">
+                                <input asp-action="EditSuperUser" type="submit" value="Update" class="btn btn-primary" />
+                                <a class="btn btn-success" asp-action="Index">Back To List</a>
+                            </div>
+                        }
                     </form>
                 </div>
 

@@ -1,0 +1,39 @@
+﻿@model List<ProjFinalCinelAirAdmin.Models.NotificationsViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="site-section" id="next">
+    <div class="container" style="width:100%">
+        <h2>Notifications List</h2>
+
+        <br />
+
+
+        @foreach (var item in Model)
+        {
+            <div class="card" style="width: 18rem; float: left; margin-right:2%">
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Client.FullName)</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.Subject)</h6>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Message)</p>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info">Reply</a>
+                </div>
+            </div>
+        }
+
+        </div>
+</div>
+
+@section Scripts{
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+
+    </script>
+
+}

@@ -86,14 +86,13 @@ namespace ProjFinalCinelAirAdmin.Controllers
 
 
 
-        [Authorize(Roles = "Admin, SuperUser, RegularUser")]
+
         public async Task<IActionResult> Logout()
         {
             await _userHelper.LogoutAsync();
             return this.RedirectToAction("Index", "Home");
         }
 
-        [Authorize(Roles = "Admin, SuperUser, RegularUser")]
         public async Task<IActionResult> ChangeUser()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
@@ -132,7 +131,7 @@ namespace ProjFinalCinelAirAdmin.Controllers
         }
 
 
-        [Authorize(Roles = "Admin, SuperUser, RegularUser")]
+
         [HttpPost]
         public async Task<IActionResult> ChangeUser(ChangeUserViewModel model)
         {
@@ -178,15 +177,13 @@ namespace ProjFinalCinelAirAdmin.Controllers
             return this.View(model);
         }
 
-
-
-
         public async Task GetCombos(RegisterNewUserViewModel model)
         {
             model.Cities = await _countryRepository.GetComboCities(0);
             model.Countries = _countryRepository.GetComboCountries();
 
         }
+
 
         public async Task<JsonResult> GetCitiesAsync(int? countryId)
         {
@@ -202,13 +199,12 @@ namespace ProjFinalCinelAirAdmin.Controllers
         }
 
 
-        [Authorize(Roles = "Admin, SuperUser, RegularUser")]
         public IActionResult ChangePassword()
         {
             return View();
         }
 
-        [Authorize(Roles = "Admin, SuperUser, RegularUser")]
+      
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
@@ -238,7 +234,7 @@ namespace ProjFinalCinelAirAdmin.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Admin, SuperUser, RegularUser")]
+       
         [HttpPost]
         public async Task<IActionResult> CreateToken([FromBody] LoginViewModel model)
         {
