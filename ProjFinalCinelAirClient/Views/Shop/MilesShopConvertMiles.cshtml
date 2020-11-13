@@ -5,6 +5,17 @@
 
 <partial name="_MainMenuPartial" />
 
+<br />
+<div class="col-12 text-center">
+    <h2>Convert Miles</h2>
+</div>
+<br />
+<div class="col-12 text-center">
+    <p>Here you can convert Bonus miles in Status miles. You can only convert blocks of 2000 Miles and each block gives half of that amount in Status Miles.
+    The number of miles to convert is limited by the anual cumulation period</p>
+    <p>Converting Miles costs 14€ per 2000 miles and the amount converted is not refundable. Payment must be done by the client through credit card</p>
+</div>
+
 
 <form method="post" asp-action="MileShopConvertMiles_confirm">
     <input type="hidden" asp-for="Id" />
@@ -17,27 +28,32 @@
     {
         <div class="text-success" style="font-size:large; font-weight:bold">@TempData["t"]</div>
     }
-
     <br />
+    <br />
+    <div class="col-12 ">
+        <p>Please choose an amount</p>
+    </div>
+
 
     @if (Model.ShopList.Count > 0)
     {
-        <div class="row" style="font-weight: bold; grid-row-gap: 1em">
+        <div class="row" style="padding-left:20px; font-weight: bold; grid-row-gap: 1em; grid-column-gap: 0.6em">
             @foreach (var item in Model.ShopList)
             {
-                <div class="col-md-3" style="height:60px;border: solid 1px black">
+                <div class="col-md-4 d-flex " style="vertical-align:middle; height:60px;border: solid 1px cadetblue">
                     <div class="row">
-                        <div class="col-md-5">
-                            @item.MileQuantity
+                        <div class="col-2 d-flex align-items-center justify-content-center" style="background-color:cadetblue; vertical-align: middle;text-align: center;">
+                            <input value="@item.MileQuantity" type="radio" style="transform: scale(1.5)" asp-for="SelectedRadio" id="@item" />
                         </div>
-                        <div class="col-md-3">
-                            <input value="@item.Id" type="radio" asp-for="SelectedRadio" id="@item" />
+                        <div class="col-10 d-flex align-items-center" style="width: 300px;text-align:center;">
+                            @item.MileQuantity Miles | @(item.MileQuantity / 2) Status Miles
                         </div>
                     </div>
                 </div>
             }
 
         </div>
+        <br />
         <br />
         @if ((string)TempData["radio"] == "Please select an amount")
         {
@@ -46,42 +62,19 @@
         }
         <br />
 
-        <div>
-            Converting Miles costs $7.50 EUR* per 1000 miles
-
-            2000 Miles are converted to half that quantity in Status Miles
-        </div>
+       
         <br />
 
-        <button id="finish" value="Finish Convert" type="submit" class="btn btn-primary">finish</button>
+        <button id="finish" value="Finish Convert" style="background-color: cadetblue" type="submit" class="btn btn-primary btn-block">Complete Conversion</button>
 
     }
     else
     {
-        <h2>You have reached the maximum for your anual period (20000 Miles) </h2>
+        <h2>You have reached the maximum for your anual period (20000 Miles) or you do not have the minimun number of miles needed to convert based on your status </h2>
 
         <h2>You currently cannot convert any of your Miles </h2>
     }
 
 
     <br />
-
-    @*<div row id="total_div" style="visibility:hidden; border: 1px solid black">
-        <div class="col-md-2">
-
-        </div>
-        <div class="col-md-5">
-            <p>Buy <span id="milesPicked"></span></p>
-            <p>You will have <span id="haveMiles"></span> Miles after this purchase</p>
-        </div>
-        <div class="col-md-2">
-            Total: <span id="totalMoney"></span>€
-        </div>
-        <div class="col-md-2">
-
-        </div>
-    </div>*@
-
-
-
 </form>

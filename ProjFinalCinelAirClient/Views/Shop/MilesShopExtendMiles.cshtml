@@ -9,6 +9,16 @@
 <div class="col-12 text-center">
     <h2>Extend Miles</h2>
 </div>
+<div class="col-12 ">
+    <p>
+        Here you can extend the expiration date on your miles by 3 years.
+        Extending miles is only available in blocks of 2000 miles and its only possible before
+        the miles expire. this transaction is not refundable.
+    </p>
+    <p style="font-weight:bold">
+        Each 2000 Miles cost 25€ to extend.
+    </p>
+</div>
 <br />
 @if (!string.IsNullOrEmpty((string)TempData["succ"]))
 {
@@ -16,6 +26,9 @@
         <div class="alert alert-success" role="alert" style="font-size:large; font-weight:bold">@TempData["succ"]</div>
     </div>
 }
+<br />
+<br />
+<p>Please choose an amount</p>
 
 
 <form method="post" asp-action="MileShopExtendMiles_Confirm">
@@ -38,7 +51,7 @@
 
     </div>
     <br />
-    @if (!string.IsNullOrEmpty((string)TempData["mss"]))
+    @if (!string.IsNullOrEmpty((string)TempData["radio"]))
     {
         <div>
             <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["mss"]</div>
@@ -46,8 +59,9 @@
     }
 
     <br />
- 
-    <button id="finish" value="Finish Purchase" type="submit" class="btn btn-primary">Complete Purchase</button>
+    <br />
+
+    <button id="finish" value="Finish Purchase" style="font-weight: bold; background-color: cadetblue" type="submit" class="btn btn-primary btn-block">Complete Purchase</button>
 
 </form>
 

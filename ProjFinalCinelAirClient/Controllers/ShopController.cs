@@ -15,14 +15,19 @@ namespace ProjFinalCinelAirClient.Controllers
         private readonly IClientRepository _clientRepository;
         private readonly IMile_BonusRepository _mile_BonusRepository;
         private readonly ITransactionRepository _transactionRepository;
+        private readonly IHistoric_StatusRepository _historic_StatusRepository;
+        private readonly IStatusRepository _statusRepository;
 
         public ShopController(IBuyMilesShopRepository buyMilesShopRepository, IClientRepository clientRepository,
-                               IMile_BonusRepository mile_BonusRepository, ITransactionRepository transactionRepository)
+                               IMile_BonusRepository mile_BonusRepository, ITransactionRepository transactionRepository,
+                               IHistoric_StatusRepository historic_StatusRepository, IStatusRepository statusRepository)
         {
             _buyMilesShopRepository = buyMilesShopRepository;
             _clientRepository = clientRepository;
             _mile_BonusRepository = mile_BonusRepository;
             _transactionRepository = transactionRepository;
+            _historic_StatusRepository = historic_StatusRepository;
+            _statusRepository = statusRepository;
         }
 
         public IActionResult MileShopBuyMiles()
@@ -119,7 +124,7 @@ namespace ProjFinalCinelAirClient.Controllers
                 FirstName = client.FirstName,
                 LastName = client.LastName,
                 Miles_Bonus = client.Miles_Bonus,
-                ShopList = shop.ToList()
+                ShopList = sList
             };
 
             return View(model);
@@ -268,7 +273,7 @@ namespace ProjFinalCinelAirClient.Controllers
                 await _transactionRepository.CreateAsync(selectedClientTransaction);
                 await _mile_BonusRepository.CreateAsync(selectedClientMileBonus);
 
-                TempData["t"] = $"You transfered {selectedAmount.MileQuantity} miles to {selectedClient.FullName} with client number {selectedClient.Client_Number}";
+                TempData["su"] = $"You transfered {selectedAmount.MileQuantity} miles to {selectedClient.FullName} with client number {selectedClient.Client_Number}";
 
                 return RedirectToAction("MileShopTransferMiles");
             }
@@ -281,26 +286,18 @@ namespace ProjFinalCinelAirClient.Controllers
         }
 
 
-        public IActionResult MileShopConvertMiles()
+        public IActionResult MilesShopConvertMiles()
         {
             var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
-            var shop = _buyMilesShopRepository.GetAll();
-            List<BuyMilesShop> sList = new List<BuyMilesShop>();
+            var shop = _buyMilesShopRepository.GetAll().ToList();            
+            var status = _statusRepository.GetClientStatusById(client.Id);
 
-            //lista contém só milhas que o cliente pode transferir com base nas milhas já compradas ou transferidas
-            foreach (var item in shop)
-            {
-                int aux = 20000 - client.AnnualMilesConverted;
-                if (item.MileQuantity <= aux)
-                {
-                    sList.Add(item);
-                }
-            }
+            var selectedList = _clientRepository.ConvertMilesAmountSelection(status.Description, client, shop);
 
             var model = new ConvertMilesViewModel
             {
                 Id = client.Id,
-                ShopList = sList
+                ShopList = selectedList
             };
 
             return View(model);
@@ -309,45 +306,32 @@ namespace ProjFinalCinelAirClient.Controllers
         [HttpPost]
         public async Task<IActionResult> MileShopConvertMiles_confirm(ConvertMilesViewModel model)
         {
+            if (model.SelectedRadio == 0)
+            {
+                TempData["radio"] = "Please select an amount";
+
+                return RedirectToAction("MilesShopConvertMiles");
+            };
+
             var client = await _clientRepository.GetByIdAsync(model.Id);
-            var selectedAmount = await _buyMilesShopRepository.GetByIdAsync(model.SelectedRadio);
-
-            client.Miles_Bonus -= selectedAmount.MileQuantity;
-            client.AnnualMilesConverted += selectedAmount.MileQuantity;
-
-
-
-            var clientMileBonus = new Mile_Bonus
-            {
-                Miles_Number = selectedAmount.MileQuantity,
-                //TODO: as milhas bonus quando transferidas ficam com que validade?
-                available_Miles_Bonus = client.Miles_Bonus - selectedAmount.MileQuantity,
-                ClientId = client.Id
-            };
-
-            var clientMileStatus = new Mile_Bonus
-            {
-                Miles_Number = selectedAmount.MileQuantity,
-                //TODO: as milhas bonus quando transferidas ficam com que validade?
-                available_Miles_Bonus = client.Miles_Bonus - selectedAmount.MileQuantity,
-                ClientId = client.Id
-            };
-
-
+    
             var clientTransaction = new Transaction
             {
                 ClientId = client.Id,
-                Miles = selectedAmount.MileQuantity,
+                Miles = model.SelectedRadio,
                 Date = DateTime.Now,
-                Movement_Type = "Transfer",
-                Description = $"You transfered {selectedAmount.MileQuantity}",
-                Balance_Miles_Bonus = client.Miles_Bonus - selectedAmount.MileQuantity,
-                Balance_Miles_Status = client.Miles_Status
+                Movement_Type = "Convert",
+                Description = $"You converted {model.SelectedRadio} Bonus Miles to {(model.SelectedRadio/2)} Status Miles",
+                Balance_Miles_Bonus = client.Miles_Bonus - model.SelectedRadio,
+                Balance_Miles_Status = client.Miles_Status + (model.SelectedRadio/2)
             };
 
-            //TODO: actualiza automáticamente subida de status?
+            await _transactionRepository.CreateAsync(clientTransaction);
 
-            return View();
+            TempData["succ"] = $"You have successfully converted {model.SelectedRadio} Bonus Miles to {(model.SelectedRadio / 2)} Status Miles!";
+
+
+            return RedirectToAction("MilesShopConvertMiles");
 
         }
 

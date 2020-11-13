@@ -142,7 +142,7 @@ namespace ProjFinalCinelAirClient.Data.Repositories
                 var itemToUpdate = _context.Mile_Bonus.Find(saveID.Last());
                 itemToUpdate.Miles_Number = diff;
 
-                if (list.Count == 1)
+                if (saveID.Count == 1)
                 {
                     _context.Mile_Bonus.Update(itemToUpdate);
 
@@ -270,5 +270,203 @@ namespace ProjFinalCinelAirClient.Data.Repositories
         }
 
         
+        /// <summary>
+        /// Returns list with amount of values that user can convert based on amount of miles bonus and and anual amount
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="client"></param>
+        /// <param name="shopList"></param>
+        /// <returns></returns>
+        public List<BuyMilesShop> ConvertMilesAmountSelection(string status, Client client, List<BuyMilesShop> shopList)
+        {
+            List<BuyMilesShop> sList = new List<BuyMilesShop>();
+            int aux = 0;
+
+            if (status == "Basic" && client.Miles_Bonus >= 25000)
+            {
+                foreach (var item in shopList)
+                {
+                    if (client.AnnualMilesConverted >= 10000)
+                    {
+                        if (item.MileQuantity <= 10000)
+                        {
+                            sList.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        aux = 10000 - client.AnnualMilesTransfered;
+                        if (item.MileQuantity <= aux)
+                        {
+                            sList.Add(item);
+                        }
+                    }
+                }
+
+                return sList;
+            }
+            else if (status == "Silver" && client.Miles_Bonus >= 15000 && client.Miles_Bonus <= 60000)
+            {
+                foreach (var item in shopList)
+                {
+                    if (client.AnnualMilesConverted >= 10000)
+                    {
+                        if (item.MileQuantity <= 10000)
+                        {
+                            sList.Add(item);
+                        }
+                        else
+                        {
+                            aux = 10000 - client.AnnualMilesTransfered;
+                            if (item.MileQuantity <= aux)
+                            {
+                                sList.Add(item);
+                            }
+                        }
+                    }
+                }
+                return sList;
+            }
+            else if (status == "Silver" && client.Miles_Bonus >= 60000)
+            {
+                foreach (var item in shopList)
+                {
+                    aux = 20000 - client.AnnualMilesConverted;
+                    if (item.MileQuantity <= aux)
+                    {
+                        sList.Add(item);
+                    }
+                }
+                return sList;
+            }
+            else if (status == "Gold" && client.Miles_Bonus >= 45000)
+            {
+                foreach (var item in shopList)
+                {
+                    if (client.AnnualMilesConverted >= 10000)
+                    {
+                        if (item.MileQuantity <= 10000)
+                        {
+                            sList.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        aux = 10000 - client.AnnualMilesTransfered;
+                        if (item.MileQuantity <= aux)
+                        {
+                            sList.Add(item);
+                        }
+                    }
+                }
+                return sList;
+            }
+
+            return sList;
+        }
+
+
+
+        public void ConvertMiles(int milesToPay, Client client,List<Mile_Bonus> list)
+        {
+            var aux = 0;
+            var amountSum = 0;
+            List<int> saveID = new List<int>();
+
+            foreach (var item in list)
+            {
+                if (amountSum < milesToPay)
+                {
+                    amountSum += item.Miles_Number;
+                    aux += 1;
+                    saveID.Add(item.Id);
+                }
+            }
+
+            var diff = amountSum - milesToPay;
+            var itemToUpdate = _context.Mile_Bonus.Find(saveID.Last());
+
+            if (diff <= 0)
+            {
+                var mileStatus = new Mile_Status
+                {
+                    ClientId = client.Id,
+                    Miles_Number = (milesToPay / 2),
+                    Validity = itemToUpdate.Validity.AddYears(1),
+                    available_Miles_Status = client.Miles_Status + (milesToPay / 2),
+                };
+
+                client.Miles_Bonus -= milesToPay;
+                client.AnnualMilesConverted += milesToPay;
+                client.Miles_Status += (milesToPay / 2);
+
+                _context.Mile_Status.Add(mileStatus);
+                _context.Client.Update(client);
+
+                //remover as linhas caso a diferença entre valor a pagar e milhas seja igual
+                foreach (var item2 in list)
+                {
+                    foreach (var id in saveID)
+                    {
+                        if (item2.Id == id)
+                        {
+                            _context.Mile_Bonus.Remove(item2);                            
+                        }
+                    }
+                }
+              
+                _context.SaveChanges();
+            }
+            else
+            {
+                //ultimo item a ser tirado a diferença;
+                itemToUpdate.Miles_Number = diff;
+
+                var mileStatus = new Mile_Status
+                {
+                    ClientId = client.Id,
+                    Miles_Number = (milesToPay / 2),
+                    Validity = itemToUpdate.Validity.AddYears(1),
+                    available_Miles_Status = client.Miles_Status + (milesToPay / 2),
+                };
+
+                client.Miles_Bonus -= milesToPay;
+                client.AnnualMilesConverted += milesToPay;
+                client.Miles_Status += (milesToPay / 2);
+
+                _context.Mile_Status.Add(mileStatus);
+                _context.Client.Update(client);
+
+                if (saveID.Count == 1)
+                {
+                    _context.Mile_Bonus.Update(itemToUpdate);
+
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    _context.Mile_Bonus.Update(itemToUpdate);
+                    saveID.Remove(itemToUpdate.Id); //remove from aux list after updating so it doesnt get removed
+
+                    foreach (var item2 in list)
+                    {
+                        foreach (var id in saveID)
+                        {
+                            if (item2.Id == id)
+                            {
+                                _context.Mile_Bonus.Remove(item2);
+
+                            }
+                        }
+                    }
+
+                    _context.SaveChanges();
+
+                }
+
+                //podia precisar atualizar o available_miles, mas nunca preciso desse valor 
+
+            };
+        }
     }
 }

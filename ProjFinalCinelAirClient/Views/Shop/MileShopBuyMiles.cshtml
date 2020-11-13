@@ -10,6 +10,8 @@
     <h2>Buy Miles</h2>
 </div>
 <br />
+<br />
+<br />
 @if (!string.IsNullOrEmpty((string)TempData["succ"]))
 {
     <div>
@@ -57,8 +59,8 @@
 
         </div>
         <div class="col-md-5">
-            <p>Buy <span style="font-weight: bold" id="milesPicked"></span></p>
-            <p>You will have <span id="haveMiles"></span> Miles after this purchase</p>
+            <p>Buy <span style="font-weight: bold" id="milesPicked"></span> Miles</p>
+            <p>You will have <span id="haveMiles" style="font-weight:bold"></span> Miles after this purchase</p>
         </div>
         <div class="col-md-2">
             <span style="font-weight: bold">Total:</span> <span id="totalMoney"></span>€
@@ -68,7 +70,7 @@
         </div>
     </div>
     <br />
-    <button id="finish" value="Finish Purchase" type="submit" class="btn btn-primary">Complete Purchase</button>
+    <button id="finish" value="Finish Purchase" type="submit" style="font-weight:bold; background-color:cadetblue" class="btn btn-primary btn-block">Complete Purchase</button>
 
 </form>
 
@@ -88,7 +90,7 @@
                     if ('@product.Id' == Id) {
 
                         milesPickedElem.textContent = '@product.MileQuantity';
-                        haveMilesElem.textContent = '@Model.Miles_Bonus' + '@product.MileQuantity';
+                        haveMilesElem.textContent = '@(Model.Miles_Bonus + product.MileQuantity)';
                         totalMoneyElem.textContent = '@product.Price';
 
                         @*finishElem.name = '@product.Id';*@
