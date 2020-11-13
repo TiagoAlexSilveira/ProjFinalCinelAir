@@ -6,6 +6,7 @@ using Xamarin.Essentials.Interfaces;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
 using ProjFinalCinelAir.Prism.Services;
+using Syncfusion.Licensing;
 
 namespace ProjFinalCinelAir.Prism
 {
@@ -18,9 +19,10 @@ namespace ProjFinalCinelAir.Prism
 
         protected override async void OnInitialized()
         {
+            SyncfusionLicenseProvider.RegisterLicense("MzUwOTYxQDMxMzgyZTMzMmUzMGhYK0lzZzZMbDlCMlpXLyswNUdldDYwRVg0dktDQUNtQk0wVTZQNnVDTU09");
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            await NavigationService.NavigateAsync("NavigationPage/TicketsPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -29,6 +31,8 @@ namespace ProjFinalCinelAir.Prism
             containerRegistry.Register<IApiService, ApiService>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<MilesStatus, MilesStatusViewModel>();
+            containerRegistry.RegisterForNavigation<TicketsPage, TicketsPageViewModel>();
         }
     }
 }

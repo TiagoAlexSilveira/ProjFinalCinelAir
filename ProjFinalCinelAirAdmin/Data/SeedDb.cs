@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
+using ProjFinalCinelAir.CommonCore.Helper;
 using ProjFinalCinelAirAdmin.Helpers;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,14 @@ namespace ProjFinalCinelAirAdmin.Data
             await _userHelper.CheckRoleAsync("RegularUser");
             #endregion
 
+            if (!_context.Card.Any())
+            {
+                this.Add_Card(Convert.ToDateTime("2021-01-05"));
+                this.Add_Card(Convert.ToDateTime("2020-10-05"));
+
+                await _context.SaveChangesAsync();
+            }
+
 
 
             #region Criar Cidades e País
@@ -64,9 +73,8 @@ namespace ProjFinalCinelAirAdmin.Data
                     Email = "tsilveira01@gmail.com",
                     UserName = "tsilveira01@gmail.com",
                     CityId = 1,
-                    isActive = true,
-                    
-                    
+                    TaxNumber = 354647362,
+                    Identification = "63547589",
                 };
 
                 var client = new Client
@@ -81,7 +89,7 @@ namespace ProjFinalCinelAirAdmin.Data
                     JoinDate = Convert.ToDateTime("2020-01-05"),
                     UserId = user.Id,
                     StreetAddress = "Rua das Ruas",
-                    isClientNumberConfirmed = true,
+                    CardId = 1
                 };
 
 
@@ -114,7 +122,6 @@ namespace ProjFinalCinelAirAdmin.Data
                     Email = "dcruzsimoes@gmail.com",
                     UserName = "dcruzsimoes@gmail.com",
                     CityId = 1,
-                    isActive = true,
                     TaxNumber = 226250989,
                     Identification = "11895671",
                 };
@@ -131,7 +138,7 @@ namespace ProjFinalCinelAirAdmin.Data
                     JoinDate = Convert.ToDateTime("2019-10-05"),
                     UserId = user2.Id,
                     StreetAddress = "Travessa das Flores",
-                    isClientNumberConfirmed = false,
+                    CardId = 2
                 };
 
 
@@ -167,13 +174,7 @@ namespace ProjFinalCinelAirAdmin.Data
                     CityId = 1,
                     FirstName = "Maria",
                     LastName = "Augusta",
-                    TaxNumber = 111111111,
-                    Identification = "213658422",
-                    StreetAddress = "Travessa do Oleiro",
-                    PostalCode = "1100-010",
-                    DateofBirth = Convert.ToDateTime("1979-10-10"),
-                    PhoneNumber = "219966559",
-                    isActive = true
+                    TaxNumber = 111111111
                 };
 
                 var resultAdmin = await _userHelper.AddUserAsync(admin, "123456");  //cria um user com aqueles dados e aquela password
@@ -196,14 +197,6 @@ namespace ProjFinalCinelAirAdmin.Data
             #endregion
 
 
-            if (!_context.Status.Any())
-            {
-                this.Add_Status("Basic");
-                this.Add_Status("Silver");
-                this.Add_Status("Gold");
-
-                await _context.SaveChangesAsync();
-            }
 
 
             if (!_context.Rate.Any())
@@ -231,10 +224,24 @@ namespace ProjFinalCinelAirAdmin.Data
                 await _context.SaveChangesAsync();
             }
 
+            if (!_context.BuyMilesShop.Any())
+            {
+                this.Add_BuyMilesShop(2000, 50);
+                this.Add_BuyMilesShop(4000, 70);
+                this.Add_BuyMilesShop(6000, 90);
+                this.Add_BuyMilesShop(10000, 110);
+                this.Add_BuyMilesShop(12000, 130);
+                this.Add_BuyMilesShop(14000, 150);
+                this.Add_BuyMilesShop(16000, 170);
+                this.Add_BuyMilesShop(18000, 190);
+                this.Add_BuyMilesShop(20000, 210);
+            }
+
+
             if (!_context.Historic_Status.Any())
             {
-                this.Add_Historic_Status(Convert.ToDateTime("2020-01-05"), null, true, 1, 1);
-                this.Add_Historic_Status(Convert.ToDateTime("2019-10-05"), null, true, 1, 2);
+                this.Add_Historic_Status(Convert.ToDateTime("2020-01-05"), null, true, false, 1, 1);
+                this.Add_Historic_Status(Convert.ToDateTime("2019-10-05"), null, true, false, 1, 2);
 
                 await _context.SaveChangesAsync();
             }
@@ -299,20 +306,36 @@ namespace ProjFinalCinelAirAdmin.Data
         }
 
 
-        private void Add_Historic_Status(DateTime start, DateTime? end, bool isValidated, int statusId, int clientId)
+        private void Add_Historic_Status(DateTime start, DateTime? end, bool isValidated, bool nominated, int statusId, int clientId)
         {
             _context.Historic_Status.Add(new Historic_Status
             {
                 Start_Date = start,
                 End_Date = end,
                 isValidated = isValidated,
+                wasNominated = nominated,
                 StatusId = statusId,
                 ClientId = clientId
             });
         }
 
+        private void Add_BuyMilesShop(int mileQuantity, decimal price)
+        {
+            _context.BuyMilesShop.Add(new BuyMilesShop
+            {
+                MileQuantity = mileQuantity,
+                Price = price
+            });
+        }
 
+
+        private void Add_Card(DateTime expiryDate)
+        {
+            _context.Card.Add(new Card
+            {
+                ExpirationDate = expiryDate
+            });
+        }
 
     }
-
 }

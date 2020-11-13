@@ -5,13 +5,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
+using ProjFinalCinelAir.CommonCore.Helper;
 using ProjFinalCinelAirAdmin.Data;
 using ProjFinalCinelAirAdmin.Data.Repositories;
 using ProjFinalCinelAirAdmin.Helpers;
+using Microsoft.IdentityModel.Tokens;
+using System.Configuration;
+using Microsoft.Extensions.Options;
+using System.Text;
 
 namespace ProjFinalCinelAirAdmin
 {
@@ -55,6 +59,28 @@ namespace ProjFinalCinelAirAdmin
             //            Encoding.UTF8.GetBytes(this.Configuration["Tokens:Key"]))
             //    };
             //});
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/NotAuthorized";
+            });
+
+
+            // Adicionar o serviço para gerar Tokens: (Nuget não pode ser a última versão)
+            services.AddAuthentication()
+            .AddCookie()
+            .AddJwtBearer(cfg =>
+            {
+                cfg.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = this.Configuration["Tokens:Issuer"],
+                    ValidAudience = this.Configuration["Tokens:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(this.Configuration["Tokens:key"]))
+                };
+            });
+
+
 
             services.AddDbContext<DataContext>(cfg =>
             {

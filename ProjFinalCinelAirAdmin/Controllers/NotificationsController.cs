@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
+using ProjFinalCinelAir.CommonCore.Helper;
 using ProjFinalCinelAirAdmin.Data;
 using ProjFinalCinelAirAdmin.Helpers;
 using ProjFinalCinelAirAdmin.Models;

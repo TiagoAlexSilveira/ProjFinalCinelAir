@@ -239,8 +239,8 @@ namespace ProjFinalCinelAirClient.Data
 
             if (!_context.Historic_Status.Any())
             {
-                this.Add_Historic_Status(Convert.ToDateTime("2020-01-05"), null, true, 1, 1);
-                this.Add_Historic_Status(Convert.ToDateTime("2019-10-05"), null, true, 1, 2);
+                this.Add_Historic_Status(Convert.ToDateTime("2020-01-05"), null, true, false, 1, 1);
+                this.Add_Historic_Status(Convert.ToDateTime("2019-10-05"), null, true, false,  1, 2);
 
                 await _context.SaveChangesAsync();
             }
@@ -305,13 +305,14 @@ namespace ProjFinalCinelAirClient.Data
         }
 
 
-        private void Add_Historic_Status(DateTime start, DateTime? end, bool isValidated, int statusId, int clientId)
+        private void Add_Historic_Status(DateTime start, DateTime? end, bool isValidated, bool nominated, int statusId, int clientId)
         {
             _context.Historic_Status.Add(new Historic_Status
             {
                 Start_Date = start,
                 End_Date = end,
                 isValidated = isValidated,
+                wasNominated = nominated,
                 StatusId = statusId,
                 ClientId = clientId
             });

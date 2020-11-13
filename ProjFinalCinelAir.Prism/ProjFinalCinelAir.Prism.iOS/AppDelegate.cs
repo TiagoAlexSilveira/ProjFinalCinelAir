@@ -1,6 +1,7 @@
 ﻿using Foundation;
 using Prism;
 using Prism.Ioc;
+using Syncfusion.SfBusyIndicator.XForms.iOS;
 using UIKit;
 
 
@@ -24,6 +25,7 @@ namespace ProjFinalCinelAir.Prism.iOS
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App(new iOSInitializer()));
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+            new SfBusyIndicatorRenderer();
             return base.FinishedLaunching(app, options);
         }
     }
