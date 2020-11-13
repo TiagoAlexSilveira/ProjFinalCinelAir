@@ -79,47 +79,66 @@ namespace ProjFinalCinelAirAPI.Controllers
 
             List<TicketModel> TicketList = (List<TicketModel>)response.Result;
 
-            
-
-            foreach (var ticket in TicketList) // Percorrer a lista de bilhetes
+            if (TicketList!=null)
             {
 
-                Client client = _clientHelper.GetClient(ticket.ClientNumber);
-                
-                UpadateMilesStatus(client); // Actualizar as milhas_Status
-               
-                UpdateMilesBonus(client);   // Actualizar as milhas_Bonus         
+                foreach (var ticket in TicketList) // Percorrer a lista de bilhetes
+                {
 
-                UpdateStatus(client); // Actualizar o Status do cliente
+                    Client client = _clientHelper.GetClient(ticket.ClientNumber);
 
-                UpdateAllStatus();
+                    UpadateMilesStatus(client); // Actualizar as milhas_Status
 
+                    UpdateMilesBonus(client);   // Actualizar as milhas_Bonus         
+
+                    UpdateStatus(client); // Actualizar o Status do cliente
+
+                    UpdateAllStatus();
+
+                }
             }
+
+           
         }
 
         private async Task CinelAirMiles_Users(List<TicketModel> TicketsList)
         {
-            foreach (var ticket in TicketsList)
+            try
             {
-
-                Client client = _clientHelper.GetClient(ticket.ClientNumber); // Vai à tabela obter o user que tem o numero de cliente do bilhete         
-
-                if (client != null) // Cliente existe
+                if (TicketsList!=null)
                 {
 
-                    DistanceModel model = await GetMiles(ticket); // Aceder à api para obter as milhas percorridas
-
-                    string rate = "TopExecutiva";
-
-                    if (ticket.Class != "TopExecutiva") // Se a viagem tiver sido realizada noutra classe qe não a TopExecutiva
+                    foreach (var ticket in TicketsList)
                     {
-                        rate = await GetRate(model, ticket.Class); // Aceder à base de dados dos países e obter a taxa
+
+                        Client client = _clientHelper.GetClient(ticket.ClientNumber); // Vai à tabela obter o user que tem o numero de cliente do bilhete         
+
+                        if (client != null) // Cliente existe
+                        {
+
+                            DistanceModel model = await GetMiles(ticket); // Aceder à api para obter as milhas percorridas
+
+                            string rate = "TopExecutiva";
+
+                            if (ticket.Class != "TopExecutiva") // Se a viagem tiver sido realizada noutra classe qe não a TopExecutiva
+                            {
+                                rate = await GetRate(model, ticket.Class); // Aceder à base de dados dos países e obter a taxa
+                            }
+
+                            await NewEntries(client, rate, ticket, model);
+
+                        }
                     }
 
-                    await NewEntries(client, rate, ticket, model);
-
                 }
+
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
 
         private async Task<DistanceModel> GetMiles(TicketModel ticket)

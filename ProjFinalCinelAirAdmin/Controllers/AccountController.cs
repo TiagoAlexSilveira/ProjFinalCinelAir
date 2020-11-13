@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
+using ProjFinalCinelAir.CommonCore.Helper;
+using ProjFinalCinelAir.CommonCore.Models;
 using ProjFinalCinelAirAdmin.Data.Repositories;
 using ProjFinalCinelAirAdmin.Helpers;
 using ProjFinalCinelAirAdmin.Models;
@@ -42,6 +44,8 @@ namespace ProjFinalCinelAirAdmin.Controllers
         {
             if (ModelState.IsValid)
             {
+                
+
                 var result = await _userHelper.LoginAsyncWithEmail(model);
                 var user = await _userHelper.GetUserByEmailAsync(model.Username);
 
@@ -64,7 +68,9 @@ namespace ProjFinalCinelAirAdmin.Controllers
                     return this.RedirectToAction("Index", "Home");
                 }
 
-                this.ModelState.AddModelError(string.Empty, "Access Only for employees");
+                await _userHelper.LogoutAsync();
+
+                return this.RedirectToAction("NotAuthorized", "Account");
 
             }
 
@@ -76,14 +82,17 @@ namespace ProjFinalCinelAirAdmin.Controllers
 
         public IActionResult Login()
         {
+
             if (this.User.Identity.IsAuthenticated)
             {
                 return this.RedirectToAction("Index", "Home");
             }
-
+            
+           
             return this.View();
         }
 
+      
 
 
 
@@ -347,6 +356,11 @@ namespace ProjFinalCinelAirAdmin.Controllers
 
         public IActionResult NotAuthorized()
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return this.RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 
