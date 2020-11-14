@@ -76,74 +76,87 @@ namespace ProjFinalCinelAirClient.Controllers
         }
 
 
-       /* public IActionResult Register()
-        {
+       public IActionResult Register()
+       {
             var model = new RegisterNewUserViewModel
             {
 
             };
 
             return this.View(model);
-        }*/
+       }
 
 
-       /* [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> Register(RegisterNewUserViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByEmailAsync(model.Username); //ver se o user existe
+                var user = await _userHelper.GetUserByEmailAsync(model.Email);
                 if (user == null)
                 {
-
                     user = new User
                     {
                         Email = model.Email,
-                        UserName = model.Username
+                        UserName = model.Email,
                     };
-
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
                     if (result != IdentityResult.Success)
                     {
-                        this.ModelState.AddModelError(string.Empty, "The user couldn't be created");
-                        return this.View(model);
+                        this.ModelState.AddModelError(string.Empty, "The user could not be created");
+                        return View(model);  //retornamos a view outra vez para o user não ter de preencher os campos de novo
                     }
 
-                    var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-                    var tokenLink = this.Url.Action("ConfirmEmail", "Account", new
+                    var client = new Client
                     {
-                        userId = user.Id,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        //Email = client.Email,
+                        UserId = user.Id
+
+                    };
+
+                    await _clientRepository.CreateAsync(client);
+
+
+                    var isRole = await _userHelper.IsUserInRoleAsync(user, "Client");
+
+
+                    var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                    var tokenLink = Url.Action("ConfirmEmail", "Account", new
+                    {
+                        userid = user.Id,
                         token = myToken,
                     }, protocol: HttpContext.Request.Scheme);
 
-                    _mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                       $"To allow the user, " +
-                       $"please click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
-                    this.ViewBag.Message = "The instructions to allow your user has been sent to email.";
+                    if (!isRole)
+                    {
+                        await _userHelper.AddUserToRoleAsync(user, "Client");
+                    }
+
+                    try
+                    {
+                        //_mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Verify your email to finish signing up for AutoWorkshop.</h1>" +
+                        //$"<br><br>Please confirm your email by using this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+                        //this.ViewBag.Message = "Instructions to confirm your sign up have been sent to your email.";
+                    }
+                    catch (Exception e)
+                    {
+
+                        throw e;
+                    }
 
 
-                    ////se ele conseguir registar o user, entra logo
-                    //var loginViewModel = new LoginViewModel
-                    //{
-                    //    Password = model.Password,
-                    //    RememberMe = false,
-                    //    Username = model.Username
-                    //};
 
-                    //var result2 = await _userHelper.LoginAsync(loginViewModel);
-
-                    //if (result2.Succeeded)
-                    //{
-
-                    return this.View(model);
+                    return View(model);
                 }
 
-                this.ModelState.AddModelError(string.Empty, "The user already exists");
-
+                ModelState.AddModelError(string.Empty, "The username is already registered");
             }
+
             return View(model);
-        }*/
+        }
 
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
