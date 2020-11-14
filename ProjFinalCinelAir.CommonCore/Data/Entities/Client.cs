@@ -53,7 +53,8 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
         [Display(Name = "Citizen Card Number")]
         public string Identification { get; set; }
 
-
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime? JoinDate { get; set; }
 
 
@@ -81,8 +82,6 @@ namespace ProjFinalCinelAir.CommonCore.Data.Entities
 
         public int AnnualMilesExtended { get; set; }
 
-        public int CardId { get; set; }
-        public Card Card { get; set; }
 
     }
 }

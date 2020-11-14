@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
+using ProjFinalCinelAirClient.Data.Repositories;
 using ProjFinalCinelAirClient.Helpers;
 using ProjFinalCinelAirClient.Models;
 using System;
@@ -17,16 +18,20 @@ namespace ProjFinalCinelAirClient.Controllers
     public class AccountController : Controller
     {
         private readonly IUserHelper _userHelper;
+        private readonly IConverterHelper _converterHelper;
         private readonly IConfiguration _configuration;
         private readonly IMailHelper _mailHelper;
+        private readonly IClientRepository _clientRepository;
 
-        public AccountController(IUserHelper userHelper,
-            IConfiguration configuration,
-            IMailHelper mailHelper)
+        public AccountController(IUserHelper userHelper, IConverterHelper converterHelper,
+                                IConfiguration configuration, IMailHelper mailHelper,
+                                IClientRepository clientRepository)
         {
             _userHelper = userHelper;
+            _converterHelper = converterHelper;
             _configuration = configuration;
             _mailHelper = mailHelper;
+            _clientRepository = clientRepository;
         }
 
         [HttpPost]
@@ -163,55 +168,45 @@ namespace ProjFinalCinelAirClient.Controllers
             return View();
         }
 
-        /*public async Task<IActionResult> ChangeUser()
+        public async Task<IActionResult> ChangeUser()
         {
-            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-            var model = new ChangeUserViewModel();
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
             if (user != null)
             {
-                model.FirstName = user.FirstName;
-                model.LastName = user.LastName;
-                model.Address = user.StreetAddress;
-                model.PhoneNumber = user.PhoneNumber;
-            }
+                var client = _clientRepository.GetClientByUserId(user.Id);
 
-            return this.View(model);
-        }*/
+                var model = _converterHelper.ToChangeUserViewModelClient(client);
+
+                return View(model);
+            };
+
+            return View();
+        }
 
 
 
-        /*[HttpPost]
+        [HttpPost]
         public async Task<IActionResult> ChangeUser(ChangeUserViewModel model)
         {
-            if (this.ModelState.IsValid)
-            {
-                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            if (ModelState.IsValid)
+            {              
+                var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
                 if (user != null)
-                {            
-                    user.FirstName = model.FirstName;
-                    user.LastName = model.LastName;
-                    user.StreetAddress = model.Address;
-                    user.PhoneNumber = model.PhoneNumber;
+                {                    
+                    var client = _converterHelper.ToClient(model);
+                    await _clientRepository.UpdateAsync(client);
 
-                    var respose = await _userHelper.UpdateUserAsync(user);
-                    if (respose.Succeeded)
-                    {
-                        this.ViewBag.UserMessage = "User updated!";
-                    }
-                    else
-                    {
-                        this.ModelState.AddModelError(string.Empty, respose.Errors.FirstOrDefault().Description);
-                    }
+                    ViewBag.UserMessage = "Changes have been saved";                                      
                 }
                 else
                 {
-                    this.ModelState.AddModelError(string.Empty, "User no found.");
+                    ModelState.AddModelError(string.Empty, "User not found.");
                 }
             }
 
-            return this.View(model);
-        }*/
+            return View(model);
+        }
 
 
 

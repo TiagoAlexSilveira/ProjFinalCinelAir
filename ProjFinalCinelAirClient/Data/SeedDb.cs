@@ -88,7 +88,6 @@ namespace ProjFinalCinelAirClient.Data
                     JoinDate = Convert.ToDateTime("2020-01-05"),
                     UserId = user.Id,
                     StreetAddress = "Rua das Ruas",
-                    CardId = 1
                 };
 
 
@@ -137,7 +136,6 @@ namespace ProjFinalCinelAirClient.Data
                     JoinDate = Convert.ToDateTime("2019-10-05"),
                     UserId = user2.Id,
                     StreetAddress = "Travessa das Flores",
-                    CardId = 2
                 };
 
 

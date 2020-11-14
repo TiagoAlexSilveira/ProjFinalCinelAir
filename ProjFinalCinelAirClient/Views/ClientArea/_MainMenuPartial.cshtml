@@ -7,7 +7,6 @@
                 <a href="123" class="nav-link dropdown-toggle" data-toggle="dropdown">Client Area</a>
                 <div class="dropdown-menu" id="dd1">
                     <a asp-controller="ClientArea" asp-action="BalanceAndTransactions" class="dropdown-item">Balance and transactions</a>
-                    <a href="21" class="dropdown-item">Miles Credit</a>
                     <a href="11" class="dropdown-item">Upgrade with miles</a>
                     <a asp-controller="ClientArea" asp-action="Partners" class="dropdown-item">Partners</a>
                     <a asp-controller="ClientArea" asp-action="CinelAirCard" class="dropdown-item">CinelAir Miles Card</a>
@@ -27,7 +26,7 @@
                     <li href="ss" class="dropdown-item">Transfer Miles</li>
                     <li href="aa" class="dropdown-item">Convert Miles</li>
                 </ul>
-                <a href="#news">Profile</a>
+                <a asp-controller="Account" asp-action="ChangeUser" class="dropdown-item">Profile</a>
             </div>
 
             <br />

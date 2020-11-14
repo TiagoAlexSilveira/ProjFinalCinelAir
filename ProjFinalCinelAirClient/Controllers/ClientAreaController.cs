@@ -268,28 +268,28 @@ namespace ProjFinalCinelAirClient.Controllers
 
         public async Task<IActionResult> CinelAirCard()
         {
-            var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
-            var hstatus = _historic_StatusRepository.GetClientHistoric_StatusById(client.Id);
-            var mileList = _mile_BonusRepository.GetAll().Where(o => o.ClientId == client.Id).OrderBy(o => o.Validity).ToList();
-            //var lastMiles = mileList.First();
-            var clientStatus = _statusRepository.GetClientStatusById(client.Id);
+            //var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+            //var hstatus = _historic_StatusRepository.GetClientHistoric_StatusById(client.Id);
+            //var mileList = _mile_BonusRepository.GetAll().Where(o => o.ClientId == client.Id).OrderBy(o => o.Validity).ToList();
+            ////var lastMiles = mileList.First();
+            //var clientStatus = _statusRepository.GetClientStatusById(client.Id);
                 
-            var card = await _cardRepository.GetByIdAsync(client.CardId);
-            var card1 = await _cardRepository.GetByIdAsync(1);
+            //var card = await _cardRepository.GetByIdAsync(client.CardId);
+            //var card1 = await _cardRepository.GetByIdAsync(1);
 
-            var model = new CinelAirCardViewModel
-            {
-                StatusId = hstatus.StatusId,
-                ClientStatus = clientStatus.Description,
-                Id = client.Id,
-                Miles_Bonus = client.Miles_Bonus,
-                Miles_Status = client.Miles_Status,
-                //Miles_Number = lastMiles.Miles_Number,
-                CardId = card.Id,
-                ExpirationDate = card.ExpirationDate
-            };
+            //var model = new CinelAirCardViewModel
+            //{
+            //    StatusId = hstatus.StatusId,
+            //    ClientStatus = clientStatus.Description,
+            //    Id = client.Id,
+            //    Miles_Bonus = client.Miles_Bonus,
+            //    Miles_Status = client.Miles_Status,
+            //    //Miles_Number = lastMiles.Miles_Number,
+            //    CardId = card.Id,
+            //    ExpirationDate = card.ExpirationDate
+            //};
 
-            return View(model);
+            return View();
         }
 
 

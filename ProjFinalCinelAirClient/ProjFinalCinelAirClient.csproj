@@ -24,4 +24,8 @@
     <ProjectReference Include="..\ProjFinalCinelAir.CommonCore\ProjFinalCinelAir.CommonCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
 </Project>

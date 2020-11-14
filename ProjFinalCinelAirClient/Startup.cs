@@ -78,6 +78,7 @@ namespace ProjFinalCinelAirClient
             services.AddScoped<ICardRepository, CardRepository>();
             services.AddScoped<IPartnerRepository, PartnerRepository>();
             services.AddScoped<IAwardTicketRepository, AwardTicketRepository>();
+            services.AddScoped<IConverterHelper, ConverterHelper>();
             
 
 
