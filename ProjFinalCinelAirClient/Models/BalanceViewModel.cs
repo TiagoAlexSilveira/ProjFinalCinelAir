@@ -43,5 +43,7 @@ namespace ProjFinalCinelAirClient.Models
 
         public int LastMiles { get; set; }
 
+
+        public string NextClientUpdate { get; set; }
     }
 }

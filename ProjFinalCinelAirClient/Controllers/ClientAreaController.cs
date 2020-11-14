@@ -24,13 +24,15 @@ namespace ProjFinalCinelAirClient.Controllers
         private readonly IBuyMilesShopRepository _buyMilesShopRepository;
         private readonly IPartnerRepository _partnerRepository;
         private readonly ICardRepository _cardRepository;
+        private readonly IAwardTicketRepository _awardTicketRepository;
 
         public ClientAreaController(IClientRepository clientRepository, IUserHelper userHelper,
                                     IMile_BonusRepository mile_BonusRepository, IMile_StatusRepository mile_StatusRepository,
                                     ITransactionRepository transactionRepository, INotificationRepository notificationRepository,
                                     IHistoric_StatusRepository historic_StatusRepository, IStatusRepository statusRepository,
                                     ITravel_TicketRepository travel_TicketRepository, IBuyMilesShopRepository buyMilesShopRepository,
-                                    IPartnerRepository partnerRepository, ICardRepository cardRepository)
+                                    IPartnerRepository partnerRepository, ICardRepository cardRepository, 
+                                    IAwardTicketRepository awardTicketRepository)
         {
             _clientRepository = clientRepository;
             _userHelper = userHelper;
@@ -44,6 +46,7 @@ namespace ProjFinalCinelAirClient.Controllers
             _buyMilesShopRepository = buyMilesShopRepository;
             _partnerRepository = partnerRepository;
             _cardRepository = cardRepository;
+            _awardTicketRepository = awardTicketRepository;
         }
 
         public IActionResult Index()
@@ -78,7 +81,8 @@ namespace ProjFinalCinelAirClient.Controllers
             }           
 
             var transactions = _transactionRepository.GetAll().Where(o => o.ClientId == client.Id);
-            
+            var historicClient = _historic_StatusRepository.GetClientHistoric_StatusById(client.Id);
+
             var model = new BalanceViewModel
             {
                 available_Miles_Status = client.Miles_Status,
@@ -86,8 +90,8 @@ namespace ProjFinalCinelAirClient.Controllers
                 ClientId = client.Id,
                 TransactionList = transactions.ToList(),
                 ExpiryDateLastMiles = allMilesListFirst.Validity.ToShortDateString(),
-                LastMiles = allMilesListFirst.Miles_Number
-                //TODO: ver data da proxima revisao para o status
+                LastMiles = allMilesListFirst.Miles_Number,
+                NextClientUpdate = historicClient.End_Date.ToString() //TODO: ver onde a dulce guarda a data de update do client
             };
 
             return View(model);
@@ -304,6 +308,31 @@ namespace ProjFinalCinelAirClient.Controllers
         }
 
 
+
+        public IActionResult Prizes()
+        {
+            var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+            var awardsList = _awardTicketRepository.GetAll().ToList();
+
+            var model = new AwardTicketViewModel
+            {
+                awardsList = awardsList,
+                Id = client.Id
+            };
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> Prizes_Confirm(AwardTicketViewModel model)
+        {
+            var client = await _clientRepository.GetByIdAsync(model.Id);
+            
+            //TODO: client tem de guardar o prémio dele algures
+
+            
+
+            return View(model);
+        }
 
     }
 }

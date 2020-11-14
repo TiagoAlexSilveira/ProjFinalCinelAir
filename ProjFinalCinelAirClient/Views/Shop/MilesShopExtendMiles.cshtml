@@ -20,49 +20,72 @@
     </p>
 </div>
 <br />
-@if (!string.IsNullOrEmpty((string)TempData["succ"]))
+<br />
+
+@if (Model.ShopList.Count > 0)
 {
-    <div>
-        <div class="alert alert-success" role="alert" style="font-size:large; font-weight:bold">@TempData["succ"]</div>
-    </div>
-}
-<br />
-<br />
-<p>Please choose an amount</p>
-
-
-<form method="post" asp-action="MileShopExtendMiles_Confirm">
-    <input type="hidden" asp-for="Id" />
-
-    <div class="row" style="font-weight: bold; grid-row-gap: 1em; grid-column-gap: 2em">
-        @foreach (var item in Model.ShopList)
-        {
-            <div class="col-md-2 d-flex" style="vertical-align:middle; height:60px;border: solid 1px black">
-                <div class="row">
-                    <div class="col-3 d-flex align-items-center" style="background-color:cadetblue; vertical-align: middle;text-align: center; border: solid 1px lightblue">
-                        <input value="@item.MileQuantity" type="radio" asp-for="SelectedAmount" id="@item" />
-                    </div>
-                    <div class="col-9 d-flex align-items-center" style="text-align:center">
-                        @item.MileQuantity Miles
-                    </div>
-                </div>
-            </div>
-        }
-
-    </div>
-    <br />
-    @if (!string.IsNullOrEmpty((string)TempData["radio"]))
+    @if (!string.IsNullOrEmpty((string)TempData["succ"]))
     {
         <div>
-            <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["mss"]</div>
+            <div class="alert alert-success" role="alert" style="font-size:large; font-weight:bold">@TempData["succ"]</div>
         </div>
     }
-
     <br />
     <br />
+    <p>Please choose an amount</p>
 
-    <button id="finish" value="Finish Purchase" style="font-weight: bold; background-color: cadetblue" type="submit" class="btn btn-primary btn-block">Complete Purchase</button>
 
-</form>
+    <form method="post" asp-action="MileShopExtendMiles_Confirm">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="row" style="font-weight: bold; grid-row-gap: 1em; grid-column-gap: 2em">
+            @foreach (var item in Model.ShopList)
+            {
+                <div class="col-md-2 d-flex" style="vertical-align:middle; height:60px;border: solid 1px black">
+                    <div class="row">
+                        <div class="col-3 d-flex align-items-center" style="background-color:cadetblue; vertical-align: middle;text-align: center; border: solid 1px lightblue">
+                            <input value="@item.MileQuantity" type="radio" asp-for="SelectedAmount" id="@item" />
+                        </div>
+                        <div class="col-9 d-flex align-items-center" style="text-align:center">
+                            @item.MileQuantity Miles
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <br />
+        @if (!string.IsNullOrEmpty((string)TempData["radio"]))
+        {
+            <div>
+                <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["radio"]</div>
+            </div>
+        }
+        <br />
+
+        <button id="finish" value="Finish Purchase" style="font-weight: bold; background-color: cadetblue" type="submit" class="btn btn-primary btn-block">Complete Purchase</button>
+
+    </form>
+}
+else
+{
+
+    @if (!string.IsNullOrEmpty((string)TempData["succ"]))
+    {
+        <div>
+            <div class="alert alert-success" role="alert" style="font-size:large; font-weight:bold">@TempData["succ"]</div>
+        </div>
+    }
+    <br />
+    
+    <div class="col-12 text-center">
+        <br />
+        <br />
+        <br />
+        <br />
+        <p>Your current Miles do not allow you to make an extension or you've reached the maximum amount of miles you can extend per year(20000 miles)</p>
+    </div>
+}
+
 
 

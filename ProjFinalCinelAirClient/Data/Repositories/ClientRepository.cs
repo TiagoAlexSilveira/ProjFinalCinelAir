@@ -177,7 +177,7 @@ namespace ProjFinalCinelAirClient.Data.Repositories
 
 
         /// <summary>
-        /// Removes and updates the clients mileBonus table with the selected amount of miles
+        /// Removes and updates the clients mileBonus table with the selected amount of miles(for extend miles)
         /// </summary>
         /// <param name="milesToPay"></param>
         /// <param name="list"></param>
@@ -282,7 +282,7 @@ namespace ProjFinalCinelAirClient.Data.Repositories
             List<BuyMilesShop> sList = new List<BuyMilesShop>();
             int aux = 0;
 
-            if (status == "Basic" && client.Miles_Bonus >= 25000)
+            if (status == "Basic" && client.Miles_Status >= 25000)
             {
                 foreach (var item in shopList)
                 {
@@ -305,7 +305,7 @@ namespace ProjFinalCinelAirClient.Data.Repositories
 
                 return sList;
             }
-            else if (status == "Silver" && client.Miles_Bonus >= 15000 && client.Miles_Bonus <= 60000)
+            else if (status == "Silver" && client.Miles_Status >= 15000 && client.Miles_Status <= 60000)
             {
                 foreach (var item in shopList)
                 {
@@ -315,19 +315,21 @@ namespace ProjFinalCinelAirClient.Data.Repositories
                         {
                             sList.Add(item);
                         }
-                        else
+                        
+                    }
+                    else
+                    {
+                        aux = 10000 - client.AnnualMilesBought;
+                        if (item.MileQuantity <= aux)
                         {
-                            aux = 10000 - client.AnnualMilesTransfered;
-                            if (item.MileQuantity <= aux)
-                            {
-                                sList.Add(item);
-                            }
+                            sList.Add(item);
                         }
                     }
+                    
                 }
                 return sList;
             }
-            else if (status == "Silver" && client.Miles_Bonus >= 60000)
+            else if (status == "Silver" && client.Miles_Status >= 60000)
             {
                 foreach (var item in shopList)
                 {
@@ -339,7 +341,7 @@ namespace ProjFinalCinelAirClient.Data.Repositories
                 }
                 return sList;
             }
-            else if (status == "Gold" && client.Miles_Bonus >= 45000)
+            else if (status == "Gold" && client.Miles_Status >= 45000)
             {
                 foreach (var item in shopList)
                 {

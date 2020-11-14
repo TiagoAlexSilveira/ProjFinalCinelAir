@@ -141,7 +141,7 @@ namespace ProjFinalCinelAirClient.Controllers
             {
                 TempData["radio"] = "Please select an amount";
 
-                return RedirectToAction("MileShopTransferMiles");
+                return RedirectToAction("MilesShopExtendMiles");
             };
 
 
@@ -156,12 +156,14 @@ namespace ProjFinalCinelAirClient.Controllers
                 Miles = model.SelectedAmount,
                 Date = DateTime.Now,
                 Movement_Type = "Transfer",
-                Description = $"You extended {model.SelectedAmount} miles and lost {difference} miles",
+                Description = $"You extended the expiry date for {model.SelectedAmount} miles by 3 years", //and lost {difference} miles
                 Balance_Miles_Bonus = client.Miles_Bonus,
                 Balance_Miles_Status = client.Miles_Status
             };
 
             await _transactionRepository.CreateAsync(clientTransaction);
+
+            TempData["succ"] = $"You have extended the expiry date for {model.SelectedAmount} Miles";
 
             return RedirectToAction("MilesShopExtendMiles");
         }
@@ -253,7 +255,7 @@ namespace ProjFinalCinelAirClient.Controllers
                     Date = DateTime.Now,
                     Movement_Type = "Transfer",
                     Description = $"You transfered {selectedAmount.MileQuantity} to {selectedClient.FirstName} with client number {selectedClient.Client_Number}",
-                    Balance_Miles_Bonus = client.Miles_Bonus - selectedAmount.MileQuantity,
+                    Balance_Miles_Bonus = client.Miles_Bonus,
                     Balance_Miles_Status = client.Miles_Status
                 };
                 var selectedClientTransaction = new Transaction
@@ -263,7 +265,7 @@ namespace ProjFinalCinelAirClient.Controllers
                     Date = DateTime.Now,
                     Movement_Type = "Transfer",
                     Description = $"You were transfered {selectedAmount.MileQuantity} by {client.FirstName} with client number {client.Client_Number}",
-                    Balance_Miles_Bonus = selectedClient.Miles_Bonus + selectedAmount.MileQuantity,
+                    Balance_Miles_Bonus = selectedClient.Miles_Bonus,
                     Balance_Miles_Status = client.Miles_Status
                 };
 
@@ -313,7 +315,11 @@ namespace ProjFinalCinelAirClient.Controllers
                 return RedirectToAction("MilesShopConvertMiles");
             };
 
+            
             var client = await _clientRepository.GetByIdAsync(model.Id);
+            var clientBonusList = _mile_BonusRepository.GetAll().Where(o => o.ClientId == client.Id).OrderBy(u => u.Validity).ToList();
+
+            _clientRepository.ConvertMiles(model.SelectedRadio, client, clientBonusList);
     
             var clientTransaction = new Transaction
             {

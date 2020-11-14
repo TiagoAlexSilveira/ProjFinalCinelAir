@@ -9,34 +9,35 @@
 <div class="col-12 text-center">
     <h2>Convert Miles</h2>
 </div>
-<br />
 <div class="col-12 text-center">
     <p>Here you can convert Bonus miles in Status miles. You can only convert blocks of 2000 Miles and each block gives half of that amount in Status Miles.
     The number of miles to convert is limited by the anual cumulation period</p>
     <p>Converting Miles costs 14€ per 2000 miles and the amount converted is not refundable. Payment must be done by the client through credit card</p>
 </div>
+<br />
 
 
 <form method="post" asp-action="MileShopConvertMiles_confirm">
     <input type="hidden" asp-for="Id" />
 
-    @if ((string)@TempData["t"] == "Selected Client does not exist!")
-    {
-        <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["t"]</div>
-    }
-    else
-    {
-        <div class="text-success" style="font-size:large; font-weight:bold">@TempData["t"]</div>
-    }
-    <br />
-    <br />
-    <div class="col-12 ">
-        <p>Please choose an amount</p>
-    </div>
+
 
 
     @if (Model.ShopList.Count > 0)
     {
+        @if (!string.IsNullOrEmpty((string)TempData["succ"]))
+        {
+            <div>
+                <div class="alert alert-success" role="alert" style="font-size:large; font-weight:bold">@TempData["succ"]</div>
+            </div>
+        }
+        <br />
+
+        <br />
+        <br />
+        <div class="col-12 ">
+            <p>Please choose an amount</p>
+        </div>
         <div class="row" style="padding-left:20px; font-weight: bold; grid-row-gap: 1em; grid-column-gap: 0.6em">
             @foreach (var item in Model.ShopList)
             {
@@ -58,11 +59,9 @@
         @if ((string)TempData["radio"] == "Please select an amount")
         {
             <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["radio"]</div>
-
         }
         <br />
 
-       
         <br />
 
         <button id="finish" value="Finish Convert" style="background-color: cadetblue" type="submit" class="btn btn-primary btn-block">Complete Conversion</button>
@@ -70,9 +69,27 @@
     }
     else
     {
-        <h2>You have reached the maximum for your anual period (20000 Miles) or you do not have the minimun number of miles needed to convert based on your status </h2>
+        @if (!string.IsNullOrEmpty((string)TempData["succ"]))
+        {
+            <div>
+                <div class="alert alert-success" role="alert" style="font-size:large; font-weight:bold">@TempData["succ"]</div>
+            </div>
+        }
+        <br />
 
-        <h2>You currently cannot convert any of your Miles </h2>
+        <div class="col-12 text-center d-flex align-items-center">
+            <br />
+            <br />
+            <br />
+            <br />
+            <div style="border: solid 1px cadetblue; padding: 5px">
+                <p>
+                    In accordance to your status you do not have enough miles to convert or
+                    you've reached the maximum amount of miles you can convert according to your anual period(20000 miles)
+                </p>
+            </div>
+
+        </div>
     }
 
 

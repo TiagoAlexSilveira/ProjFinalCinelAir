@@ -21,7 +21,7 @@ namespace ProjFinalCinelAirClient.Models
         public Client Client { get; set; }
 
 
-        public IEnumerable<BuyMilesShop> ShopList { get; set; }
+        public ICollection<BuyMilesShop> ShopList { get; set; }
 
         public int SelectedRadio { set; get; }
 

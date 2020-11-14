@@ -21,11 +21,11 @@
  @if(!string.IsNullOrEmpty((string)@TempData["su"]))
  {
     <div>
-        <div class="alert alert-success" style="font-size:large; font-weight:bold">@TempData["t"]</div>
+        <div class="alert alert-success" style="font-size:large; font-weight:bold">@TempData["su"]</div>
     </div>
  }
 
-@if (Model.ShopList.Count > 1)
+@if (Model.ShopList.Count > 0)
 {
     <div class="col-12 ">
         <p>
@@ -112,7 +112,7 @@ else
     <br />
     <br />
     <p> To make a transfer, you need <span style="font-weight:bold">at least 2000 miles</span></p>
-    <p>Your current Miles do not allow you to make a transfer</p>
+    <p>Your current Miles do not allow you to make a transfer or you've reached the maximum amount of miles you can transfer per year(20000 miles)</p>
 </div>
 }
 

@@ -6,6 +6,7 @@ namespace ProjFinalCinelAirClient.Data.Repositories
 {
     public interface IClientRepository : IGenericRepository<Client>
     {
+        void ConvertMiles(int milesToPay, Client client, List<Mile_Bonus> list);
         List<BuyMilesShop> ConvertMilesAmountSelection(string status, Client client, List<BuyMilesShop> shopList);
         int DeductMilesWitCut(int milesToPay, Client client, List<Mile_Bonus> list);
         void DeductMilesWithoutCut(int milesToPay, List<Mile_Bonus> list);
