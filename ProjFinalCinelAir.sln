@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjFinalCinelAirAdmin", "P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjFinalCinelAirAPI", "ProjFinalCinelAirAPI\ProjFinalCinelAirAPI.csproj", "{7788F69F-F319-41A9-9368-67BA2FB4CDC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjFinalCinelAir.Prism", "ProjFinalCinelAir.Prism\ProjFinalCinelAir.Prism\ProjFinalCinelAir.Prism.csproj", "{824BABEC-68E6-4D32-9CFF-717344A7F106}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjFinalCinelAir.Prism", "ProjFinalCinelAir.Prism\ProjFinalCinelAir.Prism\ProjFinalCinelAir.Prism.csproj", "{824BABEC-68E6-4D32-9CFF-717344A7F106}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjFinalCinelAir.Prism.Android", "ProjFinalCinelAir.Prism\ProjFinalCinelAir.Prism.Android\ProjFinalCinelAir.Prism.Android.csproj", "{F6770350-69BD-4097-8DCE-C88136AA9643}"
 EndProject

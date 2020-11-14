@@ -22,7 +22,7 @@ namespace ProjFinalCinelAir.Prism
             SyncfusionLicenseProvider.RegisterLicense("MzUwOTYxQDMxMzgyZTMzMmUzMGhYK0lzZzZMbDlCMlpXLyswNUdldDYwRVg0dktDQUNtQk0wVTZQNnVDTU09");
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/TicketsPage");
+            await NavigationService.NavigateAsync("NavigationPage/MainPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -33,6 +33,7 @@ namespace ProjFinalCinelAir.Prism
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<MilesStatus, MilesStatusViewModel>();
             containerRegistry.RegisterForNavigation<TicketsPage, TicketsPageViewModel>();
+            containerRegistry.RegisterForNavigation<MasterDetailPage, MasterDetailPageViewModel>();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ProjFinalCinelAir.Prism.Responses;
+﻿using ProjFinalCinelAir.Prism.Requests;
+using ProjFinalCinelAir.Prism.Responses;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,5 +10,6 @@ namespace ProjFinalCinelAir.Prism.Services
     public interface IApiService
     {
         Task<Response> GetListAsync<T>(string urlBase, string servicePrefix, string controller);
+        Task<Response> GetTokenAsync(string urlBase, string servicePrefix, string controller, TokenRequest request);
     }
 }
