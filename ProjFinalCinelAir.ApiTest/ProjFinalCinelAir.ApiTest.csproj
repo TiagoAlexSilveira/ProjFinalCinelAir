@@ -2,16 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>4c8e6e65-6b56-4c18-8004-d472fcb4bf23</UserSecretsId>
+    <UserSecretsId>19123729-daea-4e36-b560-6fb53072a03b</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ProjFinalCinelAir.CommonCore\ProjFinalCinelAir.CommonCore.csproj" />
-    <ProjectReference Include="..\ProjFinalCinelAirClient\ProjFinalCinelAirClient.csproj" />
   </ItemGroup>
 
 

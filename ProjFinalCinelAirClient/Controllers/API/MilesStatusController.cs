@@ -19,21 +19,35 @@ namespace ProjFinalCinelAirClient.Controllers.API
         public MilesStatusController(DataContext context)
         {
             _context = context;
+            var list = _context.Users.ToList();
            
         }
 
         [HttpGet]
         public IActionResult GetMilesExtract(int id) 
         {
-            Client client = _context.Client.Where(x => x.Id == id).FirstOrDefault();
-
-            if (client != null)
+            try
             {
-                return Ok(_context.Mile_Status
-                    .Where(x => x.ClientId == id)
-                    .OrderBy(x => x.Validity));
+                var list = _context.Users.ToList();
 
+                var client = _context.Client.Where(x => x.Id == id).FirstOrDefault();
+
+                if (client != null)
+                {
+                    return Ok(_context.Mile_Status
+                        .Where(x => x.ClientId == id)
+                        .OrderBy(x => x.Validity));
+
+                }
             }
+
+            catch (Exception)
+            {
+
+                return NotFound();
+            }
+          
+            
 
             return NotFound();
         
