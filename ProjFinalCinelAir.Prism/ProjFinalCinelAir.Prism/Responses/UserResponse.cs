@@ -4,10 +4,10 @@ using System.Text;
 
 namespace ProjFinalCinelAir.Prism.Responses
 {
-    class UserResponse
+    public class UserResponse
     {
-        public class UserResponse
-        {
+       
+        
             public string Id { get; set; }
 
             public string Email { get; set; }
@@ -20,7 +20,8 @@ namespace ProjFinalCinelAir.Prism.Responses
 
             public string LastName { get; set; }
 
-            public string Address { get; set; }         
+            public string Address { get; set; }
 
-        }
+        
     }
+}

@@ -7,16 +7,15 @@ using ProjFinalCinelAir.Prism.Helpers;
 using ProjFinalCinelAir.Prism.Requests;
 using ProjFinalCinelAir.Prism.Responses;
 using ProjFinalCinelAir.Prism.Services;
+using ProjFinalCinelAir.Prism.Views;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using Xamarin.Essentials;
 
 namespace ProjFinalCinelAir.Prism.ViewModels
 {
-    public class MainPageViewModel : ViewModelBase
+    public class LoginViewModel : ViewModelBase
     {
         private bool _isRunning;
         private bool _isEnabled;
@@ -26,10 +25,9 @@ namespace ProjFinalCinelAir.Prism.ViewModels
         private DelegateCommand _forgotPasswordCommand;
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
+        private User user;
 
-
-        public MainPageViewModel(INavigationService navigationService, IApiService apiService)
-            : base(navigationService)
+        public LoginViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
         {
             _navigationService = navigationService;
             _apiService = apiService;
@@ -69,14 +67,14 @@ namespace ProjFinalCinelAir.Prism.ViewModels
         {
             if (string.IsNullOrEmpty(Email))
             {
-                await App.Current.MainPage.DisplayAlert("Error","EmailError","Accept");
+                await App.Current.MainPage.DisplayAlert("Error", "Insert email", "Accept");
                 return;
             }
 
             if (string.IsNullOrEmpty(Password))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "PasswdError", "Accept");
-             
+                await App.Current.MainPage.DisplayAlert("Error", "Insert password", "Accept");
+
                 return;
             }
 
@@ -84,42 +82,36 @@ namespace ProjFinalCinelAir.Prism.ViewModels
             IsRunning = true;
             IsEnabled = false;
 
-            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet) // Vê se o tlm tem ligação à internet
             {
                 IsRunning = false;
                 IsEnabled = true;
                 await App.Current.MainPage.DisplayAlert("Error", "ConnectionError", "Accept");
                 return;
             }
-
+            
             string url = App.Current.Resources["UrlAPI"].ToString();
-            TokenRequest request = new TokenRequest
-            {
-                Password = Password,
-                Username = Email
-            };
-
-            Response response = await _apiService.GetTokenAsync(url, "api", "/Account/CreateToken", request);
+           
+            Response response = await _apiService.GetListAsync<User>(url, "api", "/Account/GetUser");
             IsRunning = false;
             IsEnabled = true;
 
-            if (!response.IsSuccess)
+            if (!response.IsSuccess) // Caso algo tenha corrido mal
             {
                 await App.Current.MainPage.DisplayAlert("Error", "LoginError", "Accept");
                 Password = string.Empty;
                 return;
             }
 
-            TokenResponse token = (TokenResponse)response.Result;
-            Settings.Token = JsonConvert.SerializeObject(token);
             Settings.IsLogin = true;
 
             IsRunning = false; // Disactivar os botões --> Depois das validações estarem realizadas
             IsEnabled = true;
-
-            await _navigationService.NavigateAsync($"/{nameof(OnSaleMasterDetailPage)}/NavigationPage/{nameof(ProductsPage)}");
+            
+            await _navigationService.NavigateAsync($"{nameof(MasterDetail)}/NavigationPage/{nameof(ShowHistoryPage)}");
             Password = string.Empty;
-
+            IsRunning = false;
+            IsEnabled = true;
         }
 
         private void ForgotPasswordAsync()
@@ -131,6 +123,5 @@ namespace ProjFinalCinelAir.Prism.ViewModels
         {
             //TODO: Pending
         }
-
     }
 }

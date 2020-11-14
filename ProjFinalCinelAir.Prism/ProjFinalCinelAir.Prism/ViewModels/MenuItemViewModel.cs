@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ProjFinalCinelAir.Prism.ItemViewModels
+namespace ProjFinalCinelAir.Prism.ViewModels
 {
     public class MenuItemViewModel : Menu
     {
@@ -18,12 +18,22 @@ namespace ProjFinalCinelAir.Prism.ItemViewModels
             _navigationService = navigationService;
         }
 
-        public DelegateCommand SelectMenuCommand => _selectMenuCommand ?? (_selectMenuCommand = new DelegateCommand(SelectMenuAsync));
+
+        public DelegateCommand SelectMenuCommand =>
+            _selectMenuCommand ?? (_selectMenuCommand = new DelegateCommand(SelectMenuAsync));
+
 
         private async void SelectMenuAsync()
         {
-            //await _navigationService.NavigateAsync($"/{nameof(MasterDetailPage)}/NavigationPage/{PageName}");
+            if (PageName=="Login")
+            {
+                await _navigationService.NavigateAsync($"/NavigationPage/{PageName}");
+            }
+            else
+            {
+                await _navigationService.NavigateAsync($"/{nameof(MasterDetail)}/NavigationPage/{PageName}");
+            }
+            
         }
-
     }
 }

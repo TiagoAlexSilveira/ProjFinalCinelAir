@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
-                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                   xmlns:prism="http://prismlibrary.com"
-                   prism:ViewModelLocator.AutowireViewModel="True"
-                   x:Class="ProjFinalCinelAir.Prism.Views.MasterDetailPage">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ProjFinalCinelAir.Prism.Views.MasterDetail">
 
     <MasterDetailPage.Master>
         <ContentPage BackgroundColor="{StaticResource ColorSecondary}" 
-                     IconImageSource="ic_action_menu"
+                     IconImageSource="hamburger_icon"
                      Title="Menu">
 
             <ContentPage.Padding>
@@ -18,10 +18,8 @@
             </ContentPage.Padding>
 
             <StackLayout Padding="20">
-               
-                <Label FontAttributes="Bold"
-                       FontSize="Large"
-                       Text="{Binding User.FullName}"/>
+                <Image HeightRequest="150"
+                       Source="onsale"/>
                 <ListView BackgroundColor="Transparent"
                 	      ItemsSource="{Binding Menus}"
                 	      HasUnevenRows="True"
@@ -54,5 +52,4 @@
             </StackLayout>
         </ContentPage>
     </MasterDetailPage.Master>
-
-    </MasterDetailPage>
+</MasterDetailPage>

@@ -2,9 +2,9 @@
 
 namespace ProjFinalCinelAir.Prism.Views
 {
-    public partial class MasterDetailPage : ContentPage
+    public partial class ModifyUserPage : ContentPage
     {
-        public MasterDetailPage()
+        public ModifyUserPage()
         {
             InitializeComponent();
         }
