@@ -3,7 +3,6 @@
     ViewData["Title"] = "TransferMiles";
 }
 
-<partial name="_MainMenuPartial" />
 
 <br />
 <div class="col-12 text-center">
@@ -35,7 +34,7 @@
     <form method="post" asp-action="MileShopTransferMiles_confirm">
         <input type="hidden" asp-for="Id" />
         <p>
-            <span style="font-weight:bold">Client: </span><input asp-for="SelectedClientNumber" type="search" placeholder="Client Number"  style="width: 300px" />
+            <span style="font-weight:bold">Client: </span><input asp-for="SelectedClientNumber" type="search" placeholder="Client Number" style="width: 300px" />
         </p>
 
 
@@ -52,7 +51,12 @@
             <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["t"]</div>
         }
 
-
+        @if (!string.IsNullOrEmpty((string)TempData["error"]))
+        {
+            <div>
+                <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["error"]</div>
+            </div>
+        }
         <br />
 
         <div class="col-12 ">
@@ -66,7 +70,7 @@
                 <div class="col-md-2 d-flex" style="vertical-align:middle; height:60px;border: solid 1px black">
                     <div class="row">
                         <div class="col-3 d-flex align-items-center" style="background-color:cadetblue; vertical-align: middle;text-align: center; border: solid 1px lightblue">
-                            <input value="@item.Id" type="radio" asp-for="SelectedRadio" id="@item" />
+                            <input value="@item.Id" type="radio"  onChange="getData()" asp-for="SelectedRadio" id="@item" />
                         </div>
                         <div class="col-9 d-flex align-items-center" style="text-align:center">
                             @item.MileQuantity Miles
@@ -87,9 +91,47 @@
 
         <div style="font-weight: bold">
             <p> Miles transfers cost $7.50 EUR* per 1000 miles</p>
-            <p>*Plus a processing fee of $30.00 per transaction</p>    
+            <p>*Plus a processing fee of $30.00 per transaction</p>
         </div>
 
+        <br />
+        <div id="payment" class="row" style="visibility:hidden">
+            <div class="col-md-6 offset-md-3">
+                <div style="border: 1.5px black solid; border-radius:25px; padding: 15px; font-family: 'Arial Rounded MT', Arial, sans-serif">
+
+                    <h2>Payment Form</h2>
+
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="CardHolderName">Card Holder</label>
+                                <input asp-for="CardHolderName" placeholder="Name" class="form-control" />
+                                <span asp-validation-for="CardHolderName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="CardNumber">CardNumber</label>
+                                <input asp-for="CardNumber" class="form-control" />
+                                <span asp-validation-for="CardNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="ExpirationDate">Card Expiry Date</label>
+                                <input asp-for="ExpirationDate" type="date" class="form-control" />
+                                <span asp-validation-for="ExpirationDate" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <br />
 
 
@@ -116,6 +158,19 @@ else
 </div>
 }
 
+
+<script type="text/javascript">
+        function getData() {
+
+            var paymentElem = document.getElementById("payment")
+
+            paymentElem.style.visibility = "visible";
+            paymentElem.style.display = "inline";
+
+        }
+
+
+</script>
 
 
 @*<script type="text/javascript">

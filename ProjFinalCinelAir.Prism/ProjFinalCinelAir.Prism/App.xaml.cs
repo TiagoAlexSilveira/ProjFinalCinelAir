@@ -22,7 +22,7 @@ namespace ProjFinalCinelAir.Prism
             SyncfusionLicenseProvider.RegisterLicense("MzUwOTYxQDMxMzgyZTMzMmUzMGhYK0lzZzZMbDlCMlpXLyswNUdldDYwRVg0dktDQUNtQk0wVTZQNnVDTU09");
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/Login");
+            await NavigationService.NavigateAsync("NavigationPage/ShowHistoryPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

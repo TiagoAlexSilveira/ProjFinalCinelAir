@@ -28,7 +28,7 @@
 
             <div class="row">
                 <div class="col-md-4 offset-md-4" style="min-width: 50%; margin:auto">
-                    <form method="post">
+                    <form method="post" asp-action="Edit">
 
                         <div asp-validation-summary="ModelOnly"></div>
 
@@ -129,10 +129,10 @@
                         <br />
                         @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
                         {
-                            <div class="form-group" style=" float: right; margin-top:30px">
-                                <input asp-action="Edit" type="submit" value="Update" class="btn btn-primary" />
+                            //<div class="form-group" style=" float: right; margin-top:30px">
+                                <input type="submit" value="Update" class="btn btn-primary" />
                                 <a class="btn btn-success" asp-action="Index">Back To List</a>
-                            </div>
+                            //</div>
                         }
 
                         @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("SuperUser"))

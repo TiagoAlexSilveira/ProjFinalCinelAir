@@ -22,16 +22,18 @@ namespace ProjFinalCinelAirClient.Controllers
         private readonly IConfiguration _configuration;
         private readonly IMailHelper _mailHelper;
         private readonly IClientRepository _clientRepository;
+        private readonly IHistoric_StatusRepository _historic_StatusRepository;
 
         public AccountController(IUserHelper userHelper, IConverterHelper converterHelper,
                                 IConfiguration configuration, IMailHelper mailHelper,
-                                IClientRepository clientRepository)
+                                IClientRepository clientRepository, IHistoric_StatusRepository historic_StatusRepository)
         {
             _userHelper = userHelper;
             _converterHelper = converterHelper;
             _configuration = configuration;
             _mailHelper = mailHelper;
             _clientRepository = clientRepository;
+            _historic_StatusRepository = historic_StatusRepository;
         }
 
         [HttpPost]
@@ -99,6 +101,9 @@ namespace ProjFinalCinelAirClient.Controllers
                     {
                         Email = model.Email,
                         UserName = model.Email,
+                        CityId = 1,
+                        TaxNumber = model.TaxNumber,
+                        Identification = model.Identification
                     };
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
@@ -108,51 +113,88 @@ namespace ProjFinalCinelAirClient.Controllers
                         return View(model);  //retornamos a view outra vez para o user não ter de preencher os campos de novo
                     }
 
+                    var clientList = _clientRepository.GetAll().ToList();
+                    
                     var client = new Client
                     {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        //Email = client.Email,
+                        Email = model.Email,
+                        PhoneNumber = model.PhoneNumber,
+                        StreetAddress = model.StreetAddress,
+                        PostalCode = model.PostalCode,
+                        DateofBirth = model.DateofBirth,
+                        TaxNumber = model.TaxNumber,
+                        Identification = model.Identification,
+                        JoinDate = DateTime.Now,
+                        Miles_Bonus = 0,
+                        Miles_Status = 0,
+                        AnnualMilesBought = 0,
+                        AnnualMilesConverted = 0,
+                        AnnualMilesExtended = 0,
+                        AnnualMilesTransfered = 0,
+                        isClientNumberConfirmed = false, 
                         UserId = user.Id
+                    };
 
+                    if (clientList.Count == 0)
+                    {
+                        client.Client_Number = 100001000;
+                    }
+                    else
+                    {
+                        var lastClient = clientList.Last();
+                        client.Client_Number = lastClient.Client_Number + 1;
+                    }
+
+                    var historicStatus = new Historic_Status
+                    {
+                        ClientId = client.Id,
+                        Start_Date = (DateTime)client.JoinDate,
+                        End_Date = DateTime.Now.AddYears(1),
+                        StatusId = 3,
+                        wasNominated = false,
+                        isValidated = false
                     };
 
                     await _clientRepository.CreateAsync(client);
-
+                    await _historic_StatusRepository.CreateAsync(historicStatus);
 
                     var isRole = await _userHelper.IsUserInRoleAsync(user, "Client");
-
-
-                    var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-                    var tokenLink = Url.Action("ConfirmEmail", "Account", new
-                    {
-                        userid = user.Id,
-                        token = myToken,
-                    }, protocol: HttpContext.Request.Scheme);
 
                     if (!isRole)
                     {
                         await _userHelper.AddUserToRoleAsync(user, "Client");
                     }
 
-                    try
-                    {
-                        //_mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Verify your email to finish signing up for AutoWorkshop.</h1>" +
-                        //$"<br><br>Please confirm your email by using this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
-                        //this.ViewBag.Message = "Instructions to confirm your sign up have been sent to your email.";
-                    }
-                    catch (Exception e)
-                    {
 
-                        throw e;
-                    }
+                    //var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                    //var tokenLink = Url.Action("ConfirmEmail", "Account", new
+                    //{
+                    //    userid = user.Id,
+                    //    token = myToken,
+                    //}, protocol: HttpContext.Request.Scheme);
 
 
+
+                    //try
+                    //{
+                    //    _mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Verify your email to finish signing up for AutoWorkshop.</h1>" +
+                    //    $"<br><br>Please confirm your email by using this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+                    //    this.ViewBag.Message = "Instructions to confirm your sign up have been sent to your email.";
+                    //}
+                    //catch (Exception e)
+                    //{
+
+                    //    throw e;
+                    //}
+
+                    ViewBag.Message = "You will receive an email to complete your registration. This can take up to 24 hours. Thank you for joining us!";
 
                     return View(model);
                 }
 
-                ModelState.AddModelError(string.Empty, "The username is already registered");
+                ModelState.AddModelError(string.Empty, "That email is already registered");
             }
 
             return View(model);

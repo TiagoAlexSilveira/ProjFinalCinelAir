@@ -226,12 +226,13 @@ namespace ProjFinalCinelAirClient.Data
                 this.Add_BuyMilesShop(2000, 50);
                 this.Add_BuyMilesShop(4000, 70);
                 this.Add_BuyMilesShop(6000, 90);
-                this.Add_BuyMilesShop(10000, 110);
-                this.Add_BuyMilesShop(12000, 130);
-                this.Add_BuyMilesShop(14000, 150);
-                this.Add_BuyMilesShop(16000, 170);
-                this.Add_BuyMilesShop(18000, 190);
-                this.Add_BuyMilesShop(20000, 210);
+                this.Add_BuyMilesShop(8000, 110);
+                this.Add_BuyMilesShop(10000, 130);
+                this.Add_BuyMilesShop(12000, 150);
+                this.Add_BuyMilesShop(14000, 170);
+                this.Add_BuyMilesShop(16000, 190);
+                this.Add_BuyMilesShop(18000, 210);
+                this.Add_BuyMilesShop(20000, 230);
             }
 
 

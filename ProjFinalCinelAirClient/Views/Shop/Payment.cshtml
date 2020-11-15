@@ -1,0 +1,110 @@
+﻿@model ProjFinalCinelAirClient.Models.PaymentViewModel
+@{
+    ViewData["Title"] = "Payment";
+}
+
+<partial name="_MainMenuPartial" />
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <form method="post">
+            <input type="hidden" asp-for="ClientId" />
+
+            <div class="d-flex justify-content-center">
+                <h2>Payment</h2>
+            </div>
+            <br />
+
+           
+            <div class="col-12 justify-content-center">
+                <div class="row">
+                    <div class="col-2 d-flex align-items-center" style="height: 100px">
+                       
+                    </div>
+                    <div class="col-2 d-flex align-items-center" style="height: 100px">
+                        @if (Model.Movement_Type == "Purchase")
+                        {
+                            <p>
+                                Purchase {@Model.MileQuantity} miles
+                            </p>
+                            <p>
+                                Total: {@Model.Price} €
+                            </p>
+                        }
+                        else if (Model.Movement_Type == "Transfer")
+                        {
+                            <p>
+                                Transfer {@Model.MileQuantity} miles to {@Model.selectedClientFullName} with client number {@Model.selectedClientNumber}
+                            </p>
+                            <p>
+                                Total: {@Model.Price} €
+                            </p>
+                        }
+                        else if (Model.Movement_Type == "Extend")
+                        {
+                            <p>
+                                Extend {@Model.MileQuantity} miles for 3 years
+                            </p>
+                            <p>
+                                Total: {@Model.Price} €
+                            </p>
+                        }
+                        else if (Model.Movement_Type == "Convert")
+                        {
+                            <p>
+                                Convert {@Model.MileQuantity} miles Bonus in {@(Model.MileQuantity / 2)} miles Status
+                            </p>
+                            <p>
+                                Total: {@Model.Price} €
+                            </p>
+                        }
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+            <div style="border: 1.5px black solid; border-radius:25px; padding: 15px; font-family: 'Arial Rounded MT', Arial, sans-serif">
+
+                <h2>Create Account</h2>
+
+                <div asp-validation-summary="ModelOnly"></div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="CardHolderName">First Name</label>
+                            <input asp-for="CardHolderName" class="form-control" />
+                            <span asp-validation-for="CardHolderName" class="text-warning"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="CardNumber">Last Name</label>
+                            <input asp-for="CardNumber" class="form-control" />
+                            <span asp-validation-for="CardNumber" class="text-warning"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="ExpirationDate">Date of Birth</label>
+                            <input asp-for="ExpirationDate" type="date" value="@DateTime.Now" min="@DateTime.Now" class="form-control" />
+                            <span asp-validation-for="ExpirationDate" class="text-warning"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <input type="submit" value="Complete payment" style="font-weight:bold; background-color:cadetblue" class="btn btn-primary btn-block" />
+                        <input type="submit" value="Cancel" class="btn btn-secondary btn-block" asp-action="ClientAre" asp-controller="Balance" />
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

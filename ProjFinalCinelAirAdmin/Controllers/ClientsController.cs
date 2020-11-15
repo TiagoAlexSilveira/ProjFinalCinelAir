@@ -219,7 +219,6 @@ namespace ProjFinalCinelAirAdmin.Controllers
         }
         
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ClientViewModel model)
         {
 

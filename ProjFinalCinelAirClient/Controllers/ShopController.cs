@@ -56,9 +56,18 @@ namespace ProjFinalCinelAirClient.Controllers
             return View(model);
         }
 
+
         [HttpPost]
         public async Task<IActionResult> MileShopBuyMiles(BuyMilesViewModel model)
         {
+            if (string.IsNullOrEmpty(model.CardHolderName) || string.IsNullOrEmpty(model.CardNumber) || model.ExpirationDate == null)
+            {
+                TempData["error"] = "Please fill all payment information";
+
+                return RedirectToAction("MileShopBuyMiles");
+            }
+
+
             var client = await _clientRepository.GetByIdAsync(model.Id);
 
             if (model.SelectedRadio < 1)
@@ -66,8 +75,8 @@ namespace ProjFinalCinelAirClient.Controllers
                 TempData["m"] = "Please choose an amount to purchase";
 
                 return RedirectToAction("MileShopBuyMiles");
-            }         
-            
+            }
+
             var selectedItem = await _buyMilesShopRepository.GetByIdAsync(model.SelectedRadio);
 
             client.Miles_Bonus += selectedItem.MileQuantity;
@@ -78,7 +87,7 @@ namespace ProjFinalCinelAirClient.Controllers
                 ClientId = client.Id,
                 Miles_Number = selectedItem.MileQuantity,
                 Validity = DateTime.Now.AddYears(1),
-                available_Miles_Bonus = client.Miles_Bonus,               
+                available_Miles_Bonus = client.Miles_Bonus,
             };
 
             var transaction = new Transaction
@@ -99,11 +108,15 @@ namespace ProjFinalCinelAirClient.Controllers
             TempData["succ"] = $"Your purchase of {selectedItem.MileQuantity} miles has been complete!";
 
             return RedirectToAction("MileShopBuyMiles");
+                
         }
 
 
         public IActionResult MilesShopExtendMiles()
         {
+
+
+
             var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
             var shop = _buyMilesShopRepository.GetAll();
             List<BuyMilesShop> sList = new List<BuyMilesShop>();
@@ -134,6 +147,13 @@ namespace ProjFinalCinelAirClient.Controllers
         [HttpPost]
         public async Task<IActionResult> MileShopExtendMiles_Confirm(ExtendMilesViewModel model)
         {
+            if (string.IsNullOrEmpty(model.CardHolderName) || string.IsNullOrEmpty(model.CardNumber) || model.ExpirationDate == null)
+            {
+                TempData["error"] = "Please fill all payment information";
+
+                return RedirectToAction("MilesShopExtendMiles");
+            }
+
             var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
             var shop = _buyMilesShopRepository.GetAll();
 
@@ -205,6 +225,13 @@ namespace ProjFinalCinelAirClient.Controllers
         [HttpPost]
         public async Task<IActionResult> MileShopTransferMiles_Confirm(TransferMilesViewModel model)
         {
+            if (string.IsNullOrEmpty(model.CardHolderName) || string.IsNullOrEmpty(model.CardNumber) || model.ExpirationDate == null)
+            {
+                TempData["error"] = "Please fill all payment information";
+
+                return RedirectToAction("MileShopTransferMiles");
+            }
+
             var selectedClient = _clientRepository.GetClientByClientNumber(Convert.ToInt32(model.SelectedClientNumber));
             var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
 
@@ -308,6 +335,13 @@ namespace ProjFinalCinelAirClient.Controllers
         [HttpPost]
         public async Task<IActionResult> MileShopConvertMiles_confirm(ConvertMilesViewModel model)
         {
+            if (string.IsNullOrEmpty(model.CardHolderName) || string.IsNullOrEmpty(model.CardNumber) || model.ExpirationDate == null)
+            {
+                TempData["error"] = "Please fill all payment information";
+
+                return RedirectToAction("MileShopBuyMiles");
+            }
+
             if (model.SelectedRadio == 0)
             {
                 TempData["radio"] = "Please select an amount";
@@ -341,7 +375,6 @@ namespace ProjFinalCinelAirClient.Controllers
 
         }
 
-
-     
+       
     }
 }

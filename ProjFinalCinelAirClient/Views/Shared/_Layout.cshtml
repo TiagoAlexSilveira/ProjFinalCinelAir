@@ -9,56 +9,131 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
     @*<script src="~/lib/jquery/jquery.js"></script>*@
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProjFinalCinelAirClient</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
 
-                    <ul class="navbar-nav navbar-right ">
-                        <li class="nav-item">
-                            @if (this.User.Identity.IsAuthenticated)
-                            {
-                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="ChangeUser">@this.User.Identity.Name</a>
-                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                                <a class="nav-link" asp-area="" asp-controller="ClientArea" asp-action="Index">My Client Area</a> }
-                            else
-                            {
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-                            }
-                        </li>
-                    </ul>
-
-                </div>
+    <div class="container">
+        <div class="row" style="height: 100px;">
+            <div class="col-2 d-flex align-items-center">
+                <h1 style="font-family: 'Poppins', Arial, sans-serif">Cinel<span style="color:cadetblue">Air</span></h1>
             </div>
-        </nav>
-    </header>
+
+            <div class="col-4">
+
+            </div>
+            @if (!this.User.Identity.IsAuthenticated)
+            {
+                <div class="col-6 d-flex justify-content-end align-items-end" style="padding-bottom: 15px">
+                    <div class=" d-flex align-items-center justify-content-center" style="height:50px; width:70px; margin-left:5px; border-right: solid 2px gray; border-left: solid 2px gray;">
+                        <a class="" asp-controller="Account" asp-action="Register">Register</a>
+                    </div>
+                    <div class=" d-flex align-items-center justify-content-center" style="height:50px; width:70px; border-right:solid 2px gray;  border-left: gray 2px solid">
+
+                        <a class="" asp-controller="Account" asp-action="Login">Sign In</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-6 d-flex justify-content-end align-items-end" style=" padding-bottom: 15px;">
+
+                    <div class=" d-flex align-items-center justify-content-center" style="height:50px; width:300px; margin-left:5px; margin-right:20px;">
+                        <a href="123" class="nav-link dropdown-toggle" data-toggle="dropdown">@this.User.Identity.Name</a>
+                        <div class="dropdown-menu" id="dd2">
+                            <a asp-controller="Account" asp-action="ChangeUser" class="dropdown-item">Change Profile</a>
+                            <a asp-controller="Account" asp-action="ChangePassword" class="dropdown-item">Change Password</a>
+                        </div>
+                        <div class=" d-flex align-items-center justify-content-center" style="height:50px; width:90px; padding-left:10px; padding-right:10px; border-right:solid 2px gray; border-left: gray 2px solid">
+                            <a class="" asp-controller="Account" asp-action="Logout">Logout</a>
+                        </div>
+
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+
+
+    <nav class="cbp-hsmenu-wrapper" id="cbp-hsmenu-wrapper">
+        <div class="cbp-hsinner">
+            <ul class="cbp-hsmenu">
+                @if (this.User.Identity.IsAuthenticated)
+                {                    
+                    <li><a asp-area="" asp-controller="ClientArea" asp-action="BalanceAndTransactions">Balance</a></li>
+                    <li><a asp-area="" asp-controller="ClientArea" asp-action="Partners">Partners</a></li>
+                    <li><a asp-area="" asp-controller="ClientArea" asp-action="Donations">Donations</a></li>
+                    <li><a asp-area="" asp-controller="ClientArea" asp-action="Nominate_Gold">Nominate Gold</a></li>
+                    <li><a asp-area="" asp-controller="ClientArea" asp-action="Notifications">Notifications</a></li>
+                    <li>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Miles Shop</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="nav-link text-dark" asp-controller="Shop" asp-action="MileShopBuyMiles">Buy Miles</a>
+                            <a class="nav-link text-dark" asp-controller="Shop" asp-action="MilesShopExtendMiles">Extend Miles</a>
+                            <a class="nav-link text-dark" asp-controller="Shop" asp-action="MileShopTransferMiles">Transfer Miles</a>
+                            <a class="nav-link text-dark" asp-controller="Shop" asp-action="MilesShopConvertMiles">Convert Miles</a>
+                        </div>
+                    </li>
+                }
+                else
+                {
+                    <li> <a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                }
+
+            </ul>
+        </div>
+    </nav>
+
+
+
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+
+
+
+
+    <div class="mt-5 pt-5 pb-5 footer" style="bottom:0;margin-top: -200px;">
         <div class="container">
-            &copy; 2020 - ProjFinalCinelAirClient - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                <div class="col-lg-5 col-xs-12 about-company">
+                    <h2>Cinel Air Miles</h2>
+                    <p class="pr-5 text-white-50">All you can do to win miles. Fly with us! </p>
+                    <p><a href="#"><i class="fa fa-facebook-square mr-1"></i></a><a href="#"><i class="fa fa-linkedin-square"></i></a></p>
+                </div>
+                <div class="col-lg-3 col-xs-12 links">
+                    <h4 class="mt-lg-0 mt-sm-3">Links</h4>
+                    <ul class="m-0 p-0">
+                        <li>- <a href="#">Terms And Conditions</a></li>
+                        <li>- <a href="#">Contact</a></li>
+                        <li>- <a href="#">About us</a></li>
+                        <li>- <a href="#">Partners</a></li>
+                        <li>- <a href="#">Environment</a></li>
+
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-xs-12 location">
+                    <h4 class="mt-lg-0 mt-sm-4">Location</h4>
+                    <p>22, Lisbon, DownTown</p>
+                    <p class="mb-0"><i class="fa fa-phone mr-3"></i>(+351) 21 111 225</p>
+                    <p><i class="fa fa-envelope-o mr-3"></i>cinelair@azure.com</p>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col copyright">
+                    <p class=""><small class="text-white-50">© 2020. CinelAirMiles All Rights Reserved.</small></p>
+                </div>
+            </div>
         </div>
-    </footer>
+    </div>
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@

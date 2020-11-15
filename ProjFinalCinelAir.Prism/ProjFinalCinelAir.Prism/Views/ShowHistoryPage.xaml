@@ -5,5 +5,14 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ProjFinalCinelAir.Prism.Views.ShowHistoryPage"
              Title="{Binding Title}">
-  
+
+
+
+    <Label Text="{Binding Name}" 
+        FontAttributes="Bold"
+        FontSize="Medium"
+        LineBreakMode="TailTruncation" />
+
+
+
 </ContentPage>

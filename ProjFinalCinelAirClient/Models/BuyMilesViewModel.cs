@@ -25,5 +25,17 @@ namespace ProjFinalCinelAirClient.Models
 
         public int SelectedRadio { set; get; }
 
+        //payment
+        [Required]
+        public string CardHolderName { get; set; }
+
+        [Required]
+        public string CardNumber { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime ExpirationDate { get; set; }
+
     }
 }

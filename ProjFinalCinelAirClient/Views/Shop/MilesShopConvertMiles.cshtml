@@ -3,8 +3,6 @@
     ViewData["Title"] = "ConvertMiles";
 }
 
-<partial name="_MainMenuPartial" />
-
 <br />
 <div class="col-12 text-center">
     <h2>Convert Miles</h2>
@@ -21,7 +19,13 @@
     <input type="hidden" asp-for="Id" />
 
 
-
+    @if (!string.IsNullOrEmpty((string)TempData["error"]))
+    {
+        <div>
+            <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["error"]</div>
+        </div>
+    }
+    <br />
 
     @if (Model.ShopList.Count > 0)
     {
@@ -44,7 +48,7 @@
                 <div class="col-md-4 d-flex " style="vertical-align:middle; height:60px;border: solid 1px cadetblue">
                     <div class="row">
                         <div class="col-2 d-flex align-items-center justify-content-center" style="background-color:cadetblue; vertical-align: middle;text-align: center;">
-                            <input value="@item.MileQuantity" type="radio" style="transform: scale(1.5)" asp-for="SelectedRadio" id="@item" />
+                            <input value="@item.MileQuantity"  onChange="getData()" type="radio" style="transform: scale(1.5)" asp-for="SelectedRadio" id="@item" />
                         </div>
                         <div class="col-10 d-flex align-items-center" style="width: 300px;text-align:center;">
                             @item.MileQuantity Miles | @(item.MileQuantity / 2) Status Miles
@@ -61,7 +65,43 @@
             <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["radio"]</div>
         }
         <br />
+        <div id="payment" class="row" style="visibility:hidden">
+            <div class="col-md-6 offset-md-3">
+                <div style="border: 1.5px black solid; border-radius:25px; padding: 15px; font-family: 'Arial Rounded MT', Arial, sans-serif">
 
+                    <h2>Payment Form</h2>
+
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="CardHolderName">Card Holder</label>
+                                <input asp-for="CardHolderName" placeholder="Name" class="form-control" />
+                                <span asp-validation-for="CardHolderName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="CardNumber">CardNumber</label>
+                                <input asp-for="CardNumber" class="form-control" />
+                                <span asp-validation-for="CardNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="ExpirationDate">Card Expiry Date</label>
+                                <input asp-for="ExpirationDate" type="date" class="form-control" />
+                                <span asp-validation-for="ExpirationDate" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <br />
 
         <button id="finish" value="Finish Convert" style="background-color: cadetblue" type="submit" class="btn btn-primary btn-block">Complete Conversion</button>
@@ -95,3 +135,17 @@
 
     <br />
 </form>
+
+
+<script type="text/javascript">
+        function getData() {
+
+            var paymentElem = document.getElementById("payment")
+
+            paymentElem.style.visibility = "visible";
+            paymentElem.style.display = "inline";
+
+        }
+
+
+</script>

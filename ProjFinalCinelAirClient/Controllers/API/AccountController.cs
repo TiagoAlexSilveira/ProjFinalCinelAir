@@ -53,7 +53,7 @@ namespace ProjFinalCinelAirClient.Controllers.API
         public async Task<IActionResult> GetUser(string email)
         {
             User user = await _userHelper.GetUserByEmailAsync(email);
-           
+            
 
             if (user == null)
             {
