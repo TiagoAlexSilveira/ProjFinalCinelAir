@@ -129,18 +129,20 @@
                         <br />
                         @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
                         {
-                            <div class="form-group" style=" float: right; margin-top:30px">
-                                <input asp-action="Edit" type="submit" value="Update" class="btn btn-primary" />
-                                <a class="btn btn-success" asp-action="Index">Back To List</a>
-                            </div>
+                    <div class="form-group" style=" float: right; margin-top:30px">
+                        <input type="hidden" asp-for="StatusName" />
+                        <input asp-action="Edit" type="submit" value="Update" class="btn btn-primary" />
+                        <a class="btn btn-success" asp-action="Index">Back To List</a>
+                    </div>
                         }
 
                         @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("SuperUser"))
                         {
-                            <div class="form-group" style=" float: right; margin-top:30px">
-                                <input asp-action="EditSuperUser" type="submit" value="Update" class="btn btn-primary" />
-                                <a class="btn btn-success" asp-action="Index">Back To List</a>
-                            </div>
+                    <div class="form-group" style=" float: right; margin-top:30px">
+                        <input type="hidden" asp-for="StatusName" />
+                        <input asp-action="EditSuperUser" type="submit" value="Update" class="btn btn-primary" />
+                        <a class="btn btn-success" asp-action="Index">Back To List</a>
+                    </div>
                         }
                     </form>
                 </div>

@@ -1,9 +1,88 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+    <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ProjFinalCinelAir.Prism.Views.ShowHistoryPage"
              Title="{Binding Title}">
-  
+    <StackLayout BackgroundColor="#e6e6e6">
+        <Grid>
+            <StackLayout Padding="20">
+        <StackLayout Padding="20">
+            <Grid>                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"
+                                    	   HeightRequest="32"
+                                           Margin="5"
+                                    	   Source="ic_history.png"
+                                    	   WidthRequest="32"/>
+                <Label Grid.Column="1"
+                                           FontAttributes="Bold"
+                                   	       VerticalOptions="Center"
+                                           Text="Historic"/>
+            </Grid>
+        </StackLayout>
+        <StackLayout Padding="20">
+            <Grid>
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ModifyUserCommand}"/>
+                </Grid.GestureRecognizers>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"
+                                    	   HeightRequest="32"
+                                           Margin="5"
+                                    	   Source="ic_person.png"
+                                    	   WidthRequest="32"/>
+                <Label Grid.Column="1"
+                                           FontAttributes="Bold"
+                                   	       VerticalOptions="Center"
+                                           Text="Modify User"/>
+            </Grid>
+        </StackLayout>
+        <StackLayout Padding="20">
+            <Grid>
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ExitCommand}"/>
+                </Grid.GestureRecognizers>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"
+                                    	   HeightRequest="32"
+                                           Margin="5"
+                                    	   Source="ic_exit_to_app.png"
+                                    	   WidthRequest="32"/>
+                <Label Grid.Column="1"
+                                           FontAttributes="Bold"
+                                   	       VerticalOptions="Center"
+                                           Text="Exit"/>
+            </Grid>
+        </StackLayout>
+
+        <StackLayout Padding="0" Margin="25,10">
+
+            <Frame BackgroundColor="Transparent" BorderColor="DarkGray" Padding="0" HorizontalOptions="FillAndExpand" CornerRadius="30">
+                <StackLayout Orientation="Horizontal">
+                    <Frame BackgroundColor="SkyBlue" HeightRequest="40" WidthRequest="40" CornerRadius="30" Padding="0" Margin="5">
+                        <Image Source="https://www.findool.com/images/avatars/avatar.png" Aspect="AspectFill" Margin="0"/>
+                    </Frame>
+
+                    <Label TextColor="DarkOrange" FontAttributes="None" HorizontalOptions="FillAndExpand" Margin="0,0,20,0" Text="{Binding Email}"/>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </StackLayout>
+
+        </Grid>
+    </StackLayout>
+
+
+
 </ContentPage>

@@ -11,5 +11,6 @@ namespace ProjFinalCinelAir.Prism.Services
     {
         Task<Response> GetListAsync<T>(string urlBase, string servicePrefix, string controller);
         Task<Response> GetTokenAsync(string urlBase, string servicePrefix, string controller, TokenRequest request);
+        Task<Response> GetUserAsync(string urlBase, string servicePrefix, string controller);
     }
 }

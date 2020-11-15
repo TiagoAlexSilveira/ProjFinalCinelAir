@@ -13,19 +13,27 @@ namespace ProjFinalCinelAir.Prism.ViewModels
     public class MasterDetailViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
+     
 
         public MasterDetailViewModel(INavigationService navigationService) : base(navigationService)
         {
+      
             _navigationService = navigationService;
             LoadMenus();
         }
+
         public ObservableCollection<MenuItemViewModel> Menus { get; set; }
+
+
+        public string Email { get; set; }
+       
+
 
         private void LoadMenus()
         {
             List<Menu> menus = new List<Menu>
         {
-         
+
             new Menu
             {
                 Icon = "ic_history",
@@ -57,6 +65,19 @@ namespace ProjFinalCinelAir.Prism.ViewModels
                     IsLoginRequired = m.IsLoginRequired
                 }).ToList());
         }
-    
-}
+
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            if (parameters.ContainsKey("user"))
+            {
+                Email = parameters.GetValue<string>("user");
+
+
+            }
+        }
+
+    }
 }
