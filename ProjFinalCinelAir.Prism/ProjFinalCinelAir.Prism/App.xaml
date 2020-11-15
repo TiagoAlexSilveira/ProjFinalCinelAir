@@ -8,8 +8,8 @@
         <ResourceDictionary>
 
             <!-- Parameters -->
-            <x:String x:Key="UrlAPI">https://localhost:44380</x:String>
-            <x:String x:Key="UrlAPI2">https://airlineapinode.azurewebsites.net</x:String>
+            <x:String x:Key="UrlAPI">https://projfinalcinelairclient.azurewebsites.net/</x:String>
+         
 
             <!-- Colors -->
             <Color x:Key="ColorBackground">#D0DFF2</Color>

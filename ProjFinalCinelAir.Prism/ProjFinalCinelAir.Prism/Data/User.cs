@@ -7,7 +7,7 @@ namespace ProjFinalCinelAir.Prism.Data
     public class User
     {
        
-        public string FirstName { get; set; }
+        /*public string FirstName { get; set; }
 
 
       
@@ -37,20 +37,20 @@ namespace ProjFinalCinelAir.Prism.Data
 
 
        
-        public int TaxNumber { get; set; }
+        public int TaxNumber { get; set; }*/
 
 
      
-        public string Identification { get; set; }
+        public string identification { get; set; }
 
 
-        public DateTime JoinDate { get; set; }
+        /*public DateTime JoinDate { get; set; }
 
 
      
         public string FullName => $"{this.FirstName} {this.LastName}";
 
-        public bool isActive { get; set; }
+        public bool isActive { get; set; }*/
 
     }
 }

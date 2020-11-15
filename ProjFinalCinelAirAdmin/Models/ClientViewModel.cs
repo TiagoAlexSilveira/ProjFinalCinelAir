@@ -15,7 +15,6 @@ namespace ProjFinalCinelAirAdmin.Models
         [Required]
         public Client client { get; set; }
 
-        [Required]
         [Display(Name = "Status")]
         public string StatusName { get; set; }
 

@@ -2,92 +2,73 @@
 using Prism.Mvvm;
 using Prism.Navigation;
 using ProjFinalCinelAir.Prism.Data;
-using ProjFinalCinelAir.Prism.Helpers;
-using ProjFinalCinelAir.Prism.Responses;
+using ProjFinalCinelAir.Prism.Models;
 using ProjFinalCinelAir.Prism.Services;
+using ProjFinalCinelAir.Prism.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace ProjFinalCinelAir.Prism.ViewModels
 {
     public class ShowHistoryPageViewModel :  ViewModelBase
     {
+    
+        private DelegateCommand _modifyUserCommand;
+        private DelegateCommand _exitCommand;
+
         private readonly INavigationService _navigationService;
-        private readonly IApiService _apiService;
+        private string _email;
 
-        private bool _isRunning;
-        private List<Client> _myClients;
-
-        private ObservableCollection<ClientsItemViewModel> _clients;
-
-        public ShowHistoryPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
+        public ShowHistoryPageViewModel(INavigationService navigationService) : base(navigationService)
         {
             _navigationService = navigationService;
-            _apiService = apiService;
-            Title = "Login Page";
-
-            LoadClientsAsync();
-
-
-        }
-
-        public bool IsRunning
-        {
-            get => _isRunning;
-            set => SetProperty(ref _isRunning, value);
-        }
-
-        public ObservableCollection<ClientsItemViewModel> Clients
-        {
-            get => _clients;
-            set => SetProperty(ref _clients, value);
-        }
-
-
-
-        private async void LoadClientsAsync()
-        {
-            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
-            {
-                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.ConnectionError, Languages.Accept);
-                return;
-            }
-
-            IsRunning = true;
-
-            string url = App.Current.Resources["UrlAPI"].ToString();
-            Response response = await _apiService.GetListAsync<Client>(
-                url,
-                "/api",
-                "/Client");
-
-            IsRunning = false;
-
-            if (!response.IsSuccess)
-            {
-                await App.Current.MainPage.DisplayAlert(Languages.Error, response.Message, Languages.Accept);
-                return;
-            }
-
-            _myClients = (List<Client>)response.Result;
-            ShowClients();
-        }
-
-        private void ShowClients()
-        {
-
-            Clients = new ObservableCollection<ClientsItemViewModel>(_myClients.Select(p =>
-            new ClientsItemViewModel(_navigationService)
-            {
-                FirstName = p.FirstName
-
-            }).ToList());
-            
+            Title = "History Page";
            
         }
 
+        public string Email { get => _email; set => SetProperty(ref _email, value);}
+
+        
+
+
+        public DelegateCommand ModifyUserCommand => _modifyUserCommand ?? (_modifyUserCommand = new DelegateCommand(Modify));
+
+        public DelegateCommand ExitCommand => _exitCommand ?? (_exitCommand = new DelegateCommand(LogOut));
+
+
+        private void LogOut()
+        {
+            //TODO: Pending
+        }
+
+
+        private async void Modify()
+        {
+
+           // Navigation.PushAsync(new NavigationPage(new nameof(ModifyUserPage)));
+            // Passar isto
+            NavigationParameters parameters = new NavigationParameters // Chave:valor
+            {
+               { "user", Email }
+            };
+
+            await _navigationService.NavigateAsync($"NavigationPage/{nameof(ModifyUserPage)}", parameters);
+        }
+
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            if (parameters.ContainsKey("user"))
+            {
+                Email = parameters.GetValue<string>("user");
+                
+              
+            }
+        }
     }
 }

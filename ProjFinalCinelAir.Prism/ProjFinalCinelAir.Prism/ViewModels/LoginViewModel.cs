@@ -25,7 +25,7 @@ namespace ProjFinalCinelAir.Prism.ViewModels
         private DelegateCommand _forgotPasswordCommand;
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
-        private User user;
+        
 
         public LoginViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
         {
@@ -91,27 +91,35 @@ namespace ProjFinalCinelAir.Prism.ViewModels
             }
             
             string url = App.Current.Resources["UrlAPI"].ToString();
-           
-            Response response = await _apiService.GetListAsync<User>(url, "api", "/Account/GetUser");
+
+            TokenRequest request = new TokenRequest
+            {
+                Password = Password,
+                Username = Email
+            };
+
+            Response response = await _apiService.GetTokenAsync(url, "api", "/Account/CreateToken", request);
             IsRunning = false;
             IsEnabled = true;
 
-            if (!response.IsSuccess) // Caso algo tenha corrido mal
+            if (!response.IsSuccess)
             {
                 await App.Current.MainPage.DisplayAlert("Error", "LoginError", "Accept");
                 Password = string.Empty;
                 return;
             }
 
+            TokenResponse token = (TokenResponse)response.Result;
+            Settings.Token = JsonConvert.SerializeObject(token);
             Settings.IsLogin = true;
 
-            IsRunning = false; // Disactivar os botões --> Depois das validações estarem realizadas
-            IsEnabled = true;
-            
-            await _navigationService.NavigateAsync($"{nameof(MasterDetail)}/NavigationPage/{nameof(ShowHistoryPage)}");
-            Password = string.Empty;
             IsRunning = false;
             IsEnabled = true;
+
+            await _navigationService.NavigateAsync($"/{nameof(MasterDetail)}/NavigationPage/{nameof(ShowHistoryPage)}");
+            Password = string.Empty;
+
+          
         }
 
         private void ForgotPasswordAsync()

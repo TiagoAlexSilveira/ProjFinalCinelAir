@@ -4,5 +4,13 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ProjFinalCinelAir.Prism.Views.ModifyUserPage">
-  
+    <StackLayout>
+
+        <Label Text="{Binding Email}" 
+                                   FontAttributes="Bold"
+                                   FontSize="Medium"
+                                   LineBreakMode="TailTruncation"
+                                   />
+
+    </StackLayout>
 </ContentPage>

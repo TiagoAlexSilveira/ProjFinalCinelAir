@@ -191,6 +191,7 @@ namespace ProjFinalCinelAirAdmin.Controllers
                 model.client.Identification = clientGet.User.Identification;
                 model.client.JoinDate = (DateTime)clientGet.JoinDate;
                 model.client.isClientNumberConfirmed = clientGet.isClientNumberConfirmed;
+                model.client.PostalCode = clientGet.PostalCode;
                 model.Status = GetStatus();
 
 
