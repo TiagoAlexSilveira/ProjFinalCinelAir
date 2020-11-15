@@ -10,7 +10,7 @@ namespace ProjFinalCinelAirClient.Data.Repositories
         List<BuyMilesShop> ConvertMilesAmountSelection(string status, Client client, List<BuyMilesShop> shopList);
         int DeductMilesWitCut(int milesToPay, Client client, List<Mile_Bonus> list);
         void DeductMilesWithoutCut(int milesToPay, List<Mile_Bonus> list);
-        IList<Client> GetAllClientsWithStatusBasicOrSilver();
+        List<Client> GetAllClientsWithStatusBasicOrSilver();
         Client GetClientByClientNumber(int number);
         Client GetClientByUserEmail(string email);
 

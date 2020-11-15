@@ -8,7 +8,7 @@ namespace ProjFinalCinelAirClient.Models
 {
     public class NominateGoldViewModel
     {
-        public IList<Client> ClientList { get; set; }
+        public List<Client> ClientList { get; set; }
 
     }
 }

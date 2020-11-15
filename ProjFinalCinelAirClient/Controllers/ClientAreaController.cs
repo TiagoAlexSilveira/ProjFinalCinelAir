@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
 using ProjFinalCinelAirClient.Data.Repositories;
 using ProjFinalCinelAirClient.Helpers;
@@ -25,6 +26,8 @@ namespace ProjFinalCinelAirClient.Controllers
         private readonly IPartnerRepository _partnerRepository;
         private readonly ICardRepository _cardRepository;
         private readonly IAwardTicketRepository _awardTicketRepository;
+        private readonly DataContext _dataContext;
+        public List<Client> ClientFList { get; set; }
 
         public ClientAreaController(IClientRepository clientRepository, IUserHelper userHelper,
                                     IMile_BonusRepository mile_BonusRepository, IMile_StatusRepository mile_StatusRepository,
@@ -32,7 +35,7 @@ namespace ProjFinalCinelAirClient.Controllers
                                     IHistoric_StatusRepository historic_StatusRepository, IStatusRepository statusRepository,
                                     ITravel_TicketRepository travel_TicketRepository, IBuyMilesShopRepository buyMilesShopRepository,
                                     IPartnerRepository partnerRepository, ICardRepository cardRepository, 
-                                    IAwardTicketRepository awardTicketRepository)
+                                    IAwardTicketRepository awardTicketRepository, DataContext dataContext)
         {
             _clientRepository = clientRepository;
             _userHelper = userHelper;
@@ -47,6 +50,7 @@ namespace ProjFinalCinelAirClient.Controllers
             _partnerRepository = partnerRepository;
             _cardRepository = cardRepository;
             _awardTicketRepository = awardTicketRepository;
+            _dataContext = dataContext;
         }
 
         public IActionResult Index()
@@ -98,34 +102,27 @@ namespace ProjFinalCinelAirClient.Controllers
         }
 
 
-        public IActionResult Nominate_Gold(NominateGoldViewModel model)
+     
+        public IActionResult Nominate_Gold()
         {
 
-            if (model.ClientList == null)
+            var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+            var clientHistoric_status = _historic_StatusRepository.GetClientHistoric_StatusById(client.Id);
+
+
+            var vmodel = new NominateGoldViewModel
             {
-                var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
-                var clientHistoric_status = _historic_StatusRepository.GetClientHistoric_StatusById(client.Id);
+                ClientList = new List<Client>()
+            };
 
-
-                var vmodel = new NominateGoldViewModel
-                {
-                    ClientList = new List<Client>()
-                };
-
-                if (clientHistoric_status.wasNominated == true)
-                {
-                    TempData["cant"] = "You already nominated a client or have been nominated by another client";
-
-                    return View(vmodel);
-                }
+            if (clientHistoric_status.wasNominated == true)
+            {
+                TempData["cant"] = "You already nominated a client or have been nominated by another client";
 
                 return View(vmodel);
             }
-            else
-            {
-                return View(model);
-            }
 
+            return View(vmodel);
 
         }
 
@@ -134,26 +131,55 @@ namespace ProjFinalCinelAirClient.Controllers
         public IActionResult Nominate_Gold2(string searchInput)
         {
             ViewData["GetSearch"] = searchInput;
+            var loggedClient = _clientRepository.GetClientByUserEmail(User.Identity.Name);
 
-            var clients = _clientRepository.GetAllClientsWithStatusBasicOrSilver().AsQueryable();
+            if (!string.IsNullOrEmpty(searchInput))
+            {
+                var clients = _clientRepository.GetAllClientsWithStatusBasicOrSilver();
+                //var clientList = _dataContext.Client.Where(x => x.FirstName.Contains(searchInput) || x.Client_Number.ToString().Contains(searchInput)).ToList();
 
-            if (!String.IsNullOrEmpty(searchInput))
-            {               
-                clients = clients.Where(o => o.FirstName.Contains(searchInput) || o.Client_Number.ToString().Contains(searchInput));
+                if (clients.Count > 0)
+                {
+
+                    var finalList = new List<Client>();
+
+                    foreach (var item in clients)
+                    {
+                        if (item.FirstName.Contains(searchInput) || item.Client_Number.ToString().Contains(searchInput))
+                        {
+                            if (item.Client_Number == loggedClient.Client_Number)
+                            {
+
+                            }
+                            else
+                            {
+                                finalList.Add(item);
+                            }                            
+                        }
+                    }
+
+                    if (finalList.Count == 0)
+                    {
+                        TempData["message"] = "There are no clients with that Name or Number";
+                    }
+                    else
+                    {
+                        var vmodel = new NominateGoldViewModel
+                        {
+                            ClientList = finalList
+                        };
+
+                        return View(vmodel);
+                    }
+                }
+
+                return RedirectToAction("Nominate_Gold");
             }
 
-            var vmodel = new NominateGoldViewModel
-            {
-                ClientList = clients.ToList()
-            };
+            TempData["nothing"] = "Please choose a client by name or client number OR you chose a client that already has gold status";
 
-            if (clients.ToList().Count == 0)
-            {
-                TempData["message"] = "There are no clients with that Name or Number";
-            }
+            return RedirectToAction("Nominate_Gold");
 
-            //return View("Nominate_Gold", vmodel);
-            return RedirectToAction("Nominate_Gold", vmodel);
         }
 
 

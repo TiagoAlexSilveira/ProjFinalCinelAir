@@ -73,10 +73,10 @@ namespace ProjFinalCinelAirClient.Data.Repositories
         /// </summary>
         /// <param name="status"></param>
         /// <returns></returns>
-        public IList<Client> GetAllClientsWithStatusBasicOrSilver()
+        public List<Client> GetAllClientsWithStatusBasicOrSilver()
         {
-            var client = _context.Client;
-            var historic_status = _context.Historic_Status;
+            var client = _context.Client.ToList();
+            var historic_status = _context.Historic_Status.ToList();
             var notGoldClientList = new List<Client>();
 
             foreach (var cl in client)
