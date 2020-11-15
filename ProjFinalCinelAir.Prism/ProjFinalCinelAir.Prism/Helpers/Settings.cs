@@ -15,7 +15,7 @@ namespace ProjFinalCinelAir.Prism.Helpers
 
         private static ISettings AppSettings => CrossSettings.Current;
 
-        public static string Token
+        public static string Token // É aqui que está o cliente
         {
             get => AppSettings.GetValueOrDefault(_token, _stringDefault);
             set => AppSettings.AddOrUpdateValue(_token, value);

@@ -33,9 +33,9 @@ namespace ProjFinalCinelAirClient.Controllers.API
         private readonly DataContext _context;
         private IConfiguration _configuration;
 
-        public AccountController(IUserHelper userHelper,  IMailHelper mailHelper, DataContext context, IConfiguration configuration)
+        public AccountController(IUserHelper userHelper, IMailHelper mailHelper, DataContext context, IConfiguration configuration)
         {
-            _userHelper = userHelper;                    
+            _userHelper = userHelper;
             _mailHelper = mailHelper;
             _context = context;
             _configuration = configuration;
@@ -49,7 +49,7 @@ namespace ProjFinalCinelAirClient.Controllers.API
         }
 
 
-   
+
         [HttpPost]
         [Route("CreateToken")]
         public async Task<IActionResult> CreateToken([FromBody] LoginViewModelAPI model) // LoginViewModel: Username, Password
@@ -57,23 +57,15 @@ namespace ProjFinalCinelAirClient.Controllers.API
             if (ModelState.IsValid)
             {
                 User user = await _userHelper.GetUserByEmailAsync(model.Username);
-                if (user != null)
-                {
-                    // Mas o user é cliente?
-                    Client client = _context.Client.Where(x => x.UserId == user.Id).FirstOrDefault();
+                Client client = _context.Client.Where(x => x.UserId == user.Id).FirstOrDefault();// Mas o user é cliente?
+                if (client != null)
+                {                
+                    Microsoft.AspNetCore.Identity.SignInResult result = await _userHelper.ValidatePasswordAsync(user, model.Password);
 
-                    if (client != null)
+                    if (result.Succeeded)
                     {
-
-                        Microsoft.AspNetCore.Identity.SignInResult result = await _userHelper.ValidatePasswordAsync(user, model.Password);
-
-                        if (result.Succeeded)
-                        {
-                            object results = GetToken(user);
-                            return Created(string.Empty, results);
-                        }
-
-                        return BadRequest();
+                        object results = GetToken(user, client);
+                        return Created(string.Empty, results);
                     }
                 }
             }
@@ -83,7 +75,7 @@ namespace ProjFinalCinelAirClient.Controllers.API
 
 
 
-        private object GetToken(User user)
+        private object GetToken(User user, Client client)
         {
             Claim[] claims = new[]
             {
@@ -100,15 +92,22 @@ namespace ProjFinalCinelAirClient.Controllers.API
                 expires: DateTime.UtcNow.AddDays(99),
                 signingCredentials: credentials);
 
+
+            List<Transaction> transactions = _context.Transaction.Where(x => x.ClientId == client.Id).ToList();
+            
             UserViewModelAPI userModel = new UserViewModelAPI()
             {
-                Id = user.Id,
-                Email = user.UserName,
-                PhoneNumber = user.PhoneNumber,
-                Document = user.Identification,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Address = user.StreetAddress
+                ClientNumber = (client.Client_Number).ToString(),
+                MilesStatus = (client.Miles_Status).ToString(),
+                MilesBonus = (client.Miles_Bonus).ToString(),
+                Transactions = transactions,
+                Email = client.Email,
+                PhoneNumber = client.PhoneNumber,
+                Document = client.Identification,
+                FirstName = client.FirstName,
+                LastName = client.LastName,
+                Address = client.StreetAddress
+
             };
 
             return new
@@ -367,5 +366,5 @@ namespace ProjFinalCinelAirClient.Controllers.API
                     return Ok(new Response { IsSuccess = true });
                 }*/
     }
-    
+
 }
