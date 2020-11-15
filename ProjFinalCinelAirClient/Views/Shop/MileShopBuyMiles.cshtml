@@ -124,6 +124,13 @@
 }
 else
 {
+    @if (!string.IsNullOrEmpty((string)TempData["succ"]))
+    {
+        <div>
+            <div class="alert alert-success" role="alert" style="font-size:large; font-weight:bold">@TempData["succ"]</div>
+        </div>
+    }
+
     <div class="col-12 text-center">
         <p>You have reached the maximum amount of miles you can purchase for this year(20000 miles)</p>
     </div>

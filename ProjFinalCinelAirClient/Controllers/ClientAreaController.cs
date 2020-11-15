@@ -98,25 +98,35 @@ namespace ProjFinalCinelAirClient.Controllers
         }
 
 
-        public IActionResult Nominate_Gold()
+        public IActionResult Nominate_Gold(NominateGoldViewModel model)
         {
-            var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
-            var clientHistoric_status = _historic_StatusRepository.GetClientHistoric_StatusById(client.Id);
 
-
-            var model = new NominateGoldViewModel
+            if (model.ClientList == null)
             {
-                ClientList = new List<Client>()
-            };
+                var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+                var clientHistoric_status = _historic_StatusRepository.GetClientHistoric_StatusById(client.Id);
 
-            if (clientHistoric_status.wasNominated == true)
-            {        
-                TempData["cant"] = "You already nominated a client or have been nominated by another client";
 
+                var vmodel = new NominateGoldViewModel
+                {
+                    ClientList = new List<Client>()
+                };
+
+                if (clientHistoric_status.wasNominated == true)
+                {
+                    TempData["cant"] = "You already nominated a client or have been nominated by another client";
+
+                    return View(vmodel);
+                }
+
+                return View(vmodel);
+            }
+            else
+            {
                 return View(model);
             }
 
-            return View(model);
+
         }
 
 
