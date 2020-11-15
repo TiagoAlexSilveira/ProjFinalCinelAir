@@ -10,6 +10,7 @@ using ProjFinalCinelAir.CommonCore.Data.Entities;
 using ProjFinalCinelAir.CommonCore.Models;
 using ProjFinalCinelAirClient.ApiData;
 using ProjFinalCinelAirClient.Helpers;
+using ProjFinalCinelAirClient.ModelsApi;
 using ProjFinalCinelAirClient.Request;
 using ProjFinalCinelAirClient.Responses;
 using System;
@@ -48,20 +49,81 @@ namespace ProjFinalCinelAirClient.Controllers.API
         }
 
 
-        [HttpGet]
-        [Route("GetUser")]
-        public async Task<IActionResult> GetUser(string email)
+   
+        [HttpPost]
+        [Route("CreateToken")]
+        public async Task<IActionResult> CreateToken([FromBody] LoginViewModelAPI model) // LoginViewModel: Username, Password
         {
-            User user = await _userHelper.GetUserByEmailAsync(email);
-           
-
-            if (user == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
-            }
+                User user = await _userHelper.GetUserByEmailAsync(model.Username);
+                if (user != null)
+                {
+                    // Mas o user é cliente?
+                    Client client = _context.Client.Where(x => x.UserId == user.Id).FirstOrDefault();
 
-            return Ok(user);
+                    if (client != null)
+                    {
+
+                        Microsoft.AspNetCore.Identity.SignInResult result = await _userHelper.ValidatePasswordAsync(user, model.Password);
+
+                        if (result.Succeeded)
+                        {
+                            object results = GetToken(user);
+                            return Created(string.Empty, results);
+                        }
+
+                        return BadRequest();
+                    }
+                }
+            }
+            return BadRequest();
         }
+
+
+
+
+        private object GetToken(User user)
+        {
+            Claim[] claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
+            SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            JwtSecurityToken token = new JwtSecurityToken(
+                _configuration["Tokens:Issuer"],
+                _configuration["Tokens:Audience"],
+                claims,
+                expires: DateTime.UtcNow.AddDays(99),
+                signingCredentials: credentials);
+
+            UserViewModelAPI userModel = new UserViewModelAPI()
+            {
+                Id = user.Id,
+                Email = user.UserName,
+                PhoneNumber = user.PhoneNumber,
+                Document = user.Identification,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Address = user.StreetAddress
+            };
+
+            return new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                expiration = token.ValidTo,
+                userModel
+            };
+        }
+
+
+
+
+
+
 
 
 

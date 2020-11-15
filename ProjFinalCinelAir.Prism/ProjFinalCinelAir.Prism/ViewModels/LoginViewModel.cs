@@ -91,57 +91,35 @@ namespace ProjFinalCinelAir.Prism.ViewModels
             }
             
             string url = App.Current.Resources["UrlAPI"].ToString();
-           
-            Response response = await _apiService.GetUserAsync(url, "api", $"/Account/GetUser?email={Email}");
+
+            TokenRequest request = new TokenRequest
+            {
+                Password = Password,
+                Username = Email
+            };
+
+            Response response = await _apiService.GetTokenAsync(url, "api", "/Account/CreateToken", request);
             IsRunning = false;
             IsEnabled = true;
 
-            
-
-
-            if (!response.IsSuccess) // Caso algo tenha corrido mal
+            if (!response.IsSuccess)
             {
                 await App.Current.MainPage.DisplayAlert("Error", "LoginError", "Accept");
                 Password = string.Empty;
                 return;
             }
 
-            User user = (User)response.Result;
-
-            if (user == null)
-            {
-                await App.Current.MainPage.DisplayAlert("Erro", $"O utilizador não existe", "Accept");
-                return;
-            }
-         
-
+            TokenResponse token = (TokenResponse)response.Result;
+            Settings.Token = JsonConvert.SerializeObject(token);
             Settings.IsLogin = true;
 
-            User newUser = new User
-            {
-                identification = user.identification
-
-            };
-
-        
-
-            IsRunning = false; // Desactivar os botões --> Depois das validações estarem realizadas
-            IsEnabled = true;
-
-            // Passar isto
-            NavigationParameters parameters = new NavigationParameters // Chave:valor
-            {
-               { "user", Email }
-            };
-
-         
-
-            await _navigationService.NavigateAsync($"NavigationPage/{nameof(ShowHistoryPage)}", parameters);
-
-       
-            Password = string.Empty;
             IsRunning = false;
             IsEnabled = true;
+
+            await _navigationService.NavigateAsync($"/{nameof(MasterDetail)}/NavigationPage/{nameof(ShowHistoryPage)}");
+            Password = string.Empty;
+
+          
         }
 
         private void ForgotPasswordAsync()

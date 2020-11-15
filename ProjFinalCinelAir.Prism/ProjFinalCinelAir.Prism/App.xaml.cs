@@ -7,6 +7,7 @@ using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
 using ProjFinalCinelAir.Prism.Services;
 using Syncfusion.Licensing;
+using Prism.Navigation;
 
 namespace ProjFinalCinelAir.Prism
 {
@@ -22,7 +23,7 @@ namespace ProjFinalCinelAir.Prism
             SyncfusionLicenseProvider.RegisterLicense("MzUwOTYxQDMxMzgyZTMzMmUzMGhYK0lzZzZMbDlCMlpXLyswNUdldDYwRVg0dktDQUNtQk0wVTZQNnVDTU09");
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/Login");
+             await NavigationService.NavigateAsync($"/NavigationPage/Main");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

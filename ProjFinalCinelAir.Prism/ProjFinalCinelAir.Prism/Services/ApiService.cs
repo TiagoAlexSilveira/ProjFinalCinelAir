@@ -93,7 +93,7 @@ namespace ProjFinalCinelAir.Prism.Services
             }
         }
 
-        public async Task<Response> GetTokenAsync(string urlBase, string servicePrefix, string controller, TokenRequest request)
+        public async Task<Response> GetTokenAsync(string urlBase, string servicePrefix, string controller, TokenRequest request) //request: leva o email e a password
         {
             try
             {

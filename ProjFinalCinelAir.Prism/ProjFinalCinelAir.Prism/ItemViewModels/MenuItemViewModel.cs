@@ -10,6 +10,7 @@ namespace ProjFinalCinelAir.Prism.ItemViewModels
 {
     public class MenuItemViewModel : Menu
     {
+
         private readonly INavigationService _navigationService;
         private DelegateCommand _selectMenuCommand;
       

@@ -17,9 +17,11 @@
                 </OnPlatform>
             </ContentPage.Padding>
 
-            <StackLayout Padding="20">
-                <Image HeightRequest="150"
-                       Source="onsale"/>
+            <StackLayout Padding="10">
+                <Image HeightRequest="100"
+                       Source="logo.png"
+                       Margin="0,10,5,0"/>
+                <Label Text="{Binding UserName}"></Label>
                 <ListView BackgroundColor="Transparent"
                 	      ItemsSource="{Binding Menus}"
                 	      HasUnevenRows="True"

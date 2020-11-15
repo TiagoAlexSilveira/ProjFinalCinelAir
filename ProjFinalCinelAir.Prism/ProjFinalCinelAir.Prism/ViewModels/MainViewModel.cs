@@ -20,6 +20,7 @@ namespace ProjFinalCinelAir.Prism.ViewModels
 
 
         }
+        public string Email { get; set; }
 
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(LoginAsync));
 
