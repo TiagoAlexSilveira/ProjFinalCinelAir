@@ -141,9 +141,9 @@ namespace ProjFinalCinelAirClient.Controllers
             {
                 TempData["message"] = "There are no clients with that Name or Number";
             }
-            
-            return View("Nominate_Gold", vmodel);
-            
+
+            //return View("Nominate_Gold", vmodel);
+            return RedirectToAction("Nominate_Gold", vmodel);
         }
 
 

@@ -5,8 +5,15 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ProjFinalCinelAir.Prism.Views.ShowHistoryPage"
              Title="{Binding Title}">
- 
 
+    <ListView x:Name="EmployeeView"
+            ItemsSource="{Binding Transactions}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <TextCell Text="{Binding Description}" />
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
 
 
 </ContentPage>

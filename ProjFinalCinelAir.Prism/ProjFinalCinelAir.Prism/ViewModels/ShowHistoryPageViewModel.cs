@@ -1,8 +1,11 @@
-﻿using Prism.Commands;
+﻿using Newtonsoft.Json;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using ProjFinalCinelAir.Prism.Data;
+using ProjFinalCinelAir.Prism.Helpers;
 using ProjFinalCinelAir.Prism.Models;
+using ProjFinalCinelAir.Prism.Responses;
 using ProjFinalCinelAir.Prism.Services;
 using ProjFinalCinelAir.Prism.Views;
 using System;
@@ -16,59 +19,50 @@ namespace ProjFinalCinelAir.Prism.ViewModels
     public class ShowHistoryPageViewModel :  ViewModelBase
     {
     
-        private DelegateCommand _modifyUserCommand;
-        private DelegateCommand _exitCommand;
+     
 
         private readonly INavigationService _navigationService;
-        private string _email;
+        private UserResponse _user;
+        private List<Transaction> _transactions;
 
         public ShowHistoryPageViewModel(INavigationService navigationService) : base(navigationService)
         {
             _navigationService = navigationService;
             Title = "History Page";
-           
+            LoadUser();
         }
 
-        public string Email { get => _email; set => SetProperty(ref _email, value);}
+       
 
-        
-
-
-        public DelegateCommand ModifyUserCommand => _modifyUserCommand ?? (_modifyUserCommand = new DelegateCommand(Modify));
-
-        public DelegateCommand ExitCommand => _exitCommand ?? (_exitCommand = new DelegateCommand(LogOut));
-
-
-        private void LogOut()
+        public UserResponse User
         {
-            //TODO: Pending
+            get => _user;
+            set => SetProperty(ref _user, value);
         }
 
-
-        private async void Modify()
+        public List<Transaction> Transactions
         {
+            get => _transactions;
+            set => SetProperty(ref _transactions, value);
+        }
 
-           // Navigation.PushAsync(new NavigationPage(new nameof(ModifyUserPage)));
-            // Passar isto
-            NavigationParameters parameters = new NavigationParameters // Chave:valor
+        private void LoadUser()
+        {
+            if (Settings.IsLogin)
             {
-               { "user", Email }
-            };
+                TokenResponse token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+                User = token.userModel;
+                Transactions = User.Transactions;
 
-            await _navigationService.NavigateAsync($"NavigationPage/{nameof(ModifyUserPage)}", parameters);
-        }
-
-
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
-            base.OnNavigatedTo(parameters);
-
-            if (parameters.ContainsKey("user"))
-            {
-                Email = parameters.GetValue<string>("user");
-                
-              
             }
         }
+
+
+
+
+
+
+
+
     }
 }
