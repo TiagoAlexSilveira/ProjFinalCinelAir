@@ -6,14 +6,45 @@
              x:Class="ProjFinalCinelAir.Prism.Views.ShowHistoryPage"
              Title="{Binding Title}">
 
-    <ListView x:Name="EmployeeView"
-            ItemsSource="{Binding Transactions}">
+
+    <StackLayout Margin="0,20,0,0">
+        <Label Text="Transactions" FontSize="Large"  FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" Margin="1" VerticalTextAlignment="Center"/>
+        <Label Text="Check your transactions here" FontSize="Small"  FontAttributes="Bold" TextColor="Gray" HorizontalTextAlignment="Center" Margin="1" VerticalTextAlignment="Center"/>
+        <ListView x:Name="listViewm" ItemsSource="{Binding Transactions}">
+        <ListView.Header>
+            <Grid BackgroundColor="Lavender">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.8*"></ColumnDefinition>
+                    <ColumnDefinition Width="1.9*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.8*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.8*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                    <Label Text="Type" HorizontalOptions="Fill"  Grid.Column="0"   FontSize="Medium" FontAttributes="Bold" BackgroundColor="MediumBlue" TextColor="White" HorizontalTextAlignment="Center" Margin="1" VerticalTextAlignment="Center"/>
+                    <Label Text="Description" HorizontalOptions="Fill"  Grid.Column="1"  FontSize="Medium" FontAttributes="Bold" BackgroundColor="MediumBlue" TextColor="White" HorizontalTextAlignment="Center" Margin="1" VerticalTextAlignment="Center"/>
+                    <Label Text="Miles Status" HorizontalOptions="Fill"  Grid.Column="2"  FontSize="Medium" FontAttributes="Bold" BackgroundColor="MediumBlue" TextColor="White" HorizontalTextAlignment="Center" Margin="1" VerticalTextAlignment="Center"/>
+                    <Label Text="Miles Bonus" HorizontalOptions="Fill"  Grid.Column="3"  FontSize="Medium" FontAttributes="Bold" BackgroundColor="MediumBlue" TextColor="White" HorizontalTextAlignment="Center" Margin="1" VerticalTextAlignment="Center"/>
+            </Grid>
+        </ListView.Header>
+
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding Description}" />
+                <ViewCell>
+
+                    <Grid BackgroundColor="Lavender">
+                        <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.8*"></ColumnDefinition>
+                            <ColumnDefinition Width="1.9*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.8*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.8*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text ="{Binding Movement_Type}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1" VerticalTextAlignment="Center"></Label>
+                            <Label Grid.Column="1" Text ="{Binding Description}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1" VerticalTextAlignment="Center"></Label>
+                            <Label Grid.Column="2" Text ="{Binding Balance_Miles_Status}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1" VerticalTextAlignment="Center"></Label>
+                            <Label Grid.Column="3" Text ="{Binding Balance_Miles_Bonus}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1" VerticalTextAlignment="Center"></Label>
+                    </Grid>
+                </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
-
-
+    </StackLayout>
 </ContentPage>

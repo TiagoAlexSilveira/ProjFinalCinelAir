@@ -28,10 +28,14 @@ namespace ProjFinalCinelAir.Prism.ItemViewModels
 
         private async void SelectMenuAsync()
         {
-            
+            if (PageName == "Login")
+            {
+                await _navigationService.NavigateAsync($"/NavigationPage/Login");
+            }
 
             await _navigationService.NavigateAsync($"{nameof(MasterDetail)}/NavigationPage/{PageName}");
 
+           
             //await _navigationService.NavigateAsync($"/{nameof(MasterDetail)}/NavigationPage/{PageName}");
         }
 

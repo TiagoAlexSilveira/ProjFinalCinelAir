@@ -33,10 +33,10 @@ namespace ProjFinalCinelAir.Prism
             containerRegistry.RegisterForNavigation<NavigationPage>();
      
             containerRegistry.RegisterForNavigation<MilesStatus, MilesStatusViewModel>();
-            containerRegistry.RegisterForNavigation<TicketsPage, TicketsPageViewModel>();
+    
          
             containerRegistry.RegisterForNavigation<ShowHistoryPage, ShowHistoryPageViewModel>();
-            containerRegistry.RegisterForNavigation<ModifyUserPage, ModifyUserPageViewModel>();
+     
             containerRegistry.RegisterForNavigation<MasterDetail, MasterDetailViewModel>();
             containerRegistry.RegisterForNavigation<Login, LoginViewModel>();
             containerRegistry.RegisterForNavigation<Main, MainViewModel>();
