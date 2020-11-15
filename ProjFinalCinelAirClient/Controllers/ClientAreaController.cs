@@ -26,8 +26,7 @@ namespace ProjFinalCinelAirClient.Controllers
         private readonly IPartnerRepository _partnerRepository;
         private readonly ICardRepository _cardRepository;
         private readonly IAwardTicketRepository _awardTicketRepository;
-        private readonly DataContext _dataContext;
-        public List<Client> ClientFList { get; set; }
+
 
         public ClientAreaController(IClientRepository clientRepository, IUserHelper userHelper,
                                     IMile_BonusRepository mile_BonusRepository, IMile_StatusRepository mile_StatusRepository,
@@ -35,7 +34,7 @@ namespace ProjFinalCinelAirClient.Controllers
                                     IHistoric_StatusRepository historic_StatusRepository, IStatusRepository statusRepository,
                                     ITravel_TicketRepository travel_TicketRepository, IBuyMilesShopRepository buyMilesShopRepository,
                                     IPartnerRepository partnerRepository, ICardRepository cardRepository, 
-                                    IAwardTicketRepository awardTicketRepository, DataContext dataContext)
+                                    IAwardTicketRepository awardTicketRepository)
         {
             _clientRepository = clientRepository;
             _userHelper = userHelper;
@@ -50,7 +49,6 @@ namespace ProjFinalCinelAirClient.Controllers
             _partnerRepository = partnerRepository;
             _cardRepository = cardRepository;
             _awardTicketRepository = awardTicketRepository;
-            _dataContext = dataContext;
         }
 
         public IActionResult Index()
@@ -302,46 +300,46 @@ namespace ProjFinalCinelAirClient.Controllers
 
 
 
-        public async Task<IActionResult> CinelAirCard()
-        {
-            //var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
-            //var hstatus = _historic_StatusRepository.GetClientHistoric_StatusById(client.Id);
-            //var mileList = _mile_BonusRepository.GetAll().Where(o => o.ClientId == client.Id).OrderBy(o => o.Validity).ToList();
-            ////var lastMiles = mileList.First();
-            //var clientStatus = _statusRepository.GetClientStatusById(client.Id);
+        //public async Task<IActionResult> CinelAirCard()
+        //{
+        //    //var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+        //    //var hstatus = _historic_StatusRepository.GetClientHistoric_StatusById(client.Id);
+        //    //var mileList = _mile_BonusRepository.GetAll().Where(o => o.ClientId == client.Id).OrderBy(o => o.Validity).ToList();
+        //    ////var lastMiles = mileList.First();
+        //    //var clientStatus = _statusRepository.GetClientStatusById(client.Id);
                 
-            //var card = await _cardRepository.GetByIdAsync(client.CardId);
-            //var card1 = await _cardRepository.GetByIdAsync(1);
+        //    //var card = await _cardRepository.GetByIdAsync(client.CardId);
+        //    //var card1 = await _cardRepository.GetByIdAsync(1);
 
-            //var model = new CinelAirCardViewModel
-            //{
-            //    StatusId = hstatus.StatusId,
-            //    ClientStatus = clientStatus.Description,
-            //    Id = client.Id,
-            //    Miles_Bonus = client.Miles_Bonus,
-            //    Miles_Status = client.Miles_Status,
-            //    //Miles_Number = lastMiles.Miles_Number,
-            //    CardId = card.Id,
-            //    ExpirationDate = card.ExpirationDate
-            //};
+        //    //var model = new CinelAirCardViewModel
+        //    //{
+        //    //    StatusId = hstatus.StatusId,
+        //    //    ClientStatus = clientStatus.Description,
+        //    //    Id = client.Id,
+        //    //    Miles_Bonus = client.Miles_Bonus,
+        //    //    Miles_Status = client.Miles_Status,
+        //    //    //Miles_Number = lastMiles.Miles_Number,
+        //    //    CardId = card.Id,
+        //    //    ExpirationDate = card.ExpirationDate
+        //    //};
 
-            return View();
-        }
+        //    return View();
+        //}
 
 
 
-        public async Task<IActionResult> UpgradeWithMiles()
-        {
-            var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
-            var ticket = _travel_TicketRepository.GetAll().Where(o => o.ClientId == client.Id);
+        //public async Task<IActionResult> UpgradeWithMiles()
+        //{
+        //    var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+        //    var ticket = _travel_TicketRepository.GetAll().Where(o => o.ClientId == client.Id);
 
-            var model = new UpgradeWithMilesViewModel
-            {
+        //    var model = new UpgradeWithMilesViewModel
+        //    {
 
-            };
+        //    };
 
-            return View();
-        }
+        //    return View();
+        //}
 
 
 
