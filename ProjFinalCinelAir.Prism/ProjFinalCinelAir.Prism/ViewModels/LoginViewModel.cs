@@ -21,8 +21,7 @@ namespace ProjFinalCinelAir.Prism.ViewModels
         private bool _isEnabled;
         private string _password;
         private DelegateCommand _loginCommand;
-        private DelegateCommand _registerCommand;
-        private DelegateCommand _forgotPasswordCommand;
+   
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
         
@@ -39,9 +38,7 @@ namespace ProjFinalCinelAir.Prism.ViewModels
 
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(LoginAsync));
 
-        public DelegateCommand RegisterCommand => _registerCommand ?? (_registerCommand = new DelegateCommand(RegisterAsync));
-
-        public DelegateCommand ForgotPasswordCommand => _forgotPasswordCommand ?? (_forgotPasswordCommand = new DelegateCommand(ForgotPasswordAsync));
+       
 
         public bool IsRunning
         {
@@ -122,14 +119,6 @@ namespace ProjFinalCinelAir.Prism.ViewModels
           
         }
 
-        private void ForgotPasswordAsync()
-        {
-            //TODO: Pending
-        }
-
-        private void RegisterAsync()
-        {
-            //TODO: Pending
-        }
+    
     }
 }

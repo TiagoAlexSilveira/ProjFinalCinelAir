@@ -3,6 +3,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using ProjFinalCinelAir.Prism.Helpers;
+using ProjFinalCinelAir.Prism.ItemViewModels;
 using ProjFinalCinelAir.Prism.Models;
 using ProjFinalCinelAir.Prism.Responses;
 using ProjFinalCinelAir.Prism.Views;
@@ -61,13 +62,14 @@ namespace ProjFinalCinelAir.Prism.ViewModels
                 Title = "History",
                 IsLoginRequired = true
             },
-            new Menu
+             new Menu
             {
-                Icon = "ic_person",
-                PageName = $"{nameof(ModifyUserPage)}",
-                Title = "Modify user",
+                Icon = "ic_more_vert",
+                PageName = $"{nameof(MilesStatus)}",
+                Title = "Miles",
                 IsLoginRequired = true
             },
+
             new Menu
             {
                 Icon = "ic_exit_to_app",

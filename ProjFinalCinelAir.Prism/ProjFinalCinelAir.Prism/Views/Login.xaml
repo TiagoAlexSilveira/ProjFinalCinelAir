@@ -32,7 +32,7 @@
 
                             <Frame BackgroundColor="Transparent" BorderColor="DarkGray" Padding="0" HorizontalOptions="FillAndExpand" CornerRadius="30">
                                 <StackLayout Orientation="Horizontal">
-                                    <Frame BackgroundColor="SkyBlue" HeightRequest="40" WidthRequest="40" CornerRadius="30" Padding="0" Margin="5">
+                                    <Frame BackgroundColor="SkyBlue" HeightRequest="40" WidthRequest="40" CornerRadius="30" Padding="0" Margin="10">
                                         <Image Source="https://www.findool.com/images/avatars/avatar.png" Aspect="AspectFill" Margin="0"/>
                                     </Frame>
 
@@ -40,9 +40,9 @@
                                 </StackLayout>
                             </Frame>
 
-                            <Frame BackgroundColor="Transparent" BorderColor="DarkGray" Margin="0,15,0,0" Padding="0" HorizontalOptions="FillAndExpand" CornerRadius="30">
+                            <Frame BackgroundColor="Transparent" BorderColor="DarkGray" Margin="0,30,0,30" Padding="0" HorizontalOptions="FillAndExpand" CornerRadius="30">
                                 <StackLayout Orientation="Horizontal">
-                                    <Frame BackgroundColor="SkyBlue" HeightRequest="40" WidthRequest="40" CornerRadius="30" Padding="0" Margin="5">
+                                    <Frame BackgroundColor="SkyBlue" HeightRequest="40" WidthRequest="40" CornerRadius="30" Padding="0" Margin="10">
                                         <Image Source="https://images.all-free-download.com/images/graphicthumb/lock_icon_6813906.jpg" Aspect="AspectFill" Margin="0"/>
                                     </Frame>
 
@@ -50,32 +50,11 @@
                                 </StackLayout>
                             </Frame>
 
-                            <StackLayout  Orientation="Horizontal">
-                                <CheckBox IsChecked="False" Color="DarkBlue" />
-                                <Label Text="Remember me" TextColor="DarkGray" FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
-
-                                <Label Text="Forgot Password" TextColor="DarkOrange" FontAttributes="Bold" HorizontalOptions="EndAndExpand" FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" >
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}"/>
-                                    </Label.GestureRecognizers>
-
-                                </Label>
-
-                            </StackLayout>
+                           
                             <Button Text="SIGN IN" BackgroundColor="DarkOrange" TextColor="White" CornerRadius="30" Command="{Binding LoginCommand}" IsEnabled="{Binding IsEnabled}"/>
 
                             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                                <Label Text="Still Not Connected ?" TextColor="DarkGray" FontSize="Small">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer />
-                                    </Label.GestureRecognizers>
-                                </Label>
-
-                                <Label Text="Sign Up" TextColor="DarkOrange" FontAttributes="Bold" FontSize="Small">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding RegisterCommand}"/>
-                                    </Label.GestureRecognizers>
-                                </Label>
+                               
                             </StackLayout>
 
                            

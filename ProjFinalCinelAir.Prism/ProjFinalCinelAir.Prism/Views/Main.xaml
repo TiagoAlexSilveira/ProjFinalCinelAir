@@ -4,9 +4,12 @@
              x:Class="ProjFinalCinelAir.Prism.Views.Main"
              Title="{Binding Title}">
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Label Text="Welcome to Xamarin Forms and Prism!" />
-        <Button Text="SIGN IN" BackgroundColor="DarkOrange" TextColor="White" CornerRadius="30" Command="{Binding LoginCommand}"/>
+    <StackLayout HorizontalOptions="Center" VerticalOptions="Start" Margin="0,60,0,0">
+        <Image HeightRequest="100"
+                       Source="logo.png"
+                       Margin="0,10,5,30"/>
+        <Label Text="Welcome to CinelAir Miles" />
+        <Button Text="Welcome" BackgroundColor="DarkBlue" TextColor="White" CornerRadius="30" Command="{Binding LoginCommand}"/>
     </StackLayout>
 
 </ContentPage>

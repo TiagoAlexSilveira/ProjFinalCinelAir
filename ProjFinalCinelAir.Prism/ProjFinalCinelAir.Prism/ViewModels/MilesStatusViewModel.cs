@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Newtonsoft.Json;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using ProjFinalCinelAir.Prism.Data;
@@ -15,57 +16,89 @@ namespace ProjFinalCinelAir.Prism.ViewModels
 {
     public class MilesStatusViewModel : ViewModelBase
     {
-        private readonly IApiService _apiService;
-        private ObservableCollection <Miles_Status> _milesStatus;
-        private bool _isRunning;
+
+        private readonly INavigationService _navigationService;
+        private UserResponse _user;
+        private string _milesStatus;
+        private string _milesBonus;
+
+        private string _firsttName;
+        private string _lastName;
+        private string _email;
+        private string _phoneNumber;
+        private string _fullName;
+
 
         public MilesStatusViewModel(INavigationService navigationService, IApiService apiService) :base(navigationService)
         {
-            Title = "MilesStatus";
-            _apiService = apiService;
-            LoadMilesStatusAsync();
+            _navigationService = navigationService;
+            Title = "Miles Page";
+            LoadUser();
         }
 
-        // Binding para o syncfusion (load)
-        public bool IsRunning { get => _isRunning; set => SetProperty(ref _isRunning, value); }
+        public UserResponse User
+        {
+            get => _user;
+            set => SetProperty(ref _user, value);
+        }
 
-        public ObservableCollection<Miles_Status> Miles_Status  // Propriedade que vai fazer o binding com a view
+        public string MilesStatus
         {
             get => _milesStatus;
-
             set => SetProperty(ref _milesStatus, value);
-
         }
-        private async void LoadMilesStatusAsync()
+
+        public string MilesBonus
         {
-            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            get => _milesBonus;
+            set => SetProperty(ref _milesBonus, value);
+        }
+
+        public string FirstName
+        {
+            get => _firsttName;
+            set => SetProperty(ref _firsttName, value);
+        }
+
+        public string LastName
+        {
+            get => _lastName;
+            set => SetProperty(ref _lastName, value);
+        }
+
+        public string Email
+        {
+            get => _email;
+            set => SetProperty(ref _email, value);
+        }
+
+        public string PhoneNumber
+        {
+            get => _phoneNumber;
+            set => SetProperty(ref _phoneNumber, value);
+        }
+
+        public string FullName
+        {
+            get => _fullName;
+            set => SetProperty(ref _fullName, value);
+        }
+
+        private void LoadUser()
+        {
+            if (Settings.IsLogin)
             {
-                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.ConnectionError, Languages.Accept); // Estamos a passar o recurso da linguagem
-                return;
+                TokenResponse token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+                User = token.userModel;
+                MilesStatus = User.MilesStatus;
+                MilesBonus = User.MilesBonus;
+                FirstName = User.FirstName;
+                Email = User.Email;
+                PhoneNumber = User.PhoneNumber;
+                FullName = $"{User.FirstName} {User.LastName}";
+
+
             }
-
-            IsRunning = true; // Inicializar o load do syncfusion
-
-            string url = App.Current.Resources["UrlAPI"].ToString(); // Está nos recursos
-            Response response = await _apiService.GetListAsync<Miles_Status>(
-                url,
-                "/api",
-                "/MilesStatus?id=1");
-
-            IsRunning = false;  // Parar o load do syncfusion
-
-            if (!response.IsSuccess)
-            {
-                await App.Current.MainPage.DisplayAlert(Languages.Error, response.Message, Languages.Accept); // Error e accept vai buscar os recursos
-
-                return;
-            }
-
-            List<Miles_Status> Miles_StatusList = (List<Miles_Status>)response.Result;
-            Miles_Status = new ObservableCollection<Miles_Status>(Miles_StatusList);
-
-
-
         }
     }
 }
