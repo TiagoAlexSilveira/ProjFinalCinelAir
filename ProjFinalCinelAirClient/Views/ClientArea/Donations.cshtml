@@ -15,13 +15,13 @@
     @if (TempData["donation"].ToString().Contains("Thank"))
     {
         <div>
-            <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["donation"]</div>
+            <div class="alert alert-success" role="alert" style="font-size:large; font-weight:bold">@TempData["donation"]</div>
         </div>
     }
     else
     {
         <div>
-            <div class="alert alert-success" role="alert" style="font-size:large; font-weight:bold">@TempData["donation"]</div>
+            <div class="alert alert-danger" role="alert" style="font-size:large; font-weight:bold">@TempData["donation"]</div>
         </div>
     }
 }
@@ -39,12 +39,13 @@
         <div style="width: 200px; word-break:break-word; border: black 1px solid; text-align:center; grid-row-gap: 1em; grid-column-gap: 1em">
             @foreach (var item in Model.DonationList)
             {
-                <div style="height:60px; margin-top: 10px">
+                <div style="height:100px; margin-top: 10px;border:1px solid blue; margin-left: 20px;margin-right:20px">
                     @if (!string.IsNullOrEmpty(item.ImageUrl))
                     {
-                        <img src="@Url.Content(item.ImageUrl)" alt="Image" style="border-radius:25px; max-width: 100%; height: 220px;" />
+                        <img src="@Url.Content(item.ImageUrl)" alt="Image" style="border-radius:25px; max-width: 100%; height: 100%; " />
                     }
                 </div>
+                <br />
                 <div>
                     <p style="font-weight:bold">@item.Name</p>
 
@@ -52,26 +53,26 @@
 
                     <p>@item.Contact</p>
                 </div>
-                <div style="border-top: 1px solid black">
+                <div class="d-flex align-items-center justify-content-center" style="border-top: 1px solid black; height: 40px; background-color: dodgerblue">
                     <input value="@item.Id" type="radio" asp-for="SelectedPartner" id="@item.Id" />
                 </div>
             }
         </div>
         <br />
-        <p style="font-size: large">Choose the amount of miles to donate</p>
+
         <hr />
-        <div class="row" style="font-weight: bold; grid-row-gap: 1em;">
-            @foreach (var sitem in Model.ShopList)
+        <br />
+        <p style="font-size: large">Choose the amount of miles to donate</p>
+        <div class="row" style="font-weight: bold; grid-row-gap: 1em; grid-column-gap: 2em">
+            @foreach (var item in Model.ShopList)
             {
-                <div class="col-md-2 justify-content-md-center" style="border: solid 1px black">
-                    <div class="col-md-12 text-center" style="color:cadetblue ;vertical-align:middle;text-align:center; display:table-cell;font-weight:bold; height:50px ">
-                        @sitem.MileQuantity miles
-                    </div>
-                    <div class="col-md-12 text-center" style="border-top: solid 1px black; height: 50px ">
-                        <div class="row" style="padding-top: 15px">
-                            <div class="col-md-4">
-                                <input value="@sitem.MileQuantity" type="radio" asp-for="SelectedItem" id="@sitem.Id" />
-                            </div>
+                <div class="col-md-2 d-flex" style="vertical-align:middle; height:60px;border: solid 1px black">
+                    <div class="row">
+                        <div class="col-3 d-flex align-items-center" style="background-color:cadetblue; vertical-align: middle;text-align: center; border: solid 1px lightblue">
+                            <input value="@item.MileQuantity" type="radio" asp-for="SelectedItem" id="@item" />
+                        </div>
+                        <div class="col-9 d-flex align-items-center" style="text-align:center">
+                            @item.MileQuantity Miles
                         </div>
                     </div>
                 </div>

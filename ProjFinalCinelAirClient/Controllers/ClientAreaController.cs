@@ -215,7 +215,7 @@ namespace ProjFinalCinelAirClient.Controllers
         [HttpPost]
         public async Task<IActionResult> Donations_Confirm(DonationViewModel model)
         {
-            if (model.SelectedItem < 0 && model.SelectedPartner < 0)
+            if (model.SelectedItem < 1|| model.SelectedPartner < 1)
             {
                 TempData["donation"] = "Please choose an institution and an amount to donate!";
 
@@ -254,7 +254,7 @@ namespace ProjFinalCinelAirClient.Controllers
 
         public IActionResult Partners()
         {
-            var partners = _partnerRepository.GetAll();
+            var partners = _partnerRepository.GetAll().Where(o => o.isValidated == true & o.isCharity == false);
 
             var model = new PartnersViewModel
             {
