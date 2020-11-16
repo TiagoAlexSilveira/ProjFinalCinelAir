@@ -103,7 +103,8 @@ namespace ProjFinalCinelAirClient.Controllers
                         UserName = model.Email,
                         CityId = 1,
                         TaxNumber = model.TaxNumber,
-                        Identification = model.Identification
+                        Identification = model.Identification,
+                        EmailConfirmed = true
                     };
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
