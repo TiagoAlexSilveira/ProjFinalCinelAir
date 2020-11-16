@@ -37,6 +37,7 @@ namespace ProjFinalCinelAirAPI.Controllers
         [HttpGet]
         public string Get()
         {
+        
             return "Base de dados a ser actualizadaaaaaa.";
         }
 
@@ -52,10 +53,12 @@ namespace ProjFinalCinelAirAPI.Controllers
             string URL = "https://airlineapinode.azurewebsites.net/";
             string Controller = $"ticket/{dateString}";
 
-            var response = await _apiService.GetDataAsync<List<TicketModel>>(URL, dateString); // Aceder à ApiNode
+       
+            var response = await _apiService.GetDataAsync<List<TicketModel>>(URL, Controller); // Aceder à ApiNode
 
 
             List<TicketModel> TicketList = (List<TicketModel>)response.Result;
+           
 
             //3º Percorrer a lista de Bilhetes --> Obter o user de cada bilhete (User Helper...)
             await CinelAirMiles_Users(TicketList);

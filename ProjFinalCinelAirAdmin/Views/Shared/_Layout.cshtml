@@ -27,7 +27,7 @@
         <div class="row" style="height: 100px;">
 
             <div class="col-4 d-flex align-items-center">
-                <img src="~/images/images (1).jpg" style="height:80px; width:80px "/>
+                <img src="~/images/images (1).jpg" style="height:80px; width:80px " />
                 <h1 style="font-family: 'Poppins', Arial, sans-serif">Cinel<span style="color:cadetblue">Air</span></h1>
             </div>
 
@@ -88,18 +88,14 @@
                 @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("SuperUser"))
                 {
                     <li>
-                        <a href="#">Super User Backoffice</a>
-                        <ul class="cbp-hssubmenu">
-                            <li><a asp-controller="AwardTicket" asp-action="Index"><span>Award Tickets</span></a></li>
-                            <li><a asp-controller="Notifications" asp-action="Index"><span>Notifications</span></a></li>
-                            <li>
-                                <a href="#">Clients</a>
-                                <ul class="cbp-hssubmenu">
-                                    <li><a asp-controller="Clients" asp-action="Index"><span>All</span></a></li>
-                                    <li><a asp-controller="Clients" asp-action="IndexStatus"><span>Status Change</span></a></li>
-                                </ul>
-                            </li>
-                        </ul>
+
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Super User Backoffice</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="nav-link text-dark" asp-controller="AwardTicket" asp-action="Index">Award Tickets</a>
+                            <a class="nav-link text-dark" asp-controller="Notifications" asp-action="Index">Notifications</a>
+                            <a class="nav-link text-dark" asp-controller="Clients" asp-action="Index">All Clients</a>
+                            <a class="nav-link text-dark" asp-controller="Clients" asp-action="IndexStatus">Status Change</a>
+                        </div>
                     </li>
 
 
@@ -108,14 +104,13 @@
                 @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("RegularUser"))
                 {
                     <li>
-                        <a href="#">Regular User Backoffice</a>
-                        <ul class="cbp-hssubmenu">
-                            <li><a asp-controller="Partners" asp-action="Index"><span>Partners</span></a></li>
-                            <li><a aasp-controller="AwardTicket" asp-action="Index"><span>Award Tickets</span></a></li>
-                            <li><a asp-controller="Clients" asp-action="Index"><span>Reports</span></a></li>
-                            <li><a asp-controller="Reports" asp-action="Index"><span>Status Change</span></a></li>
 
-                        </ul>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Regular User Backoffice</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="nav-link text-dark" asp-controller="Partners" asp-action="Index">Partners</a>
+                            <a class="nav-link text-dark" asp-controller="AwardTicket" asp-action="Index">Award Tickets</a>
+                            <a class="nav-link text-dark" asp-controller="Reports" asp-action="Index">Reports</a>
+                        </div>
                     </li>
                 }
             </ul>
@@ -147,7 +142,7 @@
                         <li>- <a href="#">About us</a></li>
                         <li>- <a href="#">Partners</a></li>
                         <li>- <a href="#">Environment</a></li>
-                     
+
                     </ul>
                 </div>
                 <div class="col-lg-4 col-xs-12 location">

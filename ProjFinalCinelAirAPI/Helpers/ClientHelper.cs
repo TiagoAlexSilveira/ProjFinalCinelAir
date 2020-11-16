@@ -36,7 +36,7 @@ namespace ProjFinalCinelAirAPI.Helpers
 
         public Client GetClient(int clientNumber)
         {
-            Client client = _context.Client.FirstOrDefault(x => x.Client_Number == clientNumber);
+            Client client = _context.Client.Where(x => x.Client_Number == clientNumber).FirstOrDefault();
             return client;
         }
     }
