@@ -1,0 +1,43 @@
+﻿@model ProjFinalCinelAirClient.Models.ClientNotificationViewModel
+@{
+    ViewData["Title"] = "Client";
+}
+
+
+<br />
+<br />
+<div class="col-12 text-center">
+    <h2>Messages</h2>
+    <p>Leave a message to our staff</p>
+</div>
+<br />
+@if (!string.IsNullOrEmpty((string)@TempData["s"]))
+{
+    <div>
+        <div class="alert alert-success" style="font-size:large; font-weight:bold">@TempData["s"]</div>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty((string)@TempData["n"]))
+{
+    <div>
+        <div class="alert alert-danger" style="font-size:large; font-weight:bold">@TempData["n"]</div>
+    </div>
+}
+
+<form asp-action="ClientNotification_Confirm">
+    <div class="container">
+        <div class="col-md-12 form-group" style="margin-top:20px">
+            <div class="text-lg-left" style="font-weight:bold; ">
+                Write your message:
+            </div>
+            <div>
+                @Html.TextAreaFor(e => e.Message, 12, 150, null)
+                @*<input asp-for="RepairInfo" class="form-control" />*@
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            <br />
+            <input type="submit" value="Send Message" class="btn btn-primary" style="font-weight:bold; background-color:cadetblue" />
+        </div>
+    </div>
+</form>

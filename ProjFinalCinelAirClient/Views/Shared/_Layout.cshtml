@@ -42,13 +42,13 @@
                 <div class="col-6 d-flex justify-content-end align-items-end" style=" padding-bottom: 15px;">
 
                     <div class=" d-flex align-items-center justify-content-center" style="height:50px; width:300px; margin-left:5px; margin-right:20px;">
-                        <a href="123" class="nav-link dropdown-toggle" data-toggle="dropdown">@this.User.Identity.Name</a>
+                        <a href="123" class="nav-link dropdown-toggle" style="font-weight:bold; color:cadetblue" data-toggle="dropdown">@this.User.Identity.Name</a>
                         <div class="dropdown-menu" id="dd2">
-                            <a asp-controller="Account" asp-action="ChangeUser" class="dropdown-item">Change Profile</a>
-                            <a asp-controller="Account" asp-action="ChangePassword" class="dropdown-item">Change Password</a>
+                            <a style="font-weight:bold; color:cadetblue" asp-controller="Account" asp-action="ChangeUser" class="dropdown-item">Change Profile</a>
+                            <a style="font-weight:bold; color:cadetblue" asp-controller="Account" asp-action="ChangePassword" class="dropdown-item">Change Password</a>
                         </div>
                         <div class=" d-flex align-items-center justify-content-center" style="height:50px; width:90px; padding-left:10px; padding-right:10px; border-right:solid 2px gray; border-left: gray 2px solid">
-                            <a class="" asp-controller="Account" asp-action="Logout">Logout</a>
+                            <a style="font-weight:bold; color:cadetblue" class="" asp-controller="Account" asp-action="Logout">Logout</a>
                         </div>
 
                     </div>

@@ -111,9 +111,7 @@ namespace ProjFinalCinelAirClient.Controllers
                     {
                         this.ModelState.AddModelError(string.Empty, "The user could not be created");
                         return View(model);  //retornamos a view outra vez para o user não ter de preencher os campos de novo
-                    }
-
-                    var clientList = _clientRepository.GetAll().ToList();
+                    }                    
                     
                     var client = new Client
                     {
@@ -136,6 +134,8 @@ namespace ProjFinalCinelAirClient.Controllers
                         isClientNumberConfirmed = false, 
                         UserId = user.Id
                     };
+
+                    var clientList = _clientRepository.GetAll().OrderBy(o => o.Client_Number).ToList();
 
                     if (clientList.Count == 0)
                     {

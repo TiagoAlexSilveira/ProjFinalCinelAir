@@ -41,6 +41,7 @@ namespace ProjFinalCinelAirClient.Models
         public string StreetAddress { get; set; }
 
         [Required]
+        [StringLength(8, ErrorMessage = "{0} should have between {2} and {1} characters", MinimumLength = 4)]
         [Display(Name = "Postal Code")]
         public string PostalCode { get; set; }
 
@@ -54,6 +55,7 @@ namespace ProjFinalCinelAirClient.Models
         public int TaxNumber { get; set; }
 
         [Required]
+        [StringLength(8, ErrorMessage = "{0} should have {2} numbers", MinimumLength = 8)]
         [Display(Name = "Citizen Card Number")]
         public string Identification { get; set; }
 
