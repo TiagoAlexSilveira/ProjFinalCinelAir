@@ -37,48 +37,48 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label asp-for="FirstName">First Name</label>
-                            <input asp-for="FirstName" class="form-control" />
-                            <span asp-validation-for="FirstName" class="text-warning"></span>
+                            <input maxlength="50" asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-group">
                             <label asp-for="LastName">Last Name</label>
-                            <input asp-for="LastName" class="form-control" />
-                            <span asp-validation-for="LastName" class="text-warning"></span>
+                            <input maxlength="50" asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="col-12">
                         <div class="form-group">
                             <label asp-for="Email">Email</label>
-                            <input asp-for="Email" type="email" class="form-control" />
-                            <span asp-validation-for="Email" class="text-warning"></span>
+                            <input maxlength="100" asp-for="Email" type="email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-group">
                             <label asp-for="Password">Password</label>
-                            <input asp-for="Password" type="password" class="form-control" />
-                            <span asp-validation-for="Password" class="text-warning"></span>
+                            <input maxlength="20" asp-for="Password" type="password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-group">
                             <label asp-for="Confirm">Confirm Password</label>
-                            <input asp-for="Confirm" type="password" class="form-control" />
-                            <span asp-validation-for="Confirm" class="text-warning"></span>
+                            <input maxlength="20" asp-for="Confirm" type="password" class="form-control" />
+                            <span asp-validation-for="Confirm" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-group">
                             <label asp-for="PhoneNumber"> Phone Number</label>
-                            <input asp-for="PhoneNumber" class="form-control" />
-                            <span asp-validation-for="PhoneNumber" class="text-warning"></span>
+                            <input maxlength="9" asp-for="PhoneNumber" class="form-control" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -87,31 +87,31 @@
                         <div class="form-group">
                             <label asp-for="DateofBirth">Date of Birth</label>
                             <input asp-for="DateofBirth" type="date" value="2000-01-02" min="1920-01-02" class="form-control" />
-                            <span asp-validation-for="DateofBirth" class="text-warning"></span>
+                            <span asp-validation-for="DateofBirth" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="col-12">
                         <div class="form-group">
                             <label asp-for="StreetAddress">Street Address</label>
-                            <input asp-for="StreetAddress" class="form-control" />
-                            <span asp-validation-for="StreetAddress" class="text-warning"></span>
+                            <input maxlength="150" asp-for="StreetAddress" class="form-control" />
+                            <span asp-validation-for="StreetAddress" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-group">
                             <label asp-for="PostalCode">Postal Code</label>
-                            <input asp-for="PostalCode" class="form-control" />
-                            <span asp-validation-for="PostalCode" class="text-warning"></span>
+                            <input maxlength="8" asp-for="PostalCode" class="form-control" />
+                            <span asp-validation-for="PostalCode" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-group">
                             <label asp-for="TaxNumber">Tax Number</label>
-                            <input asp-for="TaxNumber" value=" " type="number" class="form-control" />
-                            <span asp-validation-for="TaxNumber" class="text-warning"></span>
+                            <input maxlength="9" asp-for="TaxNumber"  type="tel" class="form-control" />
+                            <span asp-validation-for="TaxNumber" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -119,7 +119,7 @@
                         <div class="form-group">
                             <label asp-for="Identification">Citizen Card Number</label>
                             <input asp-for="Identification" class="form-control" />
-                            <span asp-validation-for="Identification" class="text-warning"></span>
+                            <span asp-validation-for="Identification" class="text-danger"></span>
                         </div>
                     </div>
                 </div>

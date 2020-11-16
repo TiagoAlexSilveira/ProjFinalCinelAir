@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
@@ -11,6 +12,7 @@ using ProjFinalCinelAirClient.Models;
 
 namespace ProjFinalCinelAirClient.Controllers
 {
+    [Authorize(Roles = "Client")]
     public class ClientAreaController : Controller
     {
         private readonly IClientRepository _clientRepository;
@@ -61,7 +63,7 @@ namespace ProjFinalCinelAirClient.Controllers
         {
             var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
 
-            var notificationList = _notificationRepository.GetAll().Where(o => o.ClientId == client.Id);
+            var notificationList = _notificationRepository.GetAll().Where(o => o.ClientId == client.Id && o.isRepliedByEmployee == true || o.ClientId == client.Id );
 
             var model = new NotificationsViewModel
             {
@@ -69,6 +71,43 @@ namespace ProjFinalCinelAirClient.Controllers
             };
 
             return View(model);
+        }
+
+
+        public IActionResult ClientNotification()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ClientNotification_Confirm(ClientNotificationViewModel model)
+        {
+            if (model.Message != null)
+            {
+                var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+
+                var note = new Notification
+                {
+                    ClientId = client.Id,
+                    Date = DateTime.Now,
+                    isRepliedByEmployee = false,
+                    Subject = "Complaint",
+                    Message = model.Message
+                };
+
+                await _notificationRepository.CreateAsync(note);
+
+                TempData["s"] = "Message successfully sent";
+
+                return RedirectToAction("ClientNotification");
+            }
+            else
+            {
+                TempData["n"] = "Message not sent, your message was empty";
+
+                return RedirectToAction("ClientNotification");
+            }
+            
         }
 
 
@@ -84,6 +123,7 @@ namespace ProjFinalCinelAirClient.Controllers
 
             var transactions = _transactionRepository.GetAll().Where(o => o.ClientId == client.Id);
             var historicClient = _historic_StatusRepository.GetClientHistoric_StatusById(client.Id);
+            var status = _statusRepository.GetClientStatusById(client.Id);
 
             var model = new BalanceViewModel
             {
@@ -93,7 +133,8 @@ namespace ProjFinalCinelAirClient.Controllers
                 TransactionList = transactions.ToList(),
                 ExpiryDateLastMiles = allMilesListFirst.Validity.ToShortDateString(),
                 LastMiles = allMilesListFirst.Miles_Number,
-                NextClientUpdate = historicClient.End_Date.ToString() //TODO: ver onde a dulce guarda a data de update do client
+                NextClientUpdate = historicClient.End_Date.ToString(), //TODO: ver onde a dulce guarda a data de update do client
+                Status = status.Description
             };
 
             return View(model);
@@ -185,12 +226,15 @@ namespace ProjFinalCinelAirClient.Controllers
         {
             var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
             var hstatus = _historic_StatusRepository.GetClientHistoric_StatusById(Id);
-            var selectedClient = await _clientRepository.GetByIdAsync(hstatus.Id);
+            var clientStatus = _historic_StatusRepository.GetClientHistoric_StatusById(client.Id);
+            var selectedClient = await _clientRepository.GetByIdAsync(hstatus.ClientId);
 
             hstatus.StatusId = 1;
             hstatus.Start_Date = DateTime.Now;
             hstatus.End_Date = hstatus.Start_Date.AddYears(1);
             hstatus.wasNominated = true;
+
+            clientStatus.wasNominated = true;
 
             var clientNotification = new Notification
             {
@@ -211,6 +255,7 @@ namespace ProjFinalCinelAirClient.Controllers
             };
             //TODO: Mandar Email??
             await _historic_StatusRepository.UpdateAsync(hstatus);
+            await _historic_StatusRepository.UpdateAsync(clientStatus);
             await _notificationRepository.CreateAsync(clientNotification);
             await _notificationRepository.CreateAsync(selectedClientNotification);
 
@@ -271,7 +316,7 @@ namespace ProjFinalCinelAirClient.Controllers
                 Miles = model.SelectedItem,
                 Date = DateTime.Now,
                 Movement_Type = "Donation",
-                Description = $"You donated {model.SelectedItem} to {selectedDonation.Name}",
+                Description = $"You donated {model.SelectedItem} miles to {selectedDonation.Name}",
                 Balance_Miles_Bonus = client.Miles_Bonus - model.SelectedItem,
                 Balance_Miles_Status = client.Miles_Status
             };

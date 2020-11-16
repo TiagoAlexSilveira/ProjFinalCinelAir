@@ -17,12 +17,12 @@
 </div>
 <br />
 
- @if(!string.IsNullOrEmpty((string)@TempData["su"]))
- {
+@if (!string.IsNullOrEmpty((string)@TempData["su"]))
+{
     <div>
         <div class="alert alert-success" style="font-size:large; font-weight:bold">@TempData["su"]</div>
     </div>
- }
+}
 
 @if (Model.ShopList.Count > 0)
 {
@@ -70,7 +70,7 @@
                 <div class="col-md-2 d-flex" style="vertical-align:middle; height:60px;border: solid 1px black">
                     <div class="row">
                         <div class="col-3 d-flex align-items-center" style="background-color:cadetblue; vertical-align: middle;text-align: center; border: solid 1px lightblue">
-                            <input value="@item.Id" type="radio"  onChange="getData()" asp-for="SelectedRadio" id="@item" />
+                            <input value="@item.Id" type="radio" onChange="getData()" asp-for="SelectedRadio" id="@item" />
                         </div>
                         <div class="col-9 d-flex align-items-center" style="text-align:center">
                             @item.MileQuantity Miles
@@ -114,7 +114,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label asp-for="CardNumber">CardNumber</label>
-                                <input asp-for="CardNumber" class="form-control" />
+                                <input asp-for="CardNumber" type="tel" maxlength="12" class="form-control" />
                                 <span asp-validation-for="CardNumber" class="text-danger"></span>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label asp-for="ExpirationDate">Card Expiry Date</label>
-                                <input asp-for="ExpirationDate" type="date" class="form-control" />
+                                <input asp-for="ExpirationDate" value="@DateTime.Now.ToShortDateString()" min="@DateTime.Now.ToShortDateString()" type="date" class="form-control" />
                                 <span asp-validation-for="ExpirationDate" class="text-danger"></span>
                             </div>
                         </div>
@@ -150,24 +150,27 @@ else
         </div>
     }
 
-<div class="col-12 text-center">
+    <div class="col-12 text-center">
+        <br />
+        <br />
+        <p> To make a transfer, you need <span style="font-weight:bold">at least 2000 miles</span></p>
+        <p>Your current Miles do not allow you to make a transfer or you've reached the maximum amount of miles you can transfer per year(20000 miles)</p>
+    </div>
     <br />
     <br />
-    <p> To make a transfer, you need <span style="font-weight:bold">at least 2000 miles</span></p>
-    <p>Your current Miles do not allow you to make a transfer or you've reached the maximum amount of miles you can transfer per year(20000 miles)</p>
-</div>
+    <br />
 }
 
 
 <script type="text/javascript">
-        function getData() {
+    function getData() {
 
-            var paymentElem = document.getElementById("payment")
+        var paymentElem = document.getElementById("payment")
 
-            paymentElem.style.visibility = "visible";
-            paymentElem.style.display = "inline";
+        paymentElem.style.visibility = "visible";
+        paymentElem.style.display = "inline";
 
-        }
+    }
 
 
 </script>

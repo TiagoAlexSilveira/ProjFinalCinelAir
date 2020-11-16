@@ -45,5 +45,7 @@ namespace ProjFinalCinelAirClient.Models
 
 
         public string NextClientUpdate { get; set; }
+        
+        public string Status { get; set; }
     }
 }

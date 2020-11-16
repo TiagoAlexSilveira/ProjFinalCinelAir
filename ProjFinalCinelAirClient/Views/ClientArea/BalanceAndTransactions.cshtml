@@ -42,10 +42,14 @@
                 @Model.available_Miles_Status miles
             </div>
             <hr />
-            <p>Validity</p>
+            <p>@Model.StatusValidity</p>
         </div>
-    </div>
+    </div> 
 </div>
+<div class="col-12 text-center" style="margin-top: 5px">
+    <span style="font-weight:bold">Current Status: </span>@Model.Status
+</div>
+
 <br />
 
 <div id="containerstatus" style="display:none; visibility:hidden">

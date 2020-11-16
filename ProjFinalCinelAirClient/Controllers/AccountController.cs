@@ -111,9 +111,7 @@ namespace ProjFinalCinelAirClient.Controllers
                     {
                         this.ModelState.AddModelError(string.Empty, "The user could not be created");
                         return View(model);  //retornamos a view outra vez para o user não ter de preencher os campos de novo
-                    }
-
-                    var clientList = _clientRepository.GetAll().ToList();
+                    }                    
                     
                     var client = new Client
                     {
@@ -137,6 +135,8 @@ namespace ProjFinalCinelAirClient.Controllers
                         UserId = user.Id
                     };
 
+                    var clientList = _clientRepository.GetAll().OrderBy(o => o.Client_Number).ToList();
+
                     if (clientList.Count == 0)
                     {
                         client.Client_Number = 100001000;
@@ -147,9 +147,12 @@ namespace ProjFinalCinelAirClient.Controllers
                         client.Client_Number = lastClient.Client_Number + 1;
                     }
 
+                    await _clientRepository.CreateAsync(client);
+                    var selClient = _clientRepository.GetClientByClientNumber(client.Client_Number);
+
                     var historicStatus = new Historic_Status
                     {
-                        ClientId = client.Id,
+                        ClientId = selClient.Id,
                         Start_Date = (DateTime)client.JoinDate,
                         End_Date = DateTime.Now.AddYears(1),
                         StatusId = 3,
@@ -157,7 +160,7 @@ namespace ProjFinalCinelAirClient.Controllers
                         isValidated = false
                     };
 
-                    await _clientRepository.CreateAsync(client);
+                 
                     await _historic_StatusRepository.CreateAsync(historicStatus);
 
                     var isRole = await _userHelper.IsUserInRoleAsync(user, "Client");
@@ -396,8 +399,8 @@ namespace ProjFinalCinelAirClient.Controllers
                     new { token = myToken }, protocol: HttpContext.Request.Scheme);
 
                 //mandar token através de email
-                _mailHelper.SendMail(model.Email, "Shop Password Reset", $"<h1>Shop Password Reset</h1>" +
-                $"To reset the password click in this link:</br></br>" +
+                _mailHelper.SendMail(model.Email, "CinelAir Miles Account Password Reset", $"<h1>CinelAir Miles Account Password Reset</h1>" +
+                $"To reset your account password click in this link:</br></br>" +
                 $"<a href = \"{link}\">Reset Password</a>");
                 this.ViewBag.Message = "The instructions to recover your password has been sent to email.";
                 return this.View();
