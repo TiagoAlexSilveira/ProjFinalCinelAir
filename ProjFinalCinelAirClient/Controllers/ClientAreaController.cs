@@ -84,6 +84,7 @@ namespace ProjFinalCinelAirClient.Controllers
 
             var transactions = _transactionRepository.GetAll().Where(o => o.ClientId == client.Id);
             var historicClient = _historic_StatusRepository.GetClientHistoric_StatusById(client.Id);
+            var status = _statusRepository.GetClientStatusById(client.Id);
 
             var model = new BalanceViewModel
             {
@@ -93,7 +94,8 @@ namespace ProjFinalCinelAirClient.Controllers
                 TransactionList = transactions.ToList(),
                 ExpiryDateLastMiles = allMilesListFirst.Validity.ToShortDateString(),
                 LastMiles = allMilesListFirst.Miles_Number,
-                NextClientUpdate = historicClient.End_Date.ToString() //TODO: ver onde a dulce guarda a data de update do client
+                NextClientUpdate = historicClient.End_Date.ToString(), //TODO: ver onde a dulce guarda a data de update do client
+                Status = status.Description
             };
 
             return View(model);
