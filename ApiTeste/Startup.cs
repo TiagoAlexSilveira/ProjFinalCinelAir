@@ -1,17 +1,21 @@
+using ApiTeste.Helper;
+using ApiTeste.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using ProjFinalCinelAir.CommonCore.Data;
-using ProjFinalCinelAir.CommonCore.Data.Entities;
-using ProjFinalCinelAirAPI.Helpers;
-using ProjFinalCinelAirAPI.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ProjFinalCinelAirAPI
+namespace ApiTeste
 {
     public class Startup
     {
@@ -26,35 +30,13 @@ namespace ProjFinalCinelAirAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
-
             services.AddDbContext<DataContext>(cfg =>
             {
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddIdentity<User, IdentityRole>(cfg =>
-            {
-                cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider; //gera um token 
-                cfg.SignIn.RequireConfirmedEmail = true;
-                cfg.User.RequireUniqueEmail = true;
-                cfg.Password.RequireDigit = false;
-                cfg.Password.RequiredUniqueChars = 0;
-                cfg.Password.RequireLowercase = false;
-                cfg.Password.RequireUppercase = false;
-                cfg.Password.RequireNonAlphanumeric = false;
-                cfg.Password.RequiredLength = 6;
-            })
-                   .AddDefaultTokenProviders()        //Extension Methods, métodos que chamam outros
-                   .AddEntityFrameworkStores<DataContext>();
-
-     
-
-
-
-
             services.AddScoped<IClientHelper, ClientHelper>();
             services.AddScoped<IApiService, ApiService>();
-
             services.AddControllers();
         }
 
