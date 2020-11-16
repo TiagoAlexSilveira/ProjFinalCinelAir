@@ -317,7 +317,7 @@ namespace ProjFinalCinelAirClient.Controllers
                 Date = DateTime.Now,
                 Movement_Type = "Donation",
                 Description = $"You donated {model.SelectedItem} miles to {selectedDonation.Name}",
-                Balance_Miles_Bonus = client.Miles_Bonus - model.SelectedItem,
+                Balance_Miles_Bonus = client.Miles_Bonus,
                 Balance_Miles_Status = client.Miles_Status
             };
 
