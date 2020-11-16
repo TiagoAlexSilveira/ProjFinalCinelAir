@@ -176,6 +176,7 @@ namespace ProjFinalCinelAirAdmin.Controllers
                         ImageUrl = path,
                         Id = model.Id,
                         isCharity = model.isCharity,
+                        isValidated = model.isValidated
                     };                    
                  
                     await _partnerRepository.UpDateAsync(partner); // Método Update já grava as alterações
