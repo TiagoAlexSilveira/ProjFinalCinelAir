@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjFinalCinelAir.CommonCore.Data;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
@@ -11,6 +12,7 @@ using ProjFinalCinelAirClient.Models;
 
 namespace ProjFinalCinelAirClient.Controllers
 {
+    [Authorize(Roles = "Client")]
     public class ClientAreaController : Controller
     {
         private readonly IClientRepository _clientRepository;

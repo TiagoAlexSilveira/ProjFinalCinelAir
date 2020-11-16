@@ -54,6 +54,9 @@ namespace ProjFinalCinelAirClient
             //            Encoding.UTF8.GetBytes(this.Configuration["Tokens:Key"]))
             //    };
             //});
+          
+
+
 
             services.AddDbContext<DataContext>(cfg =>
             {
@@ -87,6 +90,12 @@ namespace ProjFinalCinelAirClient
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/NotAuthorized";
             });
 
 

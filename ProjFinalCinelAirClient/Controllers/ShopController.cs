@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjFinalCinelAir.CommonCore.Data.Entities;
 using ProjFinalCinelAirClient.Data.Repositories;
@@ -9,6 +10,7 @@ using ProjFinalCinelAirClient.Models;
 
 namespace ProjFinalCinelAirClient.Controllers
 {
+    [Authorize(Roles = "Client")]
     public class ShopController : Controller
     {
         private readonly IBuyMilesShopRepository _buyMilesShopRepository;

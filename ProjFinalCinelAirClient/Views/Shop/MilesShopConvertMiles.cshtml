@@ -48,7 +48,7 @@
                 <div class="col-md-4 d-flex " style="vertical-align:middle; height:60px;border: solid 1px cadetblue">
                     <div class="row">
                         <div class="col-2 d-flex align-items-center justify-content-center" style="background-color:cadetblue; vertical-align: middle;text-align: center;">
-                            <input value="@item.MileQuantity"  onChange="getData()" type="radio" style="transform: scale(1.5)" asp-for="SelectedRadio" id="@item" />
+                            <input value="@item.MileQuantity" onChange="getData()" type="radio" style="transform: scale(1.5)" asp-for="SelectedRadio" id="@item" />
                         </div>
                         <div class="col-10 d-flex align-items-center" style="width: 300px;text-align:center;">
                             @item.MileQuantity Miles | @(item.MileQuantity / 2) Status Miles
@@ -92,7 +92,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label asp-for="ExpirationDate">Card Expiry Date</label>
-                                <input asp-for="ExpirationDate" value="@DateTime.Now.ToShortDateString()"  min="@DateTime.Now.ToShortDateString()" type="date" class="form-control" />
+                                <input asp-for="ExpirationDate" value="@DateTime.Now.ToShortDateString()" min="@DateTime.Now.ToShortDateString()" type="date" class="form-control" />
                                 <span asp-validation-for="ExpirationDate" class="text-danger"></span>
                             </div>
                         </div>
@@ -130,6 +130,9 @@
             </div>
 
         </div>
+        <br />
+        <br />
+        <br />
     }
 
 
